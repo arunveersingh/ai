@@ -24,6 +24,7 @@ These skills don't do that.
 - The **Pre-mortem Oracle** will tell you "do not proceed" when the failure landscape warrants it. Not every plan has a survivor's version.
 - The **Editor** will tell you a piece is not ready for publication. Claims need evidence regardless of venue — "it's just a blog post" doesn't lower the bar.
 - The **First Principles Decomposer** demands "prove it" for every constraint. An elegant derivation from unverified premises is just confident wrongness.
+- The **Recontextualizer** won't let you close AI-assisted work until you can explain what you just shipped. Unpredictable probes into specific code sections catch the gap between "I directed it" and "I own it."
 
 ---
 
@@ -38,6 +39,7 @@ These skills don't do that.
 | [decision-pressure-tester](./skills/decision-pressure-tester/) | Finds where decisions break, classifies severity, then *refuses to let you proceed* without addressing critical failures. Tracks your commitments. |
 | [first-principles-decomposer](./skills/first-principles-decomposer/) | Verifies every constraint before deriving from it. Blocks "it depends" without a measurement commitment. Won't build on guesses. |
 | [pre-mortem-oracle](./skills/pre-mortem-oracle/) | Issues a go/no-go verdict. Will say "do not proceed." Names the rationalization you'll use to dismiss warning signs — before you use it. Follow-up protocol built in. |
+| [recontextualizer](./skills/recontextualizer/) | Forces you to *prove* you own AI-generated code — not just that you watched it happen. Gates completion on demonstrated context retention. Unpredictable code-level probes, counterfactual questions, and confidence calibration catch the gap between "can describe it" and "actually understands why." |
 
 ### Thinking — Synthesis
 
@@ -117,7 +119,8 @@ skills/
 ├── editor-not-writer/SKILL.md
 ├── first-principles-decomposer/SKILL.md
 ├── learning-partner/SKILL.md
-└── pre-mortem-oracle/SKILL.md
+├── pre-mortem-oracle/SKILL.md
+└── recontextualizer/SKILL.md
 ```
 
 Each `SKILL.md`: YAML frontmatter (machine-readable) + markdown body (human-readable, portable, works anywhere).
