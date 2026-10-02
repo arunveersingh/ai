@@ -31,8 +31,8 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | | |
 |--|--|
 | **Failure** | False claim, same tone as a true one |
-| **Mechanism** | Next-token prediction optimizes fluency, not truth — no confidence channel tied to correctness |
-| **Exercise** | Ask 3 factual Qs you know; score fluent / specific / correct; write the pattern in one sentence |
+| **Mechanism** | Model predicts likely next words (good writing), not truth — sure tone is not a truth meter |
+| **Exercise** | Ask 3 factual Qs you know; score finished / detailed / correct; write the pattern in one sentence |
 
 ### Day 2 — Silent Assumption Inheritance
 

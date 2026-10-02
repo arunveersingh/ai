@@ -1,95 +1,86 @@
 # Day 1 — Confident Wrongness
 
-**Failures arc · ~15 min**  
-You stop treating tone as evidence.
+**Failures arc · ~15 min**
 
-```mermaid
-flowchart LR
-  Q[Question] --> M[Model]
-  M --> F["Fluent + specific prose"]
-  F --> H{"Human hears<br/>'sounds right'"}
-  H -->|proxy| W[Ships / cites / builds on it]
-  W --> X[Later: cleanly wrong]
-```
+## What you'll learn today
 
-Training optimized the left path (fluency). You need a gate on the right path (verification).
+AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right.
 
 ---
 
-## Failure
+## A simple story
 
-The model states a falsehood with the same calm, specific voice it uses for truth.
+You ask a chatbot: "What's the exact date Company X shipped Product Y?"
 
-Names, numbers, causal links, neat conclusion — nothing in the delivery marks "I might be inventing this." You ship it. Later you learn it was not roughly wrong — *cleanly* wrong.
+It answers in clean prose: a date, a version number, a short cause-and-effect story. It sounds finished. You paste the date into a slide.
 
-That is the default failure mode of systems trained to continue text well.
+A week later you check a primary source. The date is wrong — not fuzzy, not "close." It was invented with the same tone as a real fact.
 
----
-
-## Mechanism
-
-Language models predict likely next tokens. Training rewards sequences that look like competent writing. Truth correlates often enough to be useful — **truth is not the objective**.
-
-| Consequence | What it means |
-|-------------|----------------|
-| **No calibrated confidence channel** | Softeners ("might") are style, not instruments. False claims can be as assertive as true ones. |
-| **Specificity is cheap** | A plausible API name or statistic costs the same kind of compute as a real one. Detail *feels* like evidence to you; to the model it's often high-likelihood texture. |
-| **Local coherence ≠ global accuracy** | Each sentence fits the last. You read coherence as correctness. The model optimized for coherence. |
-
-> **Trap:** "This sounds right" usually measures the training objective — not the world.
-
-> **Not this:** "AI always lies" · "add a disclaimer" · "use a bigger model." Correctness and incorrectness share a voice. Disclaimers train banner-blindness. Scale leaves the long-tail intact.
+That is **confident wrongness**: a false claim delivered like a true one. Nothing in the wording warns you.
 
 ---
 
-## Standard
+## Why it happens
 
-```
-Fluent + specific ≠ verified
-```
+A language model is trained to guess the **next word** that usually comes next in text that looks competent. Good writing style is what training rewards. Matching the real world often helps that style — but **matching the world is not the training goal**.
 
-Every later guardrail in this course exists because Day 1's failure is always available. If your process accepts "sounds done" as done, you have a vibe — not a process.
+Three plain consequences:
+
+1. **Tone is not a truth meter.** Words like "might" or "probably" are writing habits. A false claim can sound just as sure as a true one. The model has no separate dial that turns down confidence when it is guessing.
+
+2. **Details are cheap to invent.** A made-up API name or statistic can cost the model the same kind of work as a real one. Extra detail *feels* like evidence to a human reader. To the model it is often just texture that fits the sentence.
+
+3. **Smooth paragraphs are not the same as accurate ones.** Each sentence fits the one before it. Your brain reads that fit as correctness. The model was trained to produce that fit — not to check the world.
+
+**Trap in one line:** When you think "this sounds right," you are usually measuring how well the answer matches good writing — not how well it matches reality.
+
+**Not useful fixes:** "AI always lies" (it doesn't — truth and falsehood share a voice). "Add a disclaimer" (people learn to skip boilerplate). "Use a bigger model" (scale still leaves rare, obscure questions where invention is easy).
+
+---
+
+## The rule to remember
+
+**Finished-sounding and detailed does not mean verified.**
+
+Every later guardrail in this course exists because this failure is always available. If your process treats "sounds done" as done, you have a vibe — not a check.
 
 ---
 
 ## 10-minute exercise
 
-**Setup:** Any model you normally use. No search until after you score.
+**Setup:** Use any model you normally use. Do **not** search until after you score.
 
-```
-1. Pick 3 factual questions you already know. Make one obscure
-   (niche date, exact flag, internal quirk you can check alone).
-2. Ask each neutrally — no "be careful," no "say if unsure."
-3. Score each reply (Y/N):
-     Fluent?   finished prose
-     Specific? names / numbers / steps
-     Correct?  matches what you know
-4. One sentence: the pattern when Fluent ∩ Specific disagreed with Correct.
-   (If they never disagreed → harder obscure Q, repeat once.)
-5. Optional: re-ask obscure Q with
-     "If unsure, say UNKNOWN. Do not invent names or numbers."
-   Keep the wording that actually changed behavior.
-```
+1. Pick **3 factual questions** you already know the answers to. Make **one** of them obscure (a niche date, an exact flag name, or an internal quirk only you can check).
+2. Ask each question neutrally — no "be careful," no "say if unsure."
+3. For each reply, score three yes/no checks:
+   - **Finished?** Does it read like complete, polished prose?
+   - **Detailed?** Does it include names, numbers, or concrete steps?
+   - **Correct?** Does it match what you already know?
+4. Write **one sentence** about the pattern when an answer was finished *and* detailed but **not** correct.  
+   If that never happened: ask a harder obscure question and repeat steps 2–4 once.
+5. **Optional:** Re-ask the obscure question with:  
+   `If unsure, say UNKNOWN. Do not invent names or numbers.`  
+   Keep only the wording that actually changed the model's behavior.
 
-**Done when:** one-sentence pattern + ≥1 fluent-specific-false example (or a harder retry logged).
+**Done when:** You have that one-sentence pattern **and** at least one finished-and-detailed-but-false example (or a logged harder retry).
 
 ---
 
-## Carry forward
+## What to take to Day 2
 
-| Do | Next |
-|----|------|
-| Log: `confident-wrongness \| <topic> \| fluent-specific-false` | Day 2: silent assumption inheritance — same voice, different mechanism |
-| Treat "sounds good" as a verify trigger | Skills in this repo enforce that in the moment |
+| Keep this | Day 2 builds on it |
+|-----------|-------------------|
+| Log one line: `confident-wrongness \| <topic> \| finished-detailed-false` | Same calm voice, different failure: the model quietly fills in things you never said |
+| Treat "sounds good" as a cue to **verify**, not a pass | Later lessons turn that cue into concrete checks |
 
 ---
 
 ## Check yourself
 
-Close the page. Answer:
+Close the page. Answer without looking:
 
-1. Training objective, in plain words?
-2. Why doesn't assertive tone mean the model "knows"?
-3. What replaces "sounds done" as a pass condition?
+1. In plain words, what is the model trained to do?
+2. Why doesn't a sure-sounding tone mean the model "knows"?
+3. What should replace "sounds done" as your pass condition?
 
-Can't answer → re-read Mechanism once → answer. Retrieval is the bar — not "I get it."
+Stuck on any → re-read **Why it happens** once → answer again. Being able to say it back is the bar — not "I get it."
