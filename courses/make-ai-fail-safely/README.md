@@ -286,6 +286,8 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## How to use this
 
+Day workouts you can paste into any chat live under [`practice/`](./practice/) (not the long toolkit in [`../../skills/`](../../skills/)).
+
 ```
 1. One day / day. Do the exercise.
 2. Failure log: date | category | what slipped | mechanism added

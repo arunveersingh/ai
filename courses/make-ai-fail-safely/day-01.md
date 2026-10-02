@@ -52,6 +52,8 @@ Two moves, **in this order**. First you ask so the model is more likely to give 
 
 Manual checking forever on every false answer is hard. Better prompts cut how often you are stuck cleaning fiction. Verification is still required — it just has less mess to clean when you asked well.
 
+**Use this practice skill:** [ask-then-verify](./practice/day-01-ask-then-verify/SKILL.md) — short pasteable Part A template + Part B verify steps. Customize it; it is a workout prompt, not a main repo skill.
+
 ### Part A — Ask so the answer is more likely correct (or clearly UNKNOWN)
 
 **Do this first, every time.** These are prompt moves a beginner can copy. They do not guarantee truth (next-word models still invent). They *do* raise the odds you get something checkable — or an honest UNKNOWN — instead of polished fiction with nowhere to look.
