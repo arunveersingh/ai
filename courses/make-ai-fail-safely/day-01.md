@@ -4,7 +4,7 @@
 
 ## What you'll learn today
 
-AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right.
+AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right — and you'll have checks that turn that rule into something you actually do.
 
 ---
 
@@ -46,9 +46,27 @@ Every later guardrail in this course exists because this failure is always avail
 
 ---
 
+## How to avoid this trap
+
+These are mechanisms — things you **do or require** — not "be careful." Use them today on any claim you would paste into a slide, email, or ticket.
+
+1. **Primary source before paste.** For any date, number, name, or quote you plan to use: open a primary source (docs, changelog, paper, official page) and confirm it yourself. No openable citation → do not paste.
+
+2. **Draft vs verified (two steps).** Keep the model's first reply as a **draft**. Ship only a **verified** version after at least one check from this list. Same chat window is fine — two mental buckets are not optional.
+
+3. **Force UNKNOWN; invented names fail.** Add wording like: `If unsure, say UNKNOWN. Do not invent names or numbers.` If the reply invents a concrete name, date, or figure you cannot verify, treat that answer as a fail — not a starting point.
+
+4. **Independent check after scoring.** Score the answer first (finished / detailed / correct-as-you-know). Then ask a second model **or** search — only after you scored — and reconcile differences. Checking while you still "believe" the draft is how smooth prose wins.
+
+5. **One falsification question for claims that matter.** Before you use a claim: ask "What would prove this wrong?" If you cannot name a check (a page to open, a command to run, a person who would know), you are still in vibe mode.
+
+**The rule, made operational:** finished-sounding ≠ verified. These five steps are how you refuse to confuse the two.
+
+---
+
 ## 10-minute exercise
 
-**Setup:** Use any model you normally use. Do **not** search until after you score.
+**Setup:** Use any model you normally use. Do **not** search until after you score (step 4).
 
 1. Pick **3 factual questions** you already know the answers to. Make **one** of them obscure (a niche date, an exact flag name, or an internal quirk only you can check).
 2. Ask each question neutrally — no "be careful," no "say if unsure."
@@ -58,11 +76,12 @@ Every later guardrail in this course exists because this failure is always avail
    - **Correct?** Does it match what you already know?
 4. Write **one sentence** about the pattern when an answer was finished *and* detailed but **not** correct.  
    If that never happened: ask a harder obscure question and repeat steps 2–4 once.
-5. **Optional:** Re-ask the obscure question with:  
-   `If unsure, say UNKNOWN. Do not invent names or numbers.`  
-   Keep only the wording that actually changed the model's behavior.
+5. **Practice one avoidance check** on the obscure answer (pick A or B):
+   - **A — Force UNKNOWN:** Re-ask with `If unsure, say UNKNOWN. Do not invent names or numbers.` Note whether invented specifics disappeared or the model said UNKNOWN.
+   - **B — Primary source before paste:** Open one primary source for the obscure claim. Write one line: paste-ready / not paste-ready — and why.
+6. **Optional stretch:** Run the independent check (second model or search) *after* scoring, then reconcile in one sentence.
 
-**Done when:** You have that one-sentence pattern **and** at least one finished-and-detailed-but-false example (or a logged harder retry).
+**Done when:** You have the one-sentence pattern, at least one finished-and-detailed-but-false example (or a logged harder retry), **and** a written result from step 5 (UNKNOWN behavior or paste-ready verdict).
 
 ---
 
@@ -71,7 +90,8 @@ Every later guardrail in this course exists because this failure is always avail
 | Keep this | Day 2 builds on it |
 |-----------|-------------------|
 | Log one line: `confident-wrongness \| <topic> \| finished-detailed-false` | Same calm voice, different failure: the model quietly fills in things you never said |
-| Treat "sounds good" as a cue to **verify**, not a pass | Later lessons turn that cue into concrete checks |
+| Log one avoidance line: `avoidance \| primary-source OR force-UNKNOWN \| <pass/fail>` | Later lessons stack more checks on the same "sounds good ≠ done" cue |
+| Treat "sounds good" as a cue to run a **check**, not a pass | Day 2 turns that cue toward silent fill-ins |
 
 ---
 
@@ -82,5 +102,6 @@ Close the page. Answer without looking:
 1. In plain words, what is the model trained to do?
 2. Why doesn't a sure-sounding tone mean the model "knows"?
 3. What should replace "sounds done" as your pass condition?
+4. Name two mechanisms from **How to avoid this trap** you could use on a work claim today.
 
-Stuck on any → re-read **Why it happens** once → answer again. Being able to say it back is the bar — not "I get it."
+Stuck on any → re-read **Why it happens** and **How to avoid this trap** once → answer again. Being able to say it back is the bar — not "I get it."
