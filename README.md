@@ -127,6 +127,20 @@ Each `SKILL.md`: YAML frontmatter (machine-readable) + markdown body (human-read
 
 ---
 
+---
+
+## Courses
+
+Hands-on curricula that teach the *mechanisms* behind the skills — how AI fails, how to put guardrails on it, and how to run it without trusting fluency.
+
+| Course | Length | What you learn |
+|--------|--------|----------------|
+| [Make AI Fail Safely](./courses/make-ai-fail-safely/) | 30 days | Failures → guardrails → evals → production → capstone |
+
+See [courses/](./courses/) for the catalog and design bar.
+
+---
+
 ## Contributing
 
 A skill belongs here if it meets three criteria:
