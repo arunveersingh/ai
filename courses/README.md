@@ -1,20 +1,29 @@
 # Courses
 
-Courses that teach mechanisms — not pep talks — for working with AI without becoming confidently wrong.
+Mechanisms for working with AI without becoming confidently wrong.
 
-These sit alongside the [skills](../skills/) in this repo. Skills enforce standards in the moment. Courses teach you *why* those standards exist and how to build them into your own systems.
+```mermaid
+flowchart LR
+  Skills["Skills<br/>enforce in the moment"] --- Courses["Courses<br/>teach why + how to build"]
+```
 
-| Course | Length | What you learn |
-|--------|--------|----------------|
-| [Make AI Fail Safely](./make-ai-fail-safely/) | 30 days | How AI fails, how to put guardrails on it, how to evaluate it, and how to run it in production without trusting it blindly |
+Skills in this repo block bad paths while you work. Courses teach the failure modes those skills exist for — and how to wire the same standards into your own systems.
+
+| Course | Days | Arc |
+|--------|------|-----|
+| [Make AI Fail Safely](./make-ai-fail-safely/) | 30 | Failures → guardrails → evals → production → capstone |
+
+---
 
 ## Design bar
 
-A day belongs in a course here if it:
+A day ships here only if it has all four:
 
-1. Names a **specific failure** (not a mood or a slogan)
-2. Explains the **mechanism** that produces it
-3. Gives a **10-minute exercise** that makes the failure visible or the fix concrete
-4. Leaves you with a standard you can enforce later — including with the skills in this repo
+| # | Requirement | Anti-pattern |
+|---|-------------|--------------|
+| 1 | Names a **specific failure** | Mood, slogan, vibe |
+| 2 | Explains the **mechanism** | Recycled tips, hypotheticals |
+| 3 | Gives a **10-min exercise** that makes failure or fix visible | "Think about it" |
+| 4 | Leaves an **enforceable standard** | Pep talk, disclaimer |
 
-"Be careful with AI" does not meet the bar. "Here's the mechanism that lets wrong answers feel finished" does.
+> **Rule:** "Be careful with AI" fails the bar. "Here's the mechanism that lets wrong answers feel finished" passes.

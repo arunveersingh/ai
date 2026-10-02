@@ -1,88 +1,95 @@
 # Day 1 — Confident Wrongness
 
-**Arc:** Failures (Days 1–7)  
-**Time:** ~15 minutes including the exercise  
-**Outcome:** You can spot when fluency is doing the work that truth should do — and you stop treating tone as evidence.
+**Failures arc · ~15 min**  
+You stop treating tone as evidence.
+
+```mermaid
+flowchart LR
+  Q[Question] --> M[Model]
+  M --> F["Fluent + specific prose"]
+  F --> H{"Human hears<br/>'sounds right'"}
+  H -->|proxy| W[Ships / cites / builds on it]
+  W --> X[Later: cleanly wrong]
+```
+
+Training optimized the left path (fluency). You need a gate on the right path (verification).
 
 ---
 
-## The failure
+## Failure
 
-The model states something false with the same calm, specific voice it uses for things that are true.
+The model states a falsehood with the same calm, specific voice it uses for truth.
 
-You ask a question. You get a paragraph that sounds finished: names, numbers, causal links, a neat conclusion. Nothing in the delivery marks "I might be inventing this." You ship the paragraph, cite it, or build the next step on it. Later you learn it was wrong — not roughly wrong, *cleanly* wrong.
+Names, numbers, causal links, neat conclusion — nothing in the delivery marks "I might be inventing this." You ship it. Later you learn it was not roughly wrong — *cleanly* wrong.
 
-That is confident wrongness. It is not a rare glitch. It is the default failure mode of systems trained to continue text well.
-
----
-
-## The mechanism
-
-Language models predict likely next tokens given context. Training rewards sequences that look like competent human writing. Truth is correlated with that in many domains — enough that the model is often useful — but **truth is not the objective**.
-
-Three consequences follow:
-
-1. **No calibrated confidence channel.** The model does not emit a separate, reliable "probability this is true" signal tied to the claim. Softeners ("might," "perhaps") are stylistic choices, not instruments. A false claim can be as assertive as a true one because assertiveness is part of the fluency pattern, not a readout of epistemic state.
-
-2. **Specificity is cheap.** Inventing a plausible API name, a paper title, or a statistic costs the same kind of computation as recalling a real one. Specific detail *feels* like evidence to humans. To the model it is often just high-likelihood texture.
-
-3. **Local coherence beats global accuracy.** Each sentence fits the previous ones. The paragraph hangs together. Humans read coherence as a proxy for correctness. The model optimized for coherence; you mistook the proxy for the thing.
-
-So when you feel "this sounds right," you are often measuring the training objective — not verifying the world.
-
-AI that only sounds helpful makes it easier to be wrong confidently. The fix is not "trust your gut less" as a slogan. The fix is to **refuse to accept fluency as a pass condition**.
+That is the default failure mode of systems trained to continue text well.
 
 ---
 
-## What this is not
+## Mechanism
 
-- Not "AI always lies." Often it is correct. The danger is that correctness and incorrectness share a voice.
-- Not "add a disclaimer." Disclaimers do not change the mechanism; they train you to ignore banners.
-- Not "use a bigger model." Scale can reduce some error rates and still leave confident wrongness intact for the long tail you care about.
+Language models predict likely next tokens. Training rewards sequences that look like competent writing. Truth correlates often enough to be useful — **truth is not the objective**.
+
+| Consequence | What it means |
+|-------------|----------------|
+| **No calibrated confidence channel** | Softeners ("might") are style, not instruments. False claims can be as assertive as true ones. |
+| **Specificity is cheap** | A plausible API name or statistic costs the same kind of compute as a real one. Detail *feels* like evidence to you; to the model it's often high-likelihood texture. |
+| **Local coherence ≠ global accuracy** | Each sentence fits the last. You read coherence as correctness. The model optimized for coherence. |
+
+> **Trap:** "This sounds right" usually measures the training objective — not the world.
+
+> **Not this:** "AI always lies" · "add a disclaimer" · "use a bigger model." Correctness and incorrectness share a voice. Disclaimers train banner-blindness. Scale leaves the long-tail intact.
 
 ---
 
-## Standard for the rest of the course
+## Standard
 
-**Fluent + specific ≠ verified.**
+```
+Fluent + specific ≠ verified
+```
 
-Every later guardrail (specs, validators, dual-path checks, refusal rules) exists because Day 1's failure is always available. If your process accepts "sounds done" as done, you have no process — you have a vibe.
+Every later guardrail in this course exists because Day 1's failure is always available. If your process accepts "sounds done" as done, you have a vibe — not a process.
 
 ---
 
 ## 10-minute exercise
 
-**Setup:** Use any model you normally use. Do not peek at search until after you score.
+**Setup:** Any model you normally use. No search until after you score.
 
-**Steps:**
+```
+1. Pick 3 factual questions you already know. Make one obscure
+   (niche date, exact flag, internal quirk you can check alone).
+2. Ask each neutrally — no "be careful," no "say if unsure."
+3. Score each reply (Y/N):
+     Fluent?   finished prose
+     Specific? names / numbers / steps
+     Correct?  matches what you know
+4. One sentence: the pattern when Fluent ∩ Specific disagreed with Correct.
+   (If they never disagreed → harder obscure Q, repeat once.)
+5. Optional: re-ask obscure Q with
+     "If unsure, say UNKNOWN. Do not invent names or numbers."
+   Keep the wording that actually changed behavior.
+```
 
-1. Pick **three factual questions** where you already know the answer. Make one of them obscure (internal API quirk, niche historical date, exact flag name — something you can check without arguing).
-2. Ask each question in a normal, neutral way. No "be careful," no "if unsure say so" yet — you want the default behavior.
-3. For each reply, score three binary marks:
-   - **Fluent?** (reads as finished prose)
-   - **Specific?** (names, numbers, or steps — not vague hedges only)
-   - **Correct?** (matches what you know / can verify)
-4. Write **one sentence** naming the pattern you saw when Fluent and Specific disagreed with Correct — or note if they never disagreed (then add a harder obscure question and repeat once).
-5. Optional hardening: re-ask the obscure question with: "If you are not sure, say UNKNOWN. Do not invent names or numbers." Compare. Keep the wording that actually changed behavior.
-
-**Done when:** You have a one-sentence pattern and at least one example where fluency did not equal truth (or a recorded attempt that failed to elicit one, plus a harder retry).
+**Done when:** one-sentence pattern + ≥1 fluent-specific-false example (or a harder retry logged).
 
 ---
 
 ## Carry forward
 
-- Log today's example in a failure log: `confident-wrongness | <topic> | fluent-specific-false`.
-- Tomorrow (Day 2): the model will inherit assumptions you never stated. Same voice problem — different mechanism.
-- When you use skills from this repo, treat "sounds good" as a trigger to verify, not a reason to proceed.
+| Do | Next |
+|----|------|
+| Log: `confident-wrongness \| <topic> \| fluent-specific-false` | Day 2: silent assumption inheritance — same voice, different mechanism |
+| Treat "sounds good" as a verify trigger | Skills in this repo enforce that in the moment |
 
 ---
 
 ## Check yourself
 
-Before you close the day, answer without looking back:
+Close the page. Answer:
 
-1. What is the training objective, in plain words?
+1. Training objective, in plain words?
 2. Why doesn't assertive tone mean the model "knows"?
-3. What pass condition are you replacing "sounds done" with?
+3. What replaces "sounds done" as a pass condition?
 
-If you cannot answer those three, re-read the mechanism section once — then answer. "I get it" is not the bar. Retrieval is.
+Can't answer → re-read Mechanism once → answer. Retrieval is the bar — not "I get it."
