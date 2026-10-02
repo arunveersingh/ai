@@ -4,7 +4,7 @@
 
 ## What you'll learn today
 
-AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right — and you'll have checks that turn that rule into something you actually do.
+AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right — and you'll know two moves that turn that rule into something you actually do: **ask so the answer is more likely correct (or clearly UNKNOWN)**, then **verify**.
 
 ---
 
@@ -48,40 +48,76 @@ Every later guardrail in this course exists because this failure is always avail
 
 ## How to avoid this trap
 
-These are mechanisms — things you **do or require** — not "be careful." Use them today on any claim you would paste into a slide, email, or ticket.
+Two moves, **in this order**. First you ask so the model is more likely to give a correct answer — or a clear UNKNOWN. Then you verify what it gave you.
 
-1. **Primary source before paste.** For any date, number, name, or quote you plan to use: open a primary source (docs, changelog, paper, official page) and confirm it yourself. No openable citation → do not paste.
+Manual checking forever on every false answer is hard. Better prompts cut how often you are stuck cleaning fiction. Verification is still required — it just has less mess to clean when you asked well.
 
-2. **Draft vs verified (two steps).** Keep the model's first reply as a **draft**. Ship only a **verified** version after at least one check from this list. Same chat window is fine — two mental buckets are not optional.
+### Part A — Ask so the answer is more likely correct (or clearly UNKNOWN)
 
-3. **Force UNKNOWN; invented names fail.** Add wording like: `If unsure, say UNKNOWN. Do not invent names or numbers.` If the reply invents a concrete name, date, or figure you cannot verify, treat that answer as a fail — not a starting point.
+**Do this first, every time.** These are prompt moves a beginner can copy. They do not guarantee truth (next-word models still invent). They *do* raise the odds you get something checkable — or an honest UNKNOWN — instead of polished fiction with nowhere to look.
 
-4. **Independent check after scoring.** Score the answer first (finished / detailed / correct-as-you-know). Then ask a second model **or** search — only after you scored — and reconcile differences. Checking while you still "believe" the draft is how smooth prose wins.
+1. **Ask for sources in the answer.** Tell the model to include links, or exact document titles plus where to look (section, page, heading). Say: *if you can't cite a real source, say UNKNOWN — do not invent links or titles.*  
+   **Why this helps:** A next-word model can invent a date as easily as a real one. A URL or title gives *you* something to open. Invented citations fail fast when you click. "Find the citations yourself later" leaves you hunting; "include them now" puts the hunt on the answer.
 
-5. **One falsification question for claims that matter.** Before you use a claim: ask "What would prove this wrong?" If you cannot name a check (a page to open, a command to run, a person who would know), you are still in vibe mode.
+2. **Ask for UNKNOWN when unsure; ban inventing names, dates, and numbers.** Add wording like: *If you are not sure, say UNKNOWN. Do not invent names, dates, or numbers.*  
+   **Why this helps:** Without that rule, the model fills gaps with plausible-sounding detail — that is what next-word training does. With it, you often get UNKNOWN instead of fiction. UNKNOWN is useful: you know to stop or go look yourself.
 
-**The rule, made operational:** finished-sounding ≠ verified. These five steps are how you refuse to confuse the two.
+3. **Ask the model to separate facts from guesses.** Tell it to label each claim: FACT or GUESS (or similar words).  
+   **Why this helps:** Smooth prose mixes sure and unsure into one confident paragraph. Labels force a split you can see. Treat unlabeled "facts" as guesses until Part B says otherwise.
+
+4. **Prefer checkable questions over open ones.** Ask for something you can open or quote — *"Quote the line from the official docs that states X"* / *"Give the URL of the page that says Y"* — not only *"What's the date of Y?"*  
+   **Why this helps:** Open factual questions invite invention. Checkable questions demand a pointer. If the pointer is missing or broken, you fail the answer in seconds instead of arguing with prose.
+
+5. **Use one short copy-paste template** (reuse it; swap in your question):
+
+```
+Answer this question: [YOUR QUESTION]
+
+Rules:
+1. Label each claim FACT or GUESS.
+2. For every FACT, include a real source: a working URL, or the exact document title and where to look (section / page / heading).
+3. If you cannot cite a real source, write UNKNOWN for that claim. Do not invent links, titles, names, dates, or numbers.
+4. Prefer a quoted line or a URL over a vague summary.
+```
+
+**Be honest about the limit:** Better asking reduces how often you get bad answers. It does **not** guarantee truth. That is why Part B exists.
+
+### Part B — Then verify (manual actions)
+
+You asked for sources and UNKNOWN in Part A. Now you use them. Keep this short and mechanical:
+
+1. **Open the citation the model gave.** Click the link or find the named doc. If there is no citation — or it invents a link/title — do not paste the claim. UNKNOWN or broken source → stop.
+
+2. **Draft vs verified (two buckets).** Keep the model's reply as a **draft**. Ship only a **verified** version after at least one check below. Same chat window is fine; two mental buckets are not optional.
+
+3. **Independent check after you score the draft.** Score finished / detailed / correct-as-you-know first. *Then* search or ask a second model. Checking while you still "believe" the draft is how smooth prose wins.
+
+4. **One falsification question for claims that matter.** Before you use a claim: *"What would prove this wrong?"* Name a page to open, a command to run, or a person who would know. If you cannot name a check, you are still in vibe mode.
+
+**Tie to Part A:** You are not hunting the whole internet from scratch. You verify the sources (or UNKNOWN) the model was asked to supply. Asking well makes verifying cheaper.
+
+**The rule, made operational:** finished-sounding ≠ verified. Part A raises the odds of a correct or clearly UNKNOWN answer. Part B is how you refuse to ship on tone alone.
 
 ---
 
 ## 10-minute exercise
 
-**Setup:** Use any model you normally use. Do **not** search until after you score (step 4).
+**Setup:** Use any model you normally use.
 
 1. Pick **3 factual questions** you already know the answers to. Make **one** of them obscure (a niche date, an exact flag name, or an internal quirk only you can check).
-2. Ask each question neutrally — no "be careful," no "say if unsure."
-3. For each reply, score three yes/no checks:
+2. Ask each question **neutrally first** — no "be careful," no "say if unsure." Score three yes/no checks per reply:
    - **Finished?** Does it read like complete, polished prose?
    - **Detailed?** Does it include names, numbers, or concrete steps?
    - **Correct?** Does it match what you already know?
-4. Write **one sentence** about the pattern when an answer was finished *and* detailed but **not** correct.  
-   If that never happened: ask a harder obscure question and repeat steps 2–4 once.
-5. **Practice one avoidance check** on the obscure answer (pick A or B):
-   - **A — Force UNKNOWN:** Re-ask with `If unsure, say UNKNOWN. Do not invent names or numbers.` Note whether invented specifics disappeared or the model said UNKNOWN.
-   - **B — Primary source before paste:** Open one primary source for the obscure claim. Write one line: paste-ready / not paste-ready — and why.
-6. **Optional stretch:** Run the independent check (second model or search) *after* scoring, then reconcile in one sentence.
+3. Write **one sentence** about the pattern when an answer was finished *and* detailed but **not** correct.  
+   If that never happened: ask a harder obscure question and repeat steps 2–3 once.
+4. **Practice Part A** on the obscure question: re-ask using the **copy-paste template** above (swap in your question). Note what changed — sources appeared, UNKNOWN appeared, invented specifics shrank, or nothing changed.
+5. **Practice one Part B check** on whatever Part A returned:
+   - If the model gave a citation → open it. Write one line: paste-ready / not paste-ready — and why.
+   - If the model said UNKNOWN → write one line: what you would open next yourself (or that you correctly stopped).
+6. **Optional stretch:** Independent check (second model or search) *after* scoring the first draft, then reconcile in one sentence.
 
-**Done when:** You have the one-sentence pattern, at least one finished-and-detailed-but-false example (or a logged harder retry), **and** a written result from step 5 (UNKNOWN behavior or paste-ready verdict).
+**Done when:** You have the one-sentence pattern, at least one finished-and-detailed-but-false example (or a logged harder retry), a written result from the Part A re-ask, **and** a written Part B verdict on a citation or UNKNOWN.
 
 ---
 
@@ -90,8 +126,9 @@ These are mechanisms — things you **do or require** — not "be careful." Use 
 | Keep this | Day 2 builds on it |
 |-----------|-------------------|
 | Log one line: `confident-wrongness \| <topic> \| finished-detailed-false` | Same calm voice, different failure: the model quietly fills in things you never said |
-| Log one avoidance line: `avoidance \| primary-source OR force-UNKNOWN \| <pass/fail>` | Later lessons stack more checks on the same "sounds good ≠ done" cue |
-| Treat "sounds good" as a cue to run a **check**, not a pass | Day 2 turns that cue toward silent fill-ins |
+| Log one ask line: `ask \| sources+UNKNOWN template \| <better / same / worse>` | Later lessons stack more checks on the same "sounds good ≠ done" cue |
+| Log one verify line: `verify \| open-citation OR UNKNOWN-stop \| <pass/fail>` | Day 2 turns that cue toward silent fill-ins |
+| Treat "sounds good" as a cue to **ask better, then check** — not a pass | |
 
 ---
 
@@ -102,6 +139,6 @@ Close the page. Answer without looking:
 1. In plain words, what is the model trained to do?
 2. Why doesn't a sure-sounding tone mean the model "knows"?
 3. What should replace "sounds done" as your pass condition?
-4. Name two mechanisms from **How to avoid this trap** you could use on a work claim today.
+4. Name **one Part A ask-tip** and **one Part B verify-tip** you could use on a work claim today.
 
 Stuck on any → re-read **Why it happens** and **How to avoid this trap** once → answer again. Being able to say it back is the bar — not "I get it."
