@@ -7,3 +7,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | Day | Practice skill |
 |-----|----------------|
 | 1 | [ask-then-verify](./day-01-ask-then-verify/SKILL.md) |
+| 2 | [assumption-register](./day-02-assumption-register/SKILL.md) |
