@@ -34,7 +34,7 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Model predicts likely next words (good writing), not truth — sure tone is not a truth meter. Ask for sources + UNKNOWN first; then verify. |
 | **Exercise** | Score 3 known Qs; re-ask obscure one with sources/UNKNOWN template; open one citation (or stop on UNKNOWN) |
 
-### Day 2 — Silent Assumption Inheritance
+### Day 2 — Silent Assumption Inheritance → [lesson](./day-02.md)
 
 | | |
 |--|--|

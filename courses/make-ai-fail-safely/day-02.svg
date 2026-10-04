@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="400" viewBox="0 0 420 400" role="img" aria-labelledby="d2title d2desc">
+  <title id="d2title">Incomplete brief, model fills gaps, plan looks decided</title>
+  <desc id="d2desc">An incomplete brief leaves blanks. The model fills those blanks with likely defaults. The finished plan then reads as if you had already decided those details.</desc>
+  <rect width="420" height="400" rx="14" fill="#161b22"/>
+  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Looks decided. You never chose it.</text>
+  <rect x="24" y="50" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
+  <text x="40" y="74" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. Incomplete brief</text>
+  <text x="40" y="96" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Draft a rollout plan for the checkout API."</text>
+  <text x="40" y="118" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">owner: blank   ·   day: blank   ·   flag: blank</text>
+  <polygon points="202,144 218,144 210,158" fill="#8b949e"/>
+  <rect x="24" y="164" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
+  <text x="40" y="188" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. Model fills the gaps</text>
+  <text x="40" y="210" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">filled in: payments, Tuesday, checkout_v2</text>
+  <text x="40" y="232" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">likely defaults — not words you wrote</text>
+  <polygon points="202,258 218,258 210,272" fill="#8b949e"/>
+  <rect x="24" y="278" width="372" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
+  <text x="40" y="302" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. Plan looks decided</text>
+  <text x="40" y="324" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Ship Tuesday behind checkout_v2."</text>
+  <text x="40" y="346" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">reads as your choice — you never said it</text>
+</svg>
