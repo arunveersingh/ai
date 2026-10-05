@@ -42,7 +42,7 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Instruction-following fills gaps with likely continuations; missing constraints get completed, not flagged |
 | **Exercise** | Give an incomplete brief; highlight inherited assumptions; rewrite with one explicit `UNKNOWN` per assumption; re-run |
 
-### Day 3 — Context Window Amnesia
+### Day 3 — Context Window Amnesia → [lesson](./day-03.md)
 
 | | |
 |--|--|

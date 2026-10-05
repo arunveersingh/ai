@@ -8,3 +8,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 |-----|----------------|
 | 1 | [ask-then-verify](./day-01-ask-then-verify/SKILL.md) |
 | 2 | [assumption-register](./day-02-assumption-register/SKILL.md) |
+| 3 | [constraint-pin](./day-03-constraint-pin/SKILL.md) |
