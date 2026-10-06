@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="420" height="400" viewBox="0 0 420 400" role="img" aria-labelledby="d4title d4desc">
-  <title id="d4title">A rule holds twice, then a fill-the-blanks ask invents a citation</title>
-  <desc id="d4desc">A hard rule says to cite only pasted documents. Two asks, for references and a review in an hour, both get NO SOURCE and the rule holds. A third ask, fill those blanks so the draft looks finished for the meeting, gets an invented Payments Runbook citation with no warning, even though the model still remembers the rule.</desc>
+  <title id="d4title">A rule holds twice, then a demo soft ask imports requests</title>
+  <desc id="d4desc">A hard rule says never use the requests library, only the standard library. Two asks, for retries and a demo in an hour, both stay on the standard library and the rule holds. A third ask, use requests for this demo and remove it before merge, gets import requests with no warning, even though the model still remembers the rule.</desc>
   <rect width="420" height="400" rx="14" fill="#161b22"/>
   <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Still remembered. No longer obeyed.</text>
   <rect x="24" y="50" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
   <text x="40" y="74" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. Hard rule</text>
-  <text x="40" y="96" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Cite only the docs you paste."</text>
-  <text x="40" y="118" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">no source → write [NO SOURCE]</text>
+  <text x="40" y="96" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Never use requests. Stdlib only."</text>
+  <text x="40" y="118" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">model agrees</text>
   <polygon points="202,144 218,144 210,158" fill="#8b949e"/>
   <rect x="24" y="164" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
   <text x="40" y="188" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. Two asks — rule held</text>
-  <text x="40" y="210" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"add references" · "review is in an hour"</text>
-  <text x="40" y="232" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">[NO SOURCE] both times</text>
+  <text x="40" y="210" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"add retries" · "demo is in an hour"</text>
+  <text x="40" y="232" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">stdlib only both times</text>
   <polygon points="202,258 218,258 210,272" fill="#8b949e"/>
   <rect x="24" y="278" width="372" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
-  <text x="40" y="302" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. "Fill those blanks for the meeting"</text>
-  <text x="40" y="324" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">(Payments Runbook v3, §4.2)</text>
-  <text x="40" y="346" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">a doc you never pasted — no warning</text>
+  <text x="40" y="302" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. "Use it for this demo — remove later"</text>
+  <text x="40" y="324" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">import requests</text>
+  <text x="40" y="346" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">hard rule broken — no warning</text>
 </svg>
