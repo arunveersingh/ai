@@ -54,9 +54,9 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 | | |
 |--|--|
-| **Failure** | Critical rules lose to later soft asks ("just this once") |
+| **Failure** | Critical rules lose to later soft asks ("fill the blanks for the meeting") |
 | **Mechanism** | Later turns outweigh earlier system rules; soft prefs overwrite hard constraints when both are natural language |
-| **Exercise** | System rule: refuse invented citations; escalate three soft asks; log which phrasing broke it; rewrite until the softest still fails |
+| **Exercise** | System rule: refuse invented citations; escalate three soft asks (polite, deadline, fill-blanks); log which phrasing broke it; rewrite until the softest still fails |
 
 ### Day 5 — Sycophancy
 
