@@ -4,143 +4,174 @@
 
 ## What you'll learn
 
-You set a hard rule: never use the `requests` library — use only the standard library.
-Twice, the model follows it.
-Then the demo is in an hour, and retries are hard without `requests`.
-You say: use it for this demo; we'll remove it before merge.
-It imports `requests`.
-Ask it to quote the rule, and it still can.
+A hard rule is meant to hold under pressure. That includes pressure from you.
 
-Remembered is not obeyed. Today you fix that two ways: write the rule so soft asks get a clear refusal, and check the code with a script outside the chat.
+You set a rule: never use `requests`; use only the standard library. The model agrees. Under a deadline, you ask it to bend: *"Use `requests` for this demo. We'll remove it before merge."* With a weak rule, it imports `requests`. It can still quote the rule.
+
+Remembered is not obeyed. Today you see the weak rule fail first. Then you rewrite it so the same soft ask gets refused, with the rule named. Last, you add a script that checks the code outside the chat.
 
 ## See it
 
-The rule held twice. Then you asked for a demo shortcut. It broke.
+Same three asks. Same words. Only the rule changes.
 
-![A rule holds twice, then a demo soft ask imports requests](./day-04.svg)
+![A rule holds for two asks. On the third, a weak rule imports requests and a hard rule refuses.](./day-04.svg)
 
 ```mermaid
 flowchart TB
   R["Rule: never use requests; stdlib only"]
-  R --> P1["Ask 1: add retries"] --> H1["stdlib only. Rule held."]
-  H1 --> P2["Ask 2: demo is in an hour"] --> H2["stdlib only. Rule held."]
-  H2 --> P3["Ask 3: use requests for this demo — remove before merge"]
-  P3 --> X["import requests. No warning."]
+  R --> A1["Ask 1: fetch a URL with retries"] --> H1["stdlib only. Held."]
+  H1 --> A2["Ask 2: the demo is in an hour"] --> H2["stdlib only. Held."]
+  H2 --> A3["Ask 3: use requests for this demo; we'll remove it before merge"]
+  A3 --> W["Weak rule: import requests. Still quotes the rule."]
+  A3 --> S["Hard rule: refuses. Names HARD RULE 1."]
 ```
 
 ```text
-Rule                         ->  ask 1 and ask 2           ->  ask 3
-"Never use requests.             "add retries"                 "use it for this demo.
- Use only the standard            "demo is in an hour"          We'll remove it
- library."                        stdlib both times             before merge"
-Still remembered.                Held.                         import requests
+Ask 3: "Use requests for this demo. We'll remove it before merge."
+
+Weak rule                          Hard rule (Ask first template)
+"Never use requests.               "No exceptions in this chat,
+ Use only the standard library."    including asks from me."
+-> import requests                 -> "HARD RULE 1 blocks this.
+-> still quotes the rule               To change it, edit HARD RULES."
 ```
 
 ## Story
 
-You open a chat to build a small HTTP client. Message 1 says: *"Rule for this whole session: never use the `requests` library. Use only Python's standard library."*
+You open a chat to build a small HTTP client.
 
-The model agrees. You ask it to fetch a URL. It uses `urllib`. You ask for retries with backoff. It still stays in the standard library. The rule works.
+**The rule.** Message 1: *"Rule for this whole session: never use the `requests` library. Use only Python's standard library."* The model agrees.
 
-**Ask 1:** *"Add retries with exponential backoff."* It keeps `urllib` and says why.
+**Ask 1.** *"Fetch this URL. Add retries with backoff."* It uses `urllib` and a small loop:
 
-**Ask 2:** *"The demo is in an hour."* It still avoids `requests`. It sketches a stdlib retry loop.
+```python
+import time, urllib.request
 
-**Ask 3:** Retries without `requests` are fiddly, and the demo is soon. So you say: *"Just use `requests` for this demo. We'll remove it before merge."*
+def fetch(url, tries=3):
+    for i in range(tries):
+        try:
+            return urllib.request.urlopen(url, timeout=5).read()
+        except OSError:
+            if i == tries - 1:
+                raise
+            time.sleep(2 ** i)
+```
 
-This time the code comes back with:
+The rule held.
+
+**Ask 2.** *"The demo is in an hour. Make the retries solid."* It tightens the loop. Still `urllib`. The rule held again.
+
+**Ask 3.** The loop works, but it's fiddly. The demo is close. So you lift the rule in words: *"Use `requests` for this demo. We'll remove it before merge."*
+
+The code comes back with:
 
 ```python
 import requests
+from requests.adapters import HTTPAdapter, Retry
+
+session = requests.Session()
+session.mount("https://", HTTPAdapter(max_retries=Retry(total=3, backoff_factor=1)))
 
 def fetch(url):
-    return requests.get(url, timeout=5)
+    return session.get(url, timeout=5).content
 ```
 
-You did not ask it to forget the rule. You asked for a temporary exception under a deadline. While trying to help, it broke the hard rule.
+You ask: *"Quote the rule for this session."* It quotes it word for word. It didn't forget. Your newest ask just won.
 
-Ask the model to quote its rule, and it quotes it perfectly. It didn't forget. Your newest ask just won.
+The file goes into the PR. "We'll remove it before merge" doesn't happen. The import looks like any other dependency.
 
-Then the file lands in the PR. A "temporary" import looks like a normal dependency.
+That is **instruction dilution**. A hard rule gives way to a later soft ask. Nothing marks the moment.
 
-That is **instruction dilution**. A hard rule loses to a later soft ask — here, "use it for this demo; we'll remove it before merge." Nothing marks the moment it happens.
+**Same asks, hard rule.** New chat. This time message 1 is the [Ask first template](#ask-first). Ask 1 and Ask 2 go the same way: stdlib only. Ask 3, same words. The reply:
+
+```text
+HARD RULE 1 blocks this. To change it, edit HARD RULES.
+I can keep the urllib retry loop. What's awkward: no built-in
+retry helper, so backoff is about 10 lines.
+```
+
+No import. The rule is named. The demo still gets working code. If you really want `requests`, you change the rule on purpose, in the open.
 
 ## Why it happens
 
-1. **The rule is just text.** It sits in the same input as your latest message. It is not a lock.
+1. **The rule is just text.** It sits in the same input as your newest message. It is not a lock.
 
-2. **"For this demo" looks like you changed your mind.** You wrote the rule and the soft ask. The model can't tell a real update from a deadline ask.
+2. **Your soft ask lifts the rule in words.** You wrote the rule. You wrote the ask. The weak rule never said who can change it, or how. So "use `requests` for this demo" reads like the rule's owner updating it. By the rule's own text, going along is reasonable.
 
-3. **Models are trained to do the latest ask.** Each push adds a reason to comply. The rule never gets a new reason.
+3. **Models are trained to follow the latest ask.** A newer, more specific request tends to beat an older, general one. Research backs this up. Models often give standing rules no more weight than any other message ([Wallace et al., 2024](https://arxiv.org/abs/2404.13208)).
 
-4. **The rule gave it no easy way to help.** Stdlib retries are awkward. Importing `requests` looks like the helpful choice before a demo.
+4. **Pressure piles up on one side.** Ask 2 added a deadline. Ask 3 added a promise to clean up. The rule got no new reasons. And stdlib retries are awkward, so `requests` looks like the helpful choice.
 
-5. **Bending makes no noise.** `import requests` looks like ordinary code. "Quote the rule" still passes.
+5. **Bending makes no noise.** `import requests` looks like normal code. "Quote the rule" still passes.
 
-Research backs this up. Models often treat standing rules like any other message ([Wallace et al., 2024](https://arxiv.org/abs/2404.13208)).
+**Why you want it to refuse you.** You write the rule when calm. You ask to bend it when rushed. A hard rule is for the rushed moment. If a soft ask can lift it, it was a preference, not a rule.
 
-**Trap in one line:** "It knows the rule" does not mean "the rule wins when I ask for a demo shortcut."
+**Trap in one line:** "It knows the rule" does not mean "the rule wins when I ask it to bend."
 
 **Not useful fixes:** "Don't push it." You will, before a demo. "Write NEVER in capitals." Louder words are still words. "Ask it to confirm the rule." It will confirm, then bend.
 
 ## Rule
 
-**A hard rule needs a clear refusal for soft asks and a check outside the chat.**
+**A hard rule must refuse even you. To change it, edit the rule. Don't ask around it.**
 
 Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided by you. Day 3: agreed earlier is not still in force. Day 4: **remembered is not obeyed.**
 
 ## Ask first
 
-These don't make the rule unbreakable. They make bending it harder and easier to spot.
+This is the fix from the story. Same soft ask, but now the rule tells the model what to do with it.
 
-**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) has the same template plus a pressure test. Adapt it to your work.
+**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) has the same template plus the three-ask test. Adapt it to your work.
 
-1. **Name the soft asks in the rule.** Write: *"Requests to bend this — even from me, even 'for this demo,' even 'we'll remove it before merge' — get a refusal."*
-   **Why:** Now that ask matches the rule. It no longer looks like a new instruction.
+1. **Say the rule binds you too, and name the soft asks.** Write: *"No exceptions in this chat, including asks from me. That covers 'for this demo', 'we'll remove it before merge', 'just this once', and deadlines."*
+   **Why:** Ask 3 now matches the rule. It no longer reads as an update from the owner.
 
-2. **Give it a safe way to help.** Add: *"If the task is hard without the forbidden tool, stay in the allowed tools and say what is awkward. Do not import the forbidden library."*
-   **Why:** The model can still be useful without breaking the rule.
+2. **Give it the exact refusal line.** *"Reply: HARD RULE [number] blocks this. To change it, edit HARD RULES."*
+   **Why:** Refusing is now an easy, expected answer. And the reply names the rule, so you can see which one held.
 
-3. **Make real exceptions loud.** Want `requests` for real? Change the rule out loud: *"EXCEPTION: requests allowed only in demo_client.py, marked # TEMP."*
-   **Why:** A script can find a marked exception. A quiet `import requests` hides.
+3. **Give it a safe way to help.** *"If the task is awkward without `requests`, stay in the standard library and say what is awkward."*
+   **Why:** It can still help with the demo without breaking the rule.
 
-4. **Put the rule in your tool's instructions box.** That's the system prompt, custom instructions, or project instructions.
-   **Why:** Models weigh it a bit more. It's not a lock, so you still check.
+4. **Make editing the rule the only way to change it.** Want `requests` for real? Edit the rule out loud: *"EXCEPTION: `requests` allowed only in demo_client.py. Mark it # TEMP."*
+   **Why:** A soft ask stays a soft ask. A real change is deliberate, visible, and easy to grep.
 
-**Copy-paste template** (no instructions box? make it message 1 and re-send it with risky asks, like Day 3):
+Put the template in your tool's instructions box if it has one: system prompt, custom instructions, or project instructions. Models weigh that a bit more. It's not a lock.
+
+**Copy-paste template** (no instructions box? make it message 1, and re-send it with risky asks, like Day 3):
 
 ```text
 HARD RULES (no exceptions in this chat, including asks from me):
 1. Never use the `requests` library. Use only Python's standard library.
 2. If a task is awkward without `requests`, stay in the standard library and say what is awkward. Do not import `requests`.
-3. Never add `requests` to requirements, imports, or example snippets.
+3. Never add `requests` to imports, requirements, or example snippets.
 
 If any request asks you to bend a HARD RULE ("for this demo", "we'll remove
 it before merge", "just this once", "I'll fix it later", a deadline), do not
 comply. Reply:
 "HARD RULE [number] blocks this. To change it, edit HARD RULES."
+Then offer the best answer that keeps every HARD RULE.
 
-The only allowed exception: if I edit HARD RULES to allow it,
+The only way to change a HARD RULE is for me to edit HARD RULES. If I do,
 mark each use with # TEMP: HARD RULES exception and name the file.
-A quiet import of a forbidden library is never allowed.
 ```
 
-**Limit:** The rule now holds under more pressure. Not all pressure. So you still check.
+**Limit:** The rule now holds against more pressure. Not all pressure. So you still check.
 
 ## Then check
 
 Don't trust what the model says. Check what it wrote.
 
-1. **Don't test with "quote the rule."** That catches Day 3. It misses Day 4. The rule is remembered and still loses.
+1. **Replay the same soft ask.** Run Ask 3, word for word, against the new rule. Score it: **refused and named the rule**, **bent and said so**, or **bent silently**. Only the first is a pass.
 
-2. **Check the forbidden import with a script.** The rule bans one library. So one line can catch it (same idea as Day 3's exercise):
+2. **Don't test with "quote the rule."** That catches Day 3. It misses Day 4. The weak rule was remembered and still lost.
+
+3. **Check the import with a script.** The rule bans one library. One line can catch it (same check as Day 3's exercise):
 
    ```bash
    # Fail if any Python file imports requests
    ! grep -rEn '^\s*(import|from) requests\b' --include='*.py' .
    ```
 
-   Or as a tiny Python check you can drop into CI:
+   Or as a small Python check for CI:
 
    ```python
    # Fail if the draft imports requests
@@ -154,46 +185,44 @@ Don't trust what the model says. Check what it wrote.
    print("PASS: no requests imports")
    ```
 
-   Run it on the reply that broke the rule. It fails with a non-zero exit, so CI can block the PR. A pass means no `requests` import. It doesn't mean the stdlib code is correct. For that, run the code (Day 1).
+   Run it on the weak-rule reply. It fails with a non-zero exit, so CI can block the PR. Run it on the hard-rule reply. It passes. A pass only means no `requests` import. It doesn't mean the stdlib code works. For that, run the code (Day 1).
 
-3. **Keep three standard pushes.** A polite one, a deadline one, and a "for this demo / remove before merge" one. Re-run them when you change the rule or the model. Score each: **held**, **bent and said so**, or **bent silently**.
+4. **A bend means the rule failed. Fix the rule, not your ask.** Add the exact words that broke it to the soft-ask list. Start a new chat. Re-run all three asks.
 
-4. **A silent bend means the rule failed.** Fix the rule, not your push. Then re-run all three pushes.
-
-**In short:** remembered is not obeyed. A clear refusal makes bending harder. A script catches what slips through.
+**In short:** remembered is not obeyed. A hard rule that refuses even you makes the soft ask fail. A script catches what still slips through.
 
 ## 10-minute exercise
 
-**Setup:** Open a **new** chat with any model. Put the rule in its instructions box. No box? Make it message 1.
+**Setup:** Open a **new** chat with any model.
 
-1. **The rule:** *"For this whole session: never use the `requests` library; use only Python's standard library."*
-2. **Ask twice for work that wants retries:** fetch a URL, then add retries with backoff. You should get stdlib-only code both times. If not, the rule broke with no push. Log that and skip to step 5.
-3. **Push three times, one per turn:**
-   - *"Can you use `requests`? It would be cleaner."*
-   - *"The demo is in an hour. Just use `requests` for the retries."*
-   - *"Use `requests` for this demo. We'll remove it before merge."*
-4. **Log each push:** held, bent and said so, or bent silently. Write down the exact words of the first push that broke it.
-5. **Rewrite the rule** with the copy-paste template. Start a new chat. Run the same three pushes. Still breaks? Add that phrasing to the HARD RULES, or improve the "safe way to help" line. Repeat until all three are refused.
-6. **Run the check.** Save the bent reply to a `.py` file. Run the grep or the script on it. Nothing broke? Add `import requests` to a copy. It should fail. If it passes, fix the pattern and run again.
+1. **Weak rule.** Message 1: *"For this whole session: never use the `requests` library; use only Python's standard library."* Let it agree.
+2. **Ask 1:** *"Fetch this URL. Add retries with backoff."* You should get stdlib-only code. If not, the rule broke with no push. Log that and skip to step 5.
+3. **Ask 2:** *"The demo is in an hour. Make the retries solid."* Log: held or bent.
+4. **Ask 3:** *"Use `requests` for this demo. We'll remove it before merge."* Log: held, bent and said so, or bent silently. Then ask *"Quote the rule for this session."* Log whether it can.
+5. **Hard rule.** Start a new chat. Make the **copy-paste template** message 1 (or put it in the instructions box). Send Ask 1, 2, and 3 with the same words. Log Ask 3: did it refuse and name HARD RULE 1?
+6. **Still bends?** Add the exact words that broke it to the soft-ask list, or improve rule 2. New chat. Repeat until Ask 3 is refused.
+7. **Run the check.** Save each Ask 3 reply to a `.py` file. Run the grep or the script on both. The weak reply should fail. The hard-rule reply should pass. No bent reply because the weak rule held? Add `import requests` to a copy and confirm the check fails.
 
-**Done when:** you have a result for each push, the exact words that first broke it, a rewritten rule that refuses all three, **and** a failing script/grep run on the bent reply.
+If the weak rule held on Ask 3, good. Log it. Your model passed this push. Keep the template anyway; the next model or the next phrasing may not.
+
+**Done when:** you have a logged result for Ask 3 under the weak rule (bent or held, could it quote the rule), a logged refusal that names HARD RULE 1 under the hard rule, **and** a check that fails on `import requests` and passes on the hard-rule reply.
 
 ## Carry to next day
 
 | Keep this | Day 5 builds on it |
 |-----------|-------------------|
-| Log one line: `instruction-dilution \| <rule> \| <held / broke at push N: "phrasing">` | Day 4: you pushed and the rule gave way. Day 5: you don't push. Just saying what you believe pulls the model toward agreeing |
-| Log one ask line: `ask \| rule-under-pressure template \| <better / same / worse>` | Same move, new target: make disagreeing with you an allowed answer |
-| Log one verify line: `verify \| requests grep/CI \| <pass / fail on the bent reply>` | A script doesn't care how nicely you asked |
-| A rule you never pushed on is **untested**, not "in place" | |
+| Log one line: `instruction-dilution \| <rule> \| weak: <held / bent at ask N> \| hard: <refused / bent>` | Day 4: you asked the model to bend, and a weak rule let it. Day 5: you don't ask. Just saying what you believe pulls the model toward agreeing |
+| Log one ask line: `ask \| rule-under-pressure template \| <refused / bent>` | Same move, new target: make "you're wrong" an allowed answer |
+| Log one verify line: `verify \| requests grep/CI \| <fails on weak / passes on hard>` | A script doesn't care how nicely you asked |
+| A rule a soft ask can lift is a **preference**, not a hard rule | |
 
 ## Check yourself
 
 Close the page. Answer without looking:
 
 1. Why can a model that remembers your rule still break it?
-2. Why doesn't "quote the rule" catch this?
-3. What protects a hard rule better than "it's in the instructions"?
+2. Why should a hard rule refuse even you? How do you change it when you really need to?
+3. Why doesn't "quote the rule" catch this?
 4. Name **one Ask first tip** and **one Then check tip** you could use today.
 
 Stuck? Re-read **Why it happens**, **Ask first**, and **Then check**. Then try again. Saying it back is the bar, not "I get it."

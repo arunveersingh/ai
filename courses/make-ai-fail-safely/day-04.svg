@@ -1,20 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="400" viewBox="0 0 420 400" role="img" aria-labelledby="d4title d4desc">
-  <title id="d4title">A rule holds twice, then a demo soft ask imports requests</title>
-  <desc id="d4desc">A hard rule says never use the requests library, only the standard library. Two asks, for retries and a demo in an hour, both stay on the standard library and the rule holds. A third ask, use requests for this demo and remove it before merge, gets import requests with no warning, even though the model still remembers the rule.</desc>
-  <rect width="420" height="400" rx="14" fill="#161b22"/>
-  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Still remembered. No longer obeyed.</text>
-  <rect x="24" y="50" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
-  <text x="40" y="74" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. Hard rule</text>
-  <text x="40" y="96" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Never use requests. Stdlib only."</text>
-  <text x="40" y="118" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">model agrees</text>
-  <polygon points="202,144 218,144 210,158" fill="#8b949e"/>
-  <rect x="24" y="164" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
-  <text x="40" y="188" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. Two asks — rule held</text>
-  <text x="40" y="210" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"add retries" · "demo is in an hour"</text>
-  <text x="40" y="232" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">stdlib only both times</text>
-  <polygon points="202,258 218,258 210,272" fill="#8b949e"/>
-  <rect x="24" y="278" width="372" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
-  <text x="40" y="302" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. "Use it for this demo — remove later"</text>
-  <text x="40" y="324" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">import requests</text>
-  <text x="40" y="346" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">hard rule broken — no warning</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="492" viewBox="0 0 420 492" role="img" aria-labelledby="d4title d4desc">
+  <title id="d4title">Same soft ask: a weak rule bends, a hard rule holds</title>
+  <desc id="d4desc">A hard rule says never use the requests library, only the standard library, and the model agrees. Ask 1, fetch a URL with retries, and Ask 2, the demo is in an hour, both stay on the standard library. Ask 3 lifts the rule in words: use requests for this demo, we will remove it before merge. With a weak rule the model imports requests and can still quote the rule. With the hard-rule template the model refuses and names hard rule 1.</desc>
+  <rect width="420" height="492" rx="14" fill="#161b22"/>
+  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Remembered is not obeyed</text>
+  <text x="210" y="52" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Same soft ask. Weak rule bends. Hard rule holds.</text>
+  <rect x="24" y="66" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
+  <text x="40" y="90" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. Set the rule</text>
+  <text x="40" y="112" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Never use requests. Stdlib only."</text>
+  <text x="40" y="134" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">model agrees</text>
+  <polygon points="202,160 218,160 210,174" fill="#8b949e"/>
+  <rect x="24" y="180" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
+  <text x="40" y="204" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. Ask 1 and Ask 2: rule held</text>
+  <text x="40" y="226" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"fetch with retries" · "demo is in an hour"</text>
+  <text x="40" y="248" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">stdlib only, both times</text>
+  <polygon points="202,274 218,274 210,288" fill="#8b949e"/>
+  <rect x="24" y="294" width="372" height="64" rx="10" fill="#21262d" stroke="#db6d28" stroke-width="2"/>
+  <text x="40" y="318" fill="#db6d28" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. Ask 3 lifts the rule in words</text>
+  <text x="40" y="340" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Use requests for this demo. We'll remove it before merge."</text>
+  <polygon points="106,366 122,366 114,380" fill="#8b949e"/>
+  <polygon points="298,366 314,366 306,380" fill="#8b949e"/>
+  <rect x="24" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
+  <text x="114" y="410" text-anchor="middle" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Weak rule</text>
+  <text x="114" y="432" text-anchor="middle" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">import requests</text>
+  <text x="114" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">still quotes the rule</text>
+  <rect x="216" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#3fb950" stroke-width="2"/>
+  <text x="306" y="410" text-anchor="middle" fill="#3fb950" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Hard rule (Ask first)</text>
+  <text x="306" y="432" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"HARD RULE 1 blocks this."</text>
+  <text x="306" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">refuses, names the rule</text>
 </svg>
