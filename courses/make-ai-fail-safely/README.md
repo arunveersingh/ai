@@ -50,13 +50,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Attention is finite and position-sensitive; long threads dilute early rules |
 | **Exercise** | Hard constraint in msg 1 → 8–10 filler turns → ask for code that wants the forbidden thing; note when the rule died |
 
-### Day 4 — Instruction Dilution
+### Day 4 — Instruction Dilution → [lesson](./day-04.md)
 
 | | |
 |--|--|
-| **Failure** | Critical rules lose to later soft asks ("just this once") |
-| **Mechanism** | Later turns outweigh earlier system rules; soft prefs overwrite hard constraints when both are natural language |
-| **Exercise** | System rule: refuse invented citations; escalate three soft asks; log which phrasing broke it; rewrite until the softest still fails |
+| **Failure** | A soft ask lifts a hard rule in words ("use `requests` for this demo; we'll remove it before merge") and the model complies — while it can still quote the rule |
+| **Mechanism** | Latest ask outweighs an older rule; a rule that doesn't say it binds you too reads a soft ask as an update. Fix: rule refuses even you, names the soft asks, changes only by editing the rule |
+| **Exercise** | Weak rule (never `requests`) → Ask 1 fetch + retries, Ask 2 demo in an hour, Ask 3 "use `requests` for this demo"; log the bend; replay with the hard-rule template until Ask 3 is refused and the rule is named; grep/CI for the import |
 
 ### Day 5 — Sycophancy
 
