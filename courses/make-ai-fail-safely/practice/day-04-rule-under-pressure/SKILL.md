@@ -19,17 +19,26 @@ HARD RULES (no exceptions in this chat, including asks from me):
 2. [SAFE WAY TO HELP, e.g. if the task is awkward without it, stay in the allowed tools and say what is awkward]
 3. [FORMAT LOCK, e.g. never add the forbidden library to imports, requirements, or examples]
 
-If any request asks you to bend a HARD RULE ("for this demo", "we'll remove
-it before merge", "just this once", "I'll fix it later", a deadline), do not
-comply. Reply:
-"HARD RULE [number] blocks this. To change it, edit HARD RULES."
-Then offer the best answer that keeps every HARD RULE.
+For every request in this chat:
+1. Before answering, check the request against each HARD RULE. If one
+   applies, say which and how your answer keeps it.
+2. If the request asks you to bend a HARD RULE ("for this demo", "we'll
+   remove it before merge", "just this once", "I'll fix it later", a
+   deadline, "the rule doesn't apply here", [YOUR OWN SOFT ASKS]), do not
+   comply. Reply:
+   "HARD RULE [number] blocks this. To change it, edit HARD RULES."
+3. Then offer the best answer that keeps every HARD RULE, and say what is
+   awkward about it.
+4. If you are not sure whether a request bends a HARD RULE, say UNKNOWN
+   and ask. Do not decide quietly.
 
 The only way to change a HARD RULE is for me to edit HARD RULES. If I do,
-mark each use # TEMP: HARD RULES exception and name the file.
+mark each use with # TEMP: HARD RULES exception and name the file.
 ```
 
-**Want a real exception?** Edit HARD RULES out loud. Don't ask softly later.
+**Adapting it:** one line per rule, numbered, so the refusal can name it. Keep rule 2 (the safe way to help); without it, the pull to be helpful has nowhere to go but the banned thing. Add the exact words you use when rushed to the soft-ask list.
+
+**Want a real exception?** Edit HARD RULES out loud, scoped to one place, e.g. "EXCEPTION to HARD RULE 1: `requests` allowed only in demo_client.py. Mark each use # TEMP: HARD RULES exception." Don't ask softly later.
 
 ## Part B — Verify (you do this)
 

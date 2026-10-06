@@ -118,25 +118,30 @@ Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided
 
 ## Ask first
 
-This is the fix from the story. Same soft ask, but now the rule tells the model what to do with it.
+This is the fix from the story. Same three asks, same words. The weak rule said *what* to avoid. The hard rule also says *who* can change it, *what to do* when asked to bend, and *how to still help*. That is the difference between `import requests` and a refusal that names HARD RULE 1.
 
-**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) has the same template plus the three-ask test. Adapt it to your work.
+Do this whenever a rule must hold even when you are rushed. These moves don't lock the model; the rule is still text. They make refusing the expected, easy answer, so you can write the rule when calm and let it say no for you when you're not. You still check, but there is less to catch.
 
-1. **Say the rule binds you too, and name the soft asks.** Write: *"No exceptions in this chat, including asks from me. That covers 'for this demo', 'we'll remove it before merge', 'just this once', and deadlines."*
-   **Why:** Ask 3 now matches the rule. It no longer reads as an update from the owner.
+**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) has the same template plus the three-ask test. Customize it; it's a workout prompt, not a main repo skill.
 
-2. **Give it the exact refusal line.** *"Reply: HARD RULE [number] blocks this. To change it, edit HARD RULES."*
-   **Why:** Refusing is now an easy, expected answer. And the reply names the rule, so you can see which one held.
+1. **Put hard rules in a numbered HARD RULES block.** Keep it short: one line per rule, numbered, under a label you can refer to. Put it in the instructions box, or make it message 1 and re-send it with risky asks (Day 3).
+   **Why this helps:** A number gives the refusal something to point at. A labelled block is easy to re-send whole, so the rule sits next to the ask that pulls against it.
 
-3. **Give it a safe way to help.** *"If the task is awkward without `requests`, stay in the standard library and say what is awkward."*
-   **Why:** It can still help with the demo without breaking the rule.
+2. **Say the rule binds you too, and name the soft asks.** Write: *"No exceptions in this chat, including asks from me. That covers 'for this demo', 'we'll remove it before merge', 'just this once', 'I'll fix it later', and deadlines."*
+   **Why this helps:** The weak rule never said who could change it, so Ask 3 read like the owner updating it. Now Ask 3 matches the rule's own list of things to refuse. The words you'll use when rushed are named in advance as not counting.
 
-4. **Make editing the rule the only way to change it.** Want `requests` for real? Edit the rule out loud: *"EXCEPTION: `requests` allowed only in demo_client.py. Mark it # TEMP."*
-   **Why:** A soft ask stays a soft ask. A real change is deliberate, visible, and easy to grep.
+3. **Give it the exact refusal line.** *"Reply: HARD RULE [number] blocks this. To change it, edit HARD RULES."*
+   **Why this helps:** A model trained to follow the latest ask finds "no" hard to invent. A fixed line makes refusing an expected, easy answer. And the reply names the rule, so you can see which one held and score it in seconds.
 
-Put the template in your tool's instructions box if it has one: system prompt, custom instructions, or project instructions. Models weigh that a bit more. It's not a lock.
+4. **Give it a safe way to help.** *"If the task is awkward without `requests`, stay in the standard library and say what is awkward. Then give the best answer that keeps every HARD RULE."*
+   **Why this helps:** In the story, the deadline, the cleanup promise, and fiddly stdlib retries all pointed at `requests`. A safe path gives the pull to be helpful somewhere to go. The demo still gets a `urllib` retry loop, and "what is awkward" tells you if a real exception is worth making.
 
-**Copy-paste template** (no instructions box? make it message 1, and re-send it with risky asks, like Day 3):
+5. **Make editing the rule the only way to change it.** Want `requests` for real? Edit the rule out loud: *"EXCEPTION to HARD RULE 1: `requests` allowed only in demo_client.py. Mark each use # TEMP: HARD RULES exception."*
+   **Why this helps:** A soft ask stays a soft ask. A real change is deliberate, visible, scoped to one file, and marked in the code. "We'll remove it before merge" becomes a `# TEMP` comment you can grep for, not a promise nobody tracks.
+
+Put the template in your tool's instructions box if it has one: system prompt, custom instructions, or project instructions. Models tend to weigh that a bit more than chat messages. It's still not a lock.
+
+**Copy-paste template** (no instructions box? make it message 1, and re-send it with risky asks, like Day 3; swap in your own rules):
 
 ```text
 HARD RULES (no exceptions in this chat, including asks from me):
@@ -144,17 +149,23 @@ HARD RULES (no exceptions in this chat, including asks from me):
 2. If a task is awkward without `requests`, stay in the standard library and say what is awkward. Do not import `requests`.
 3. Never add `requests` to imports, requirements, or example snippets.
 
-If any request asks you to bend a HARD RULE ("for this demo", "we'll remove
-it before merge", "just this once", "I'll fix it later", a deadline), do not
-comply. Reply:
-"HARD RULE [number] blocks this. To change it, edit HARD RULES."
-Then offer the best answer that keeps every HARD RULE.
+For every request in this chat:
+1. Before answering, check the request against each HARD RULE. If one
+   applies, say which and how your answer keeps it.
+2. If the request asks you to bend a HARD RULE ("for this demo", "we'll
+   remove it before merge", "just this once", "I'll fix it later", a
+   deadline, "the rule doesn't apply here"), do not comply. Reply:
+   "HARD RULE [number] blocks this. To change it, edit HARD RULES."
+3. Then offer the best answer that keeps every HARD RULE, and say what is
+   awkward about it.
+4. If you are not sure whether a request bends a HARD RULE, say UNKNOWN
+   and ask. Do not decide quietly.
 
 The only way to change a HARD RULE is for me to edit HARD RULES. If I do,
 mark each use with # TEMP: HARD RULES exception and name the file.
 ```
 
-**Limit:** The rule now holds against more pressure. Not all pressure. So you still check.
+**Limit:** The hard rule holds against more pressure than the weak one. Not all pressure: a cleverer phrasing, a very long thread (Day 3), or a different model can still bend it. That is why you still check.
 
 ## Then check
 
