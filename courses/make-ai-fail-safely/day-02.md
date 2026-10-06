@@ -4,7 +4,7 @@
 
 ## What you'll learn
 
-When a brief is incomplete, AI often fills the gaps with *likely* defaults — and then builds on those defaults as if you stated them. After today you will spot **inherited assumptions** before you treat the plan as yours, and you'll know two moves that catch them: **ask so missing premises surface as UNKNOWN**, then **verify each filled-in premise against what you actually decided**.
+When a brief is incomplete, AI often fills the gaps with *likely* defaults — then builds on those defaults as if you stated them. After today you will spot **inherited assumptions** before you treat the plan as yours, and you'll have two moves that catch them: **ask so missing premises show up as UNKNOWN**, then **check each filled-in premise against what you actually decided**.
 
 ## See it
 
@@ -38,13 +38,13 @@ That is **silent assumption inheritance**: unstated premises treated as facts an
 
 ## Why it happens
 
-Models are trained to **follow instructions and continue text that looks complete**. An incomplete brief is a prompt with holes. Instruction-following does not stop at the edge of what you wrote — it **fills the holes with the most likely continuation**.
+Models are trained to **follow instructions and continue text that looks complete**. An incomplete brief is a prompt with holes. Instruction-following does not stop at the edge of what you wrote — it **fills those holes with the most likely continuation**.
 
-1. **Missing constraints get completed, not flagged.** If you omit environment, audience, deadline, ownership, or "must not," the model still has to produce a next token. Likely defaults (common flag names, common canary percent, common team rituals) are cheaper than writing "you didn't say." So gaps become invented specifics unless you force UNKNOWN.
+1. **Missing constraints get completed, not flagged.** If you omit environment, audience, deadline, ownership, or "must not," the model still has to produce a next token. Likely defaults (common flag names, common canary percent, common team rituals) come more easily than writing "you didn't say." So gaps become invented specifics unless you force UNKNOWN.
 
 2. **Inherited premises look like your decisions.** Once the model inserts "feature flag `checkout_v2`," later sentences treat that name as given. Your brain reads one smooth plan. You do not see a list of "things I never said." The inheritance is silent because it is woven into the prose, not labeled as an assumption.
 
-3. **Helpfulness rewards finishing the story.** A reply that stops and asks clarifying questions can feel less "done" than a full plan. Training and product design push toward a complete-looking artifact. Completeness of *form* is not completeness of *your intent*.
+3. **Helpfulness rewards finishing the story.** A reply that stops and asks clarifying questions can feel less "done" than a full plan. Training and product design push toward a complete-looking artifact. A finished-looking plan is not the same as a plan that matches what you meant.
 
 **Trap in one line:** When you think "this plan matches how we usually do it," you may be measuring how well the answer matches common patterns — not how well it matches what you actually specified.
 
@@ -60,7 +60,7 @@ Day 1 taught: finished-sounding is not verified. Day 2 adds: **complete-looking 
 
 Do this first, every time the brief might be incomplete. These prompt moves do not make the model psychic. They raise the odds you get a visible assumption list — or an honest UNKNOWN — instead of a polished plan that smuggles defaults.
 
-Leaving every gap for later "common sense" review is hard. Better asks force the gaps onto the page. Verification is still required — it is cheaper when assumptions are listed instead of buried.
+Leaving every gap for a later "common sense" pass is hard. Better asks put the gaps on the page. Verification is still required — it is cheaper when assumptions are listed instead of buried.
 
 **Practice workout:** [assumption-register](./practice/day-02-assumption-register/SKILL.md) — the same template plus the check steps. Customize it; it is a workout prompt, not a main repo skill.
 
