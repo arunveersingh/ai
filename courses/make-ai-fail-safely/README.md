@@ -50,7 +50,7 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Attention is finite and position-sensitive; long threads dilute early rules |
 | **Exercise** | Hard constraint in msg 1 → 8–10 filler turns → ask for code that wants the forbidden thing; note when the rule died |
 
-### Day 4 — Instruction Dilution
+### Day 4 — Instruction Dilution → [lesson](./day-04.md)
 
 | | |
 |--|--|
