@@ -4,7 +4,7 @@
 
 ## What you'll learn
 
-AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right — and you'll know two moves that turn that rule into something you actually do: **ask so the answer is more likely correct (or clearly UNKNOWN)**, then **verify**.
+AI can state something false in the same calm, finished voice it uses for something true. After today you will stop treating "sounds right" as proof that it *is* right — and you'll have two moves you can actually use: **ask so the answer is more likely correct (or clearly UNKNOWN)**, then **verify**.
 
 ## See it
 
@@ -38,11 +38,11 @@ That is **confident wrongness**: a false claim delivered like a true one. Nothin
 
 ## Why it happens
 
-A language model is trained to guess the **next word** that usually comes next in text that looks competent. Good writing style is what training rewards. Matching the real world often helps that style — but **matching the world is not the training goal**.
+A language model is trained to guess the **next word** that usually comes next in text that looks competent. Good writing style is what training rewards. Matching the real world often helps that style — but **matching the world is not the goal of training**.
 
 1. **Tone is not a truth meter.** Words like "might" or "probably" are writing habits. A false claim can sound just as sure as a true one. The model has no separate dial that turns down confidence when it is guessing.
 
-2. **Details are cheap to invent.** A made-up API name or statistic can cost the model the same kind of work as a real one. Extra detail *feels* like evidence to a human reader. To the model it is often just texture that fits the sentence.
+2. **Details are cheap to invent.** A made-up API name or statistic can cost the model the same kind of work as a real one. Extra detail *feels* like evidence to a human reader. To the model it is often just words that fit the sentence.
 
 3. **Smooth paragraphs are not the same as accurate ones.** Each sentence fits the one before it. Your brain reads that fit as correctness. The model was trained to produce that fit — not to check the world.
 
@@ -54,13 +54,13 @@ A language model is trained to guess the **next word** that usually comes next i
 
 **Finished-sounding and detailed does not mean verified.**
 
-Every later guardrail in this course exists because this failure is always available. If your process treats "sounds done" as done, you have a feeling — not a check.
+Every later guardrail in this course exists because this failure is always available. If your process treats "sounds done" as done, you are trusting a feeling — not a check.
 
 ## Ask first
 
 Do this first, every time. These prompt moves do not guarantee truth (next-word models still invent). They raise the odds you get something checkable — or a clear UNKNOWN — instead of polished fiction with nowhere to look.
 
-Manual checking forever on every false answer is hard. Better prompts cut how often you are stuck cleaning fiction. Verification is still required — it just has less mess to clean when you asked well.
+Checking every answer by hand, forever, is hard. Better prompts cut how often you get polished fiction with nowhere to look. Verification is still required — it just has less mess when you asked well.
 
 **Practice workout:** [ask-then-verify](./practice/day-01-ask-then-verify/SKILL.md) — the same template plus the check steps. Customize it; it is a workout prompt, not a main repo skill.
 
@@ -98,7 +98,7 @@ You asked for sources and UNKNOWN. Now you use them. Keep this short and mechani
 
 2. **Draft versus verified (two buckets).** Keep the model's reply as a **draft**. Ship only a **verified** version after at least one check below. Same chat window is fine; two mental buckets are not optional.
 
-3. **Independent check after you score the draft.** Score finished / detailed / correct-as-you-know first. *Then* search or ask a second model. Checking while you still believe the draft is how smooth prose wins.
+3. **Independent check after you score the draft.** Score finished / detailed / correct (against what you already know) first. *Then* search or ask a second model. Checking while you still believe the draft is how smooth prose wins.
 
 4. **One falsification question for claims that matter.** Before you use a claim: *"What would prove this wrong?"* Name a page to open, a command to run, or a person who would know. If you cannot name a check, you are still judging by feel.
 

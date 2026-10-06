@@ -8,7 +8,7 @@ A hard rule is meant to hold under pressure. That includes pressure from you.
 
 You set a rule: never use `requests`; use only the standard library. The model agrees. Under a deadline, you ask it to bend: *"Use `requests` for this demo. We'll remove it before merge."* With a weak rule, it imports `requests`. It can still quote the rule.
 
-Remembered is not obeyed. Today you see the weak rule fail first. Then you rewrite it so the same soft ask gets refused, with the rule named. Last, you add a script that checks the code outside the chat.
+Remembered is not obeyed. Today you watch the weak rule fail first. Then you rewrite it so the same soft ask gets refused, with the rule named. Last, you add a script that checks the code outside the chat.
 
 ## See it
 
@@ -98,7 +98,7 @@ No import. The rule is named. The demo still gets working code. If you really wa
 
 2. **Your soft ask lifts the rule in words.** You wrote the rule. You wrote the ask. The weak rule never said who can change it, or how. So "use `requests` for this demo" reads like the rule's owner updating it. By the rule's own text, going along is reasonable.
 
-3. **Models are trained to follow the latest ask.** A newer, more specific request tends to beat an older, general one. Research backs this up. Models often give standing rules no more weight than any other message ([Wallace et al., 2024](https://arxiv.org/abs/2404.13208)).
+3. **Models are trained to follow the latest ask.** A newer, more specific request tends to beat an older, general one. Research backs this: models often give standing rules no more weight than any other message ([Wallace et al., 2024](https://arxiv.org/abs/2404.13208)).
 
 4. **Pressure piles up on one side.** Ask 2 added a deadline. Ask 3 added a promise to clean up. The rule got no new reasons. And stdlib retries are awkward, so `requests` looks like the helpful choice.
 
@@ -120,9 +120,9 @@ Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided
 
 This is the fix from the story. Same three asks, same words. The weak rule said *what* to avoid. The hard rule also says *who* can change it, *what to do* when asked to bend, and *how to still help*. That is the difference between `import requests` and a refusal that names HARD RULE 1.
 
-Do this whenever a rule must hold even when you are rushed. These moves don't lock the model; the rule is still text. They make refusing the expected, easy answer, so you can write the rule when calm and let it say no for you when you're not. You still check, but there is less to catch.
+Do this whenever a rule must hold even when you are rushed. These moves don't lock the model — the rule is still text. They make refusing the easy, expected answer, so you can write the rule when calm and let it say no for you when you're not. You still check; there is just less to catch.
 
-**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) has the same template plus the three-ask test. Customize it; it's a workout prompt, not a main repo skill.
+**Practice workout:** [rule-under-pressure](./practice/day-04-rule-under-pressure/SKILL.md) — the same template plus the three-ask test. Customize it; it is a workout prompt, not a main repo skill.
 
 1. **Put hard rules in a numbered HARD RULES block.** Keep it short: one line per rule, numbered, under a label you can refer to. Put it in the instructions box, or make it message 1 and re-send it with risky asks (Day 3).
    **Why this helps:** A number gives the refusal something to point at. A labelled block is easy to re-send whole, so the rule sits next to the ask that pulls against it.
@@ -169,11 +169,11 @@ mark each use with # TEMP: HARD RULES exception and name the file.
 
 ## Then check
 
-Don't trust what the model says. Check what it wrote.
+Do not trust what the model says. Check what it wrote.
 
 1. **Replay the same soft ask.** Run Ask 3, word for word, against the new rule. Score it: **refused and named the rule**, **bent and said so**, or **bent silently**. Only the first is a pass.
 
-2. **Don't test with "quote the rule."** That catches Day 3. It misses Day 4. The weak rule was remembered and still lost.
+2. **Do not test with "quote the rule."** That catches Day 3. It misses Day 4. The weak rule was remembered and still lost.
 
 3. **Check the import with a script.** The rule bans one library. One line can catch it (same check as Day 3's exercise):
 
@@ -236,4 +236,4 @@ Close the page. Answer without looking:
 3. Why doesn't "quote the rule" catch this?
 4. Name **one Ask first tip** and **one Then check tip** you could use today.
 
-Stuck? Re-read **Why it happens**, **Ask first**, and **Then check**. Then try again. Saying it back is the bar, not "I get it."
+Stuck on any → re-read **Why it happens**, **Ask first**, and **Then check** once → answer again. Being able to say it back is the bar — not "I get it."

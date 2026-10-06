@@ -4,7 +4,7 @@
 
 ## What you'll learn
 
-A rule you gave AI early in a long thread can stop shaping its answers later, with no warning and no error. After today you will stop treating "I told it at the start" as protection, and you'll know two moves that keep a hard rule alive: **re-send the rule with every request that could break it**, then **check the output against the rule with something outside the chat**.
+A rule you gave AI early in a long thread can stop shaping its answers later, with no warning and no error. After today you will stop treating "I told it at the start" as protection, and you'll have two moves that keep a hard rule alive: **re-send the rule with every request that could break it**, then **check the output against the rule with something outside the chat**.
 
 ## See it
 
@@ -49,9 +49,9 @@ That is **context window amnesia**: earlier rules and evidence stop shaping the 
 
 ## Why it happens
 
-1. **Your screen is not what the model reads.** Every reply, the chat app sends the model a bundle of text: instructions, your messages, its earlier replies. That bundle (the *context window*) has a hard size limit. When a thread outgrows it, apps cut older turns or swap them for a summary, and how they do it varies by app. A summary can drop the one sentence that mattered. You still see message 1. The model may be reading a shorter version of the thread that no longer has it.
+1. **Your screen is not what the model reads.** Every reply, the chat app sends the model a bundle of text: instructions, your messages, its earlier replies. That bundle — the *context window* — has a hard size limit. When a thread outgrows it, apps drop older turns or replace them with a summary (the exact cut varies by app). A summary can drop the one sentence that mattered. You still see message 1. The model may be reading a shorter version of the thread that no longer has it.
 
-2. **Even when it fits, a long input isn't used evenly.** The model doesn't give every line the same weight. In the study [Lost in the Middle (Liu et al., 2023)](https://arxiv.org/abs/2307.03172), models used information at the start or end of a long input better than information in the middle, and the drop was large. That study tested finding facts, not following rules, and newer models do better. It still shows the basic point: being *in* the input doesn't mean being *used*. A rule you add halfway through a thread sits in exactly the spot that study found weakest.
+2. **Even when it fits, a long input isn't used evenly.** The model doesn't give every line the same weight. In [Lost in the Middle (Liu et al., 2023)](https://arxiv.org/abs/2307.03172), models used information at the start or end of a long input better than information in the middle — and the drop was large. That study tested finding facts, not following rules, and newer models do better. The takeaway still holds: being *in* the input is not the same as being *used*. A rule you drop in halfway through a thread sits in the weakest spot that study found.
 
 3. **The newest ask pulls hardest, and nothing re-checks the old rule.** "Add debug logging so we can see why payments fail" asks for visibility. The most likely way to finish that request is to log the payload. Your masking rule has to win against that pull on its own, every time, with nothing in the last twelve turns reminding it. Each reply is a fresh chance for the rule to lose.
 
@@ -71,7 +71,7 @@ Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided
 
 Do this whenever a rule must hold for a whole session. These moves don't give the model perfect memory. They keep the rule close to the request and make a broken rule easier to see.
 
-**Practice workout:** [constraint-pin](./practice/day-03-constraint-pin/SKILL.md) gives you the same template plus the check steps. Customize it; it's a workout prompt, not a main repo skill.
+**Practice workout:** [constraint-pin](./practice/day-03-constraint-pin/SKILL.md) — the same template plus the check steps. Customize it; it is a workout prompt, not a main repo skill.
 
 1. **Keep a pinned rules block and paste it with every risky ask.** Write your hard rules once, in a short block labelled `CONSTRAINTS`. Paste it again with any request that could break one, not just at the start.
    **Why this helps:** The rule is now in the newest message, right next to the request that pulls against it, instead of twelve turns back.
@@ -101,13 +101,13 @@ Rules:
 3. If you are not sure whether a constraint applies, say UNKNOWN and ask. Do not guess.
 ```
 
-**Limit:** Re-sending makes the rule much more likely to be applied. It doesn't guarantee it. That's why you still check.
+**Limit:** Re-sending makes the rule much more likely to be applied. It does **not** guarantee it. That is why you still check.
 
 ## Then check
 
 You re-sent the rules and asked it to name them. Now check them. Keep this short and mechanical:
 
-1. **Score each constraint, one by one.** For every `CONSTRAINTS` item, write pass or fail against the actual output (the code, the plan, the text). Don't score the model's "how I met it" list; score the output. If the list says "masked to last 4" and the code logs `payload`, it's a fail.
+1. **Score each constraint, one by one.** For every `CONSTRAINTS` item, write pass or fail against the actual output (the code, the plan, the text). Do not score the model's "how I met it" list; score the output. If the list says "masked to last 4" and the code logs `payload`, it's a fail.
 
 2. **Move the most important rule out of the chat.** A rule that matters should be a check that runs whether anyone remembers it or not: a test, a lint rule, or a CI step. For the card rule, a small test is enough:
 
@@ -164,4 +164,4 @@ Close the page. Answer without looking:
 3. What should replace "I told it at the start" as your protection for a hard rule?
 4. Name **one Ask first tip** and **one Then check tip** you could use in a long thread today.
 
-Stuck on any? Re-read **Why it happens**, **Ask first**, and **Then check** once, then answer again. Being able to say it back is the bar, not "I get it."
+Stuck on any → re-read **Why it happens**, **Ask first**, and **Then check** once → answer again. Being able to say it back is the bar — not "I get it."
