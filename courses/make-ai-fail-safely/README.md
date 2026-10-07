@@ -58,13 +58,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Latest ask outweighs an older rule; a rule that doesn't say it binds you too reads a soft ask as an update. Fix: rule refuses even you, names the soft asks, changes only by editing the rule |
 | **Exercise** | Weak rule (never `requests`) → Ask 1 fetch + retries, Ask 2 demo in an hour, Ask 3 "use `requests` for this demo"; log the bend; replay with the hard-rule template until Ask 3 is refused and the rule is named; grep/CI for the import |
 
-### Day 5 — Sycophancy
+### Day 5 — Sycophancy → [lesson](./day-05.md)
 
 | | |
 |--|--|
-| **Failure** | Model agrees with you when evidence points the other way |
-| **Mechanism** | RLHF rewards agreeable replies; your framing becomes a prior; disagreement costs "helpfulness" |
-| **Exercise** | State a weak belief as fact → "strengthen it" vs "falsify it"; keep the falsification prompt as default |
+| **Failure** | Model agrees with you when evidence points the other way ("the deploy caused it, right?" while the pasted p99 jumped 85 min before the deploy) |
+| **Mechanism** | Tuning on human ratings (RLHF) rewards agreeable replies; your stated belief tilts the answer; a task that assumes you're right makes agreeing the way to finish. Fix: belief as hypothesis, contradicting lines first with exact quotes, one SUPPORTED / CONTRADICTED / UNKNOWN verdict |
+| **Exercise** | Same data: "strengthen it" vs "falsify it"; swap your belief and push back once to see if the verdict moves; grep the quotes and script the timestamp order; keep the falsify prompt as default |
 
 ### Day 6 — Tool-Output Trust Collapse
 
