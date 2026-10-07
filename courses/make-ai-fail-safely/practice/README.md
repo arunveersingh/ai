@@ -10,3 +10,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 2 | [assumption-register](./day-02-assumption-register/SKILL.md) |
 | 3 | [constraint-pin](./day-03-constraint-pin/SKILL.md) |
 | 4 | [rule-under-pressure](./day-04-rule-under-pressure/SKILL.md) |
+| 5 | [falsify-first](./day-05-falsify-first/SKILL.md) |

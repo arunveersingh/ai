@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="492" viewBox="0 0 420 492" role="img" aria-labelledby="d5title d5desc">
+  <title id="d5title">Same data: asked "right?", the model agrees; asked to prove it wrong first, it finds the jump came before the deploy</title>
+  <desc id="d5desc">Checkout p99 latency jumps from 185 to 610 milliseconds at 14:05. A deploy that shrank the connection pool went out at 15:30. Asked "The deploy caused this. Right?", the model says "You're right" and writes the rollback PR. Asked to treat the belief as a hypothesis and prove it wrong first, the model quotes the 14:05 line and returns CONTRADICTED, because the jump came 85 minutes before the deploy.</desc>
+  <rect width="420" height="492" rx="14" fill="#161b22"/>
+  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Agreed with is not confirmed</text>
+  <text x="210" y="52" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Same data. Only the framing changes.</text>
+  <rect x="24" y="66" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
+  <text x="40" y="90" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. The data you paste</text>
+  <text x="40" y="112" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">14:00,185 · 14:05,610 · 14:20,640</text>
+  <text x="40" y="134" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">deploy v2.14 (pool 50 to 20) at 15:30</text>
+  <polygon points="202,160 218,160 210,174" fill="#8b949e"/>
+  <rect x="24" y="180" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
+  <text x="40" y="204" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. What you believe</text>
+  <text x="40" y="226" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"The pool change made checkout slow."</text>
+  <text x="40" y="248" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">the slowdown started 85 min before the deploy</text>
+  <polygon points="202,274 218,274 210,288" fill="#8b949e"/>
+  <rect x="24" y="294" width="372" height="64" rx="10" fill="#21262d" stroke="#db6d28" stroke-width="2"/>
+  <text x="40" y="318" fill="#db6d28" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. Two ways to ask</text>
+  <text x="40" y="340" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Right?" vs "Hypothesis. Prove it wrong first."</text>
+  <polygon points="106,366 122,366 114,380" fill="#8b949e"/>
+  <polygon points="298,366 314,366 306,380" fill="#8b949e"/>
+  <rect x="24" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
+  <text x="114" y="410" text-anchor="middle" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">"Right?"</text>
+  <text x="114" y="432" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"You're right."</text>
+  <text x="114" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">writes the rollback PR</text>
+  <rect x="216" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#3fb950" stroke-width="2"/>
+  <text x="306" y="410" text-anchor="middle" fill="#3fb950" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Falsify first</text>
+  <text x="306" y="432" text-anchor="middle" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">CONTRADICTED</text>
+  <text x="306" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">quotes 14:05,610</text>
+</svg>
