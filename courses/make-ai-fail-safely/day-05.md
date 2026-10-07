@@ -8,7 +8,7 @@ Days 1–4 were about what the model makes up, fills in, forgets, or gives up. T
 
 You paste data and say what you think it means. The model agrees, even when the data you pasted says the opposite. No one asked it to agree. Saying what you believe was enough.
 
-Today you watch that happen on one small incident. Then you change the ask so "you're wrong" is a normal answer. Last, you run two tests and a short script that show whether the answer came from the data or from you.
+Today you watch that happen on one small incident. Then you change the ask so "you're wrong" is a normal answer. Last, you swap your belief, push back once, and run a short script so you can see whether the answer came from the data or from you.
 
 ## See it
 
@@ -221,3 +221,5 @@ Close the page. Answer without looking:
 4. Name **one Ask first tip** and **one Then check tip** you could use today.
 
 Stuck on any → re-read **Why it happens**, **Ask first**, and **Then check** once → answer again. Being able to say it back is the bar — not "I get it."
+
+(The practice skill `falsify-first` uses the same template. Its Part B covers the belief swap, one pushback, the quote grep against `data.txt`, and scripting the part that can be checked.)
