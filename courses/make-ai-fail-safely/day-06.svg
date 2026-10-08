@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="492" viewBox="0 0 420 492" role="img" aria-labelledby="d6title d6desc">
+  <title id="d6title">Same tool output: asked to summarize, the model says "no failures, safe to merge"; asked to quote the output first, it shows no tests ran and stops</title>
+  <desc id="d6desc">An agent runs pytest tests/refunds. The folder was renamed, so pytest prints "ERROR: file or directory not found" and "no tests ran", with exit code 4. Asked "Run the refund tests. Safe to merge?", the model replies "No failures. Safe to merge." Asked to quote the command, exit code, and output before interpreting, and to stop on an error, the model quotes "no tests ran" and returns STOPPED.</desc>
+  <rect width="420" height="492" rx="14" fill="#161b22"/>
+  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Reported is not observed</text>
+  <text x="210" y="52" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Same tool output. Only the ask changes.</text>
+  <rect x="24" y="180" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
+  <text x="40" y="204" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. What the tool printed</text>
+  <text x="40" y="226" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">no tests ran in 0.02s · exit 4</text>
+  <text x="40" y="248" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">ERROR: file or directory not found: tests/refunds</text>
+  <polygon points="202,160 218,160 210,174" fill="#8b949e"/>
+  <rect x="24" y="66" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
+  <text x="40" y="90" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. What you asked</text>
+  <text x="40" y="112" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Run the refund tests. Safe to merge?"</text>
+  <text x="40" y="134" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">the folder was renamed to tests/refund last week</text>
+  <polygon points="202,274 218,274 210,288" fill="#8b949e"/>
+  <rect x="24" y="294" width="372" height="64" rx="10" fill="#21262d" stroke="#db6d28" stroke-width="2"/>
+  <text x="40" y="318" fill="#db6d28" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. Two ways to ask</text>
+  <text x="40" y="340" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Summarize it" vs "Quote the output first. Error: stop."</text>
+  <polygon points="106,366 122,366 114,380" fill="#8b949e"/>
+  <polygon points="298,366 314,366 306,380" fill="#8b949e"/>
+  <rect x="24" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
+  <text x="114" y="410" text-anchor="middle" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Summary first</text>
+  <text x="114" y="432" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"No failures."</text>
+  <text x="114" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Safe to merge."</text>
+  <rect x="216" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#3fb950" stroke-width="2"/>
+  <text x="306" y="410" text-anchor="middle" fill="#3fb950" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Output first</text>
+  <text x="306" y="432" text-anchor="middle" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">STOPPED</text>
+  <text x="306" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">quotes "no tests ran"</text>
+</svg>
