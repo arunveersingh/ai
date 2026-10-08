@@ -1,30 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="492" viewBox="0 0 420 492" role="img" aria-labelledby="d6title d6desc">
-  <title id="d6title">Same tool output: asked to summarize, the model says "no failures, safe to merge"; asked to quote the output first, it shows no tests ran and stops</title>
-  <desc id="d6desc">An agent runs pytest tests/refunds. The folder was renamed, so pytest prints "ERROR: file or directory not found" and "no tests ran", with exit code 4. Asked "Run the refund tests. Safe to merge?", the model replies "No failures. Safe to merge." Asked to quote the command, exit code, and output before interpreting, and to stop on an error, the model quotes "no tests ran" and returns STOPPED.</desc>
-  <rect width="420" height="492" rx="14" fill="#161b22"/>
-  <text x="210" y="32" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Reported is not observed</text>
-  <text x="210" y="52" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Same tool output. Only the ask changes.</text>
-  <rect x="24" y="180" width="372" height="86" rx="10" fill="#21262d" stroke="#58a6ff" stroke-width="2"/>
-  <text x="40" y="204" fill="#58a6ff" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">2. What the tool printed</text>
-  <text x="40" y="226" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">no tests ran in 0.02s · exit 4</text>
-  <text x="40" y="248" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">ERROR: file or directory not found: tests/refunds</text>
-  <polygon points="202,160 218,160 210,174" fill="#8b949e"/>
-  <rect x="24" y="66" width="372" height="86" rx="10" fill="#21262d" stroke="#d29922" stroke-width="2"/>
-  <text x="40" y="90" fill="#d29922" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">1. What you asked</text>
-  <text x="40" y="112" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"Run the refund tests. Safe to merge?"</text>
-  <text x="40" y="134" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">the folder was renamed to tests/refund last week</text>
-  <polygon points="202,274 218,274 210,288" fill="#8b949e"/>
-  <rect x="24" y="294" width="372" height="64" rx="10" fill="#21262d" stroke="#db6d28" stroke-width="2"/>
-  <text x="40" y="318" fill="#db6d28" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">3. Two ways to ask</text>
-  <text x="40" y="340" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Summarize it" vs "Quote the output first. Error: stop."</text>
-  <polygon points="106,366 122,366 114,380" fill="#8b949e"/>
-  <polygon points="298,366 314,366 306,380" fill="#8b949e"/>
-  <rect x="24" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#f85149" stroke-width="2"/>
-  <text x="114" y="410" text-anchor="middle" fill="#f85149" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Summary first</text>
-  <text x="114" y="432" text-anchor="middle" fill="#e6edf3" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">"No failures."</text>
-  <text x="114" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">"Safe to merge."</text>
-  <rect x="216" y="386" width="180" height="86" rx="10" fill="#21262d" stroke="#3fb950" stroke-width="2"/>
-  <text x="306" y="410" text-anchor="middle" fill="#3fb950" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Output first</text>
-  <text x="306" y="432" text-anchor="middle" fill="#e6edf3" font-family="Consolas, Menlo, monospace" font-size="13">STOPPED</text>
-  <text x="306" y="454" text-anchor="middle" fill="#8b949e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">quotes "no tests ran"</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d6title d6desc">
+  <title id="d6title">Reported is not observed: one tool output, two asks. Asked "Safe to merge?", the model says "No failures. Safe to merge." Asked to quote the output first and stop on empty, it says "STOPPED: no tests ran."</title>
+  <desc id="d6desc">A terminal card shows pytest tests/refunds -q, the output "no tests ran in 0.02s", and exit code 4, because the folder was renamed to tests/refund. Two paths leave it. Ask A, "Safe to merge?", leads to a red card: "No failures. Safe to merge.", marked wrong because zero tests ran. Ask B, "Quote the output first. Stop on empty.", leads to a green card: "STOPPED: no tests ran", marked safe because nothing merges. Footer: let the exit code decide passed, not the summary.</desc>
+  <defs>
+    <clipPath id="cardA"><rect x="660" y="196" width="476" height="164" rx="18"/></clipPath>
+    <clipPath id="cardB"><rect x="660" y="380" width="476" height="164" rx="18"/></clipPath>
+  </defs>
+  <style>
+    .sans { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .mono { font-family: "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; }
+    .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2px; fill: #8b949e; }
+    .title { font-size: 48px; font-weight: 700; fill: #f0f6fc; }
+    .sub { font-size: 21px; fill: #8b949e; }
+    .term { font-size: 21px; fill: #e6edf3; }
+    .label { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
+    .ask { font-size: 18px; fill: #8b949e; }
+    .reply { font-size: 26px; font-weight: 700; fill: #f0f6fc; }
+    .verdict { font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+    .note { font-size: 17px; fill: #8b949e; }
+    .foot { font-size: 20px; fill: #c9d1d9; }
+  </style>
+
+  <rect width="1200" height="675" fill="#0d1117"/>
+
+  <!-- Header -->
+  <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 6</text>
+  <text x="64" y="130" class="sans title">Reported is not observed</text>
+  <text x="64" y="168" class="sans sub">Same tool output. Only the ask changes.</text>
+
+  <!-- Terminal card -->
+  <rect x="64" y="220" width="472" height="300" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <path d="M64 256 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
+  <line x1="64" y1="256" x2="536" y2="256" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="92" cy="238" r="6" fill="#484f58"/>
+  <circle cx="114" cy="238" r="6" fill="#484f58"/>
+  <circle cx="136" cy="238" r="6" fill="#484f58"/>
+  <text x="300" y="243" text-anchor="middle" class="sans" style="font-size:15px" fill="#6e7681">tool output</text>
+
+  <text x="92" y="308" class="mono term"><tspan fill="#6e7681">$</tspan> pytest tests/refunds -q</text>
+  <text x="92" y="352" class="mono term">no tests ran in 0.02s</text>
+  <rect x="92" y="376" width="104" height="36" rx="18" fill="#2d1214" stroke="#f85149" stroke-width="1.5"/>
+  <text x="144" y="400" text-anchor="middle" class="mono" style="font-size:18px;font-weight:700" fill="#ff7b72">exit 4</text>
+  <line x1="92" y1="444" x2="508" y2="444" stroke="#30363d" stroke-width="1"/>
+  <text x="92" y="482" class="sans note">The folder was renamed to tests/refund</text>
+
+  <!-- Connectors -->
+  <path d="M536 370 C 590 370, 590 278, 638 278" fill="none" stroke="#f85149" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,270 654,278 638,286" fill="#f85149"/>
+  <path d="M536 370 C 590 370, 590 462, 638 462" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,454 654,462 638,470" fill="#3fb950"/>
+  <circle cx="536" cy="370" r="6" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- Path A: wrong -->
+  <rect x="660" y="196" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="196" width="6" height="164" fill="#f85149" clip-path="url(#cardA)"/>
+  <text x="692" y="234" class="sans label" fill="#ff7b72">ASK A</text>
+  <text x="760" y="234" class="sans ask">“Safe to merge?”</text>
+  <text x="692" y="284" class="sans reply">“No failures. Safe to merge.”</text>
+  <rect x="692" y="308" width="266" height="32" rx="16" fill="#2d1214"/>
+  <path d="M709 317 l14 14 M723 317 l-14 14" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="734" y="330" class="sans verdict" fill="#ff7b72">WRONG · zero tests ran</text>
+
+  <!-- Path B: safe -->
+  <rect x="660" y="380" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="380" width="6" height="164" fill="#3fb950" clip-path="url(#cardB)"/>
+  <text x="692" y="418" class="sans label" fill="#56d364">ASK B</text>
+  <text x="760" y="418" class="sans ask">“Quote the output first. Stop on empty.”</text>
+  <text x="692" y="468" class="mono reply" style="font-size:25px">STOPPED: no tests ran</text>
+  <rect x="692" y="492" width="266" height="32" rx="16" fill="#12261a"/>
+  <path d="M708 508 l5 6 l10 -12" fill="none" stroke="#56d364" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="734" y="514" class="sans verdict" fill="#56d364">SAFE · nothing merges</text>
+
+  <!-- Footer -->
+  <line x1="64" y1="592" x2="1136" y2="592" stroke="#21262d" stroke-width="1.5"/>
+  <text x="64" y="630" class="sans foot">Let the exit code decide “passed,” not the summary.</text>
 </svg>

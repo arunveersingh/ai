@@ -72,7 +72,7 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 |--|--|
 | **Failure** | Model misreads, softens, or invents tool output ("no failures, safe to merge" when pytest printed `no tests ran`, exit code 4) |
 | **Mechanism** | A tool result is just text in the chat; the summary is new predicted text and nothing ties it to the output. Exit codes get lost; "finish the task" pulls toward success; empty results get filled. Fix: quote command + exit code + output first, passed = exit 0 and ≥1 test passed, error/empty → STOPPED, PASSED / FAILED / STOPPED / NOT RUN verdict |
-| **Exercise** | Paste the no-tests-ran output and ask "safe to merge?"; replay with the template; run `check_tests.sh` on a wrong path, right path, and all-skipped test |
+| **Exercise** | Paste the no-tests-ran output and ask "safe to merge?"; ask for 3 results from an empty `[]`; ask a tool-less chat to run `date -u`; replay with the template; run `check_tests.sh` on a wrong path, right path, and all-skipped test |
 
 ### Day 7 — Stale Certainty
 
