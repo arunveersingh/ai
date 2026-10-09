@@ -74,13 +74,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | A tool result is just text in the chat; the summary is new predicted text and nothing ties it to the output. Exit codes get lost; "finish the task" pulls toward success; empty results get filled. Fix: quote command + exit code + output first, passed = exit 0 and ≥1 test passed, error/empty → STOPPED, PASSED / FAILED / STOPPED / NOT RUN verdict |
 | **Exercise** | Paste the no-tests-ran output and ask "safe to merge?"; ask for 3 results from an empty `[]`; ask a tool-less chat to run `date -u`; replay with the template; run `check_tests.sh` on a wrong path, right path, and all-skipped test |
 
-### Day 7 — Stale Certainty
+### Day 7 — Stale Certainty → [lesson](./day-07.md)
 
 | | |
 |--|--|
-| **Failure** | Speaks about the present with cut-off knowledge, no date |
-| **Mechanism** | Training has a horizon; without retrieval or an "as of" gate, past patterns become present tense |
-| **Exercise** | Three time-sensitive Qs; require `as of [date] + source or UNKNOWN`; reject undated present-tense answers |
+| **Failure** | Model states a training-time fact as current, with no date ("pinned requests==2.31.0, latest stable" when PyPI has 2.34.2 and 2.31.0 has three known advisories) |
+| **Mechanism** | Weights are a snapshot with a cut-off; the model can't see today's date; training text was present tense; stale versions install and pass tests, so nothing errors. Fix: date + lockfile in the prompt, `as of <date>` + source for anything that changes, FROM MEMORY / STOPPED when there's no live source, versions only from the package manager |
+| **Exercise** | Ask for the latest `requests`, today's date, and the current Python release; replay with the template and grep for undated "latest"; `pip-audit` the model's pin vs today's lockfile; audit in CI on PRs and nightly |
 
 ---
 
