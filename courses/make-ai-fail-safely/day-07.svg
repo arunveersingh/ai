@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d7title d7desc">
+  <title id="d7title">Known then is not true now: one question, two asks. Asked to pin the latest requests, the model pins 2.31.0 from memory. Asked to date and source the claim or stop, it says "STOPPED: no live source."</title>
+  <desc id="d7desc">A card compares the model's memory, requests 2.31.0 called "latest", with PyPI on 9 Oct 2026, requests 2.34.2, and notes three known advisories against 2.31.0. Nothing errors and the tests pass. Two paths leave it. Ask A, "Pin the latest requests.", leads to a red card: "Pinned 2.31.0 (latest).", marked wrong because of three known advisories. Ask B, "Date and source it, or stop.", leads to a green card: "STOPPED: no live source", marked safe because nothing is pinned from memory. Footer: let today's advisory data decide safe, not the model's memory.</desc>
+  <defs>
+    <clipPath id="cardA"><rect x="660" y="196" width="476" height="164" rx="18"/></clipPath>
+    <clipPath id="cardB"><rect x="660" y="380" width="476" height="164" rx="18"/></clipPath>
+  </defs>
+  <style>
+    .sans { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .mono { font-family: "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; }
+    .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2px; fill: #8b949e; }
+    .title { font-size: 48px; font-weight: 700; fill: #f0f6fc; }
+    .sub { font-size: 21px; fill: #8b949e; }
+    .term { font-size: 21px; fill: #e6edf3; }
+    .rowlabel { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #6e7681; }
+    .label { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
+    .ask { font-size: 18px; fill: #8b949e; }
+    .reply { font-size: 26px; font-weight: 700; fill: #f0f6fc; }
+    .verdict { font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+    .note { font-size: 17px; fill: #8b949e; }
+    .foot { font-size: 20px; fill: #c9d1d9; }
+  </style>
+
+  <rect width="1200" height="675" fill="#0d1117"/>
+
+  <!-- Header -->
+  <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 7</text>
+  <text x="64" y="130" class="sans title">Known then is not true now</text>
+  <text x="64" y="168" class="sans sub">Same question. Only the ask changes.</text>
+
+  <!-- Memory vs today card -->
+  <rect x="64" y="220" width="472" height="300" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <path d="M64 256 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
+  <line x1="64" y1="256" x2="536" y2="256" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="92" cy="238" r="6" fill="#484f58"/>
+  <circle cx="114" cy="238" r="6" fill="#484f58"/>
+  <circle cx="136" cy="238" r="6" fill="#484f58"/>
+  <text x="300" y="243" text-anchor="middle" class="sans" style="font-size:15px" fill="#6e7681">memory vs today</text>
+
+  <text x="92" y="290" class="sans rowlabel">MODEL MEMORY · TRUE IN 2023</text>
+  <text x="92" y="320" class="mono term">requests 2.31.0 <tspan fill="#8b949e">“latest”</tspan></text>
+  <text x="92" y="358" class="sans rowlabel">PYPI · 9 OCT 2026</text>
+  <text x="92" y="388" class="mono term">requests 2.34.2</text>
+  <rect x="92" y="408" width="262" height="36" rx="18" fill="#2d1214" stroke="#f85149" stroke-width="1.5"/>
+  <text x="223" y="432" text-anchor="middle" class="mono" style="font-size:17px;font-weight:700" fill="#ff7b72">3 advisories on 2.31.0</text>
+  <line x1="92" y1="466" x2="508" y2="466" stroke="#30363d" stroke-width="1"/>
+  <text x="92" y="498" class="sans note">Nothing errors. The tests pass.</text>
+
+  <!-- Connectors -->
+  <path d="M536 370 C 590 370, 590 278, 638 278" fill="none" stroke="#f85149" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,270 654,278 638,286" fill="#f85149"/>
+  <path d="M536 370 C 590 370, 590 462, 638 462" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,454 654,462 638,470" fill="#3fb950"/>
+  <circle cx="536" cy="370" r="6" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- Path A: wrong -->
+  <rect x="660" y="196" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="196" width="6" height="164" fill="#f85149" clip-path="url(#cardA)"/>
+  <text x="692" y="234" class="sans label" fill="#ff7b72">ASK A</text>
+  <text x="760" y="234" class="sans ask">“Pin the latest requests.”</text>
+  <text x="692" y="284" class="sans reply">“Pinned 2.31.0 (latest).”</text>
+  <rect x="692" y="308" width="296" height="32" rx="16" fill="#2d1214"/>
+  <path d="M709 317 l14 14 M723 317 l-14 14" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="734" y="330" class="sans verdict" fill="#ff7b72">WRONG · 3 known advisories</text>
+
+  <!-- Path B: safe -->
+  <rect x="660" y="380" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="380" width="6" height="164" fill="#3fb950" clip-path="url(#cardB)"/>
+  <text x="692" y="418" class="sans label" fill="#56d364">ASK B</text>
+  <text x="760" y="418" class="sans ask">“Date and source it, or stop.”</text>
+  <text x="692" y="468" class="mono reply" style="font-size:25px">STOPPED: no live source</text>
+  <rect x="692" y="492" width="356" height="32" rx="16" fill="#12261a"/>
+  <path d="M708 508 l5 6 l10 -12" fill="none" stroke="#56d364" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="734" y="514" class="sans verdict" fill="#56d364">SAFE · nothing pinned from memory</text>
+
+  <!-- Footer -->
+  <line x1="64" y1="592" x2="1136" y2="592" stroke="#21262d" stroke-width="1.5"/>
+  <text x="64" y="630" class="sans foot">Let today’s advisory data decide “safe,” not the model’s memory.</text>
+</svg>
