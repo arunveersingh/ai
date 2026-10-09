@@ -8,7 +8,7 @@ Day 6 was about trusting the model's account of what a tool printed. Today there
 
 So "the latest version" means the latest one it read about. It says it in the present tense, with no date, and nothing errors when it's wrong.
 
-Today you watch one dependency get pinned that way. Then you change the ask so anything that can change needs a date and a live source. Last, you let an audit against today's advisory data decide whether a version is safe, so memory can't.
+Today you watch one dependency get pinned that way. Pinning means locking a dependency to one exact version (`requests==2.31.0`) so every install gets the same code. Then you change the ask so anything that can change needs a date and a live source. Last, you let an audit against today's advisory data decide whether a version is safe, so memory can't.
 
 ## See it
 

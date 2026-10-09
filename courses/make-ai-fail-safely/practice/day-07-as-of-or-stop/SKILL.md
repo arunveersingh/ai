@@ -5,7 +5,7 @@ description: Day 7 practice — stop trusting the model's memory about anything 
 
 # As of, or stop
 
-You ask your agent to pin the latest `requests`. It writes `requests==2.31.0 (latest stable)`. That was true in 2023. On 9 Oct 2026 the newest is 2.34.2, and 2.31.0 has three known advisories. Nothing errors and the tests pass.
+You ask your agent to pin the latest `requests`: lock it to one exact version so every install gets the same code. It writes `requests==2.31.0 (latest stable)`. That was true in 2023. On 9 Oct 2026 the newest is 2.34.2, and 2.31.0 has three known advisories. Nothing errors and the tests pass.
 
 Known then is not true now. The fix has two parts. **Ask:** anything that can change needs a date and a live source, memory alone means stop, and versions come from the package manager. **Verify:** flag undated claims, and let an audit against today's advisory data decide "safe."
 
