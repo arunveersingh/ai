@@ -86,13 +86,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 8–14 · Guardrails
 
-### Day 8 — Spec Before Prompt
+### Day 8 — Self-Graded Green → [lesson](./day-08.md)
 
 | | |
 |--|--|
-| **Failure** | Prompt first; requirements discovered after the model invents them |
-| **Mechanism** | No acceptance spec → model optimizes for "sounds done"; specs turn vibes into pass/fail |
-| **Exercise** | Write 5 pass/fail checks before generating; score against checks only; keep checks that caught a real miss |
+| **Failure** | The same agent writes code and tests, so it grades its own work ("Refunds must not exceed the amount paid": it checks each refund, its test passes, and two 6000 refunds on 10000 both go through) |
+| **Mechanism** | Code and tests come from one reading, so a wrong reading can't fail; green means the agent agrees with itself. Fix: before code, the agent restates each requirement as concrete examples, flags lines with two readings, and waits; approved examples are the definition of done |
+| **Exercise** | Take one of your own spec lines; write your examples, ask for the agent's, and log where the readings split and whether shipped tests would have noticed |
 
 ### Day 9 — Explicit Refusal Criteria
 
