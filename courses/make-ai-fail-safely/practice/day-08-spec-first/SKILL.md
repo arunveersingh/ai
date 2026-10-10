@@ -28,6 +28,8 @@ Tests: [paste the test file, or give its path]
 
 **Writing the checks:** one line each, input and expected result: *"6000, then 6000 on a 10000 payment: the second raises RefundError; refunded stays 6000."* Five is enough to start. Include the case that costs money or data if wrong. "Handles edge cases" is not a check; nothing can fail it.
 
+**On a big requirement:** slice it into testable pieces first, then write each slice's checks just before prompting that slice. Earlier slices' checks keep running.
+
 **Adapting it:** for other stacks, swap pytest for the project's test runner and keep "exit code 0" as the definition of done. The model may propose cases; you decide which become checks.
 
 ## Part B — Verify (you do this)

@@ -189,6 +189,17 @@ Don't score the answer on how finished it looks. Score it on the checks you wrot
 
 **In short:** write the checks, watch them fail, lock them, and let the exit code decide "done."
 
+## Fit it into your workflow
+
+**Where it lives.** The spec is a test file in the repo, next to the code: `tests/test_refund_spec.py`. The prompt you paste into your AI tool (Cursor, Claude Code, Copilot, any of them) points at it: "Make tests/test_refund_spec.py pass. Don't edit it." CI runs it on every PR, so "done" is decided there, not in the chat.
+
+**On a big requirement.** Nobody writes every check up front. Do this instead:
+
+1. **Slice it.** Split the requirement into pieces you can test (create refund, then refund webhook, then refund report). Write each slice's checks just before you prompt that slice.
+2. **Every acceptance criterion becomes at least one check.** If one can't be tested, put it on an open-questions list for a human. Don't leave it for the model to guess.
+3. **Earlier checks keep running.** Every slice's checks run on every new slice, so new code can't quietly break what was agreed.
+4. **The spec changes only by reviewed commit.** Same `git diff` and `CODEOWNERS` gate as above.
+
 ## 10-minute exercise
 
 **Setup:** Python 3 with pytest, and any chat model.
