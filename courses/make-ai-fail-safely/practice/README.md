@@ -13,3 +13,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 5 | [falsify-first](./day-05-falsify-first/SKILL.md) |
 | 6 | [quote-the-payload](./day-06-quote-the-payload/SKILL.md) |
 | 7 | [as-of-or-stop](./day-07-as-of-or-stop/SKILL.md) |
+| 8 | [spec-first](./day-08-spec-first/SKILL.md) |

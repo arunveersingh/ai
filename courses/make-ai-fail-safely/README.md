@@ -86,13 +86,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 8–14 · Guardrails
 
-### Day 8 — Spec Before Prompt
+### Day 8 — Spec Before Prompt → [lesson](./day-08.md)
 
 | | |
 |--|--|
-| **Failure** | Prompt first; requirements discovered after the model invents them |
-| **Mechanism** | No acceptance spec → model optimizes for "sounds done"; specs turn vibes into pass/fail |
-| **Exercise** | Write 5 pass/fail checks before generating; score against checks only; keep checks that caught a real miss |
+| **Failure** | Prompt first; requirements discovered after the model invents them ("implement create_refund": its own 3 tests pass, but scored on the business's checks it fails 3 of 5 and refunds twice on a retry) |
+| **Mechanism** | A vague ask has many right-looking answers; the model fills unstated rules with the common version and stops when it looks done; its own tests check its own guesses. Fix: pass/fail checks (input → expected) written before the prompt, done = tests exit 0, tests read-only, gaps flagged UNSPECIFIED |
+| **Exercise** | Write 5 checks; watch them fail on the stub; score a prompt-first answer, then a spec-first one; `git diff` the spec; keep every check that caught a miss |
 
 ### Day 9 — Explicit Refusal Criteria
 

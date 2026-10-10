@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d8title d8desc">
+  <title id="d8title">Judged after is not specified before: five pass/fail checks written before the prompt. Asked only to implement create_refund, the model's own tests pass but it fails 3 of the 5 checks. Asked to make the 5 checks pass without editing them, pytest reports 5 passed, exit 0.</title>
+  <desc id="d8desc">A card lists five checks written before any prompt: a 4000 refund sets refunded to 4000; amount 0 or less raises RefundError; 6000 then 6000 on a 10000 payment rejects the second; USD on a EUR payment raises RefundError; the same key twice refunds once. Each is an input and an expected result. Two paths leave it. Ask A, "Implement create_refund.", leads to a red card: "Done. 3 tests pass.", marked fails 3 of 5, refunds twice on a retry. Ask B, "Make these 5 pass. Don't edit them.", leads to a green card: "5 passed · exit 0", marked done on checks written first. Footer: write the pass/fail checks first; done means they pass.</desc>
+  <defs>
+    <clipPath id="cardA"><rect x="660" y="196" width="476" height="164" rx="18"/></clipPath>
+    <clipPath id="cardB"><rect x="660" y="380" width="476" height="164" rx="18"/></clipPath>
+  </defs>
+  <style>
+    .sans { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .mono { font-family: "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; }
+    .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2px; fill: #8b949e; }
+    .title { font-size: 48px; font-weight: 700; fill: #f0f6fc; }
+    .sub { font-size: 21px; fill: #8b949e; }
+    .check { font-size: 18px; fill: #e6edf3; }
+    .num { font-size: 18px; font-weight: 700; fill: #6e7681; }
+    .rowlabel { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #6e7681; }
+    .label { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
+    .ask { font-size: 18px; fill: #8b949e; }
+    .reply { font-size: 26px; font-weight: 700; fill: #f0f6fc; }
+    .verdict { font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+    .note { font-size: 17px; fill: #8b949e; }
+    .foot { font-size: 20px; fill: #c9d1d9; }
+  </style>
+
+  <rect width="1200" height="675" fill="#0d1117"/>
+
+  <!-- Header -->
+  <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 8</text>
+  <text x="64" y="130" class="sans title">Judged after is not specified before</text>
+  <text x="64" y="168" class="sans sub">Same function. Only the order changes.</text>
+
+  <!-- Spec card -->
+  <rect x="64" y="210" width="472" height="320" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <path d="M64 246 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
+  <line x1="64" y1="246" x2="536" y2="246" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="92" cy="228" r="6" fill="#484f58"/>
+  <circle cx="114" cy="228" r="6" fill="#484f58"/>
+  <circle cx="136" cy="228" r="6" fill="#484f58"/>
+  <text x="300" y="233" text-anchor="middle" class="mono" style="font-size:15px" fill="#6e7681">test_refund_spec.py</text>
+
+  <text x="92" y="280" class="sans rowlabel">WRITTEN BEFORE THE PROMPT · 10000 EUR PAID</text>
+  <text x="92" y="318" class="mono num">1</text><text x="120" y="318" class="mono check">refund 4000 <tspan fill="#8b949e">→</tspan> refunded 4000</text>
+  <text x="92" y="354" class="mono num">2</text><text x="120" y="354" class="mono check">amount ≤ 0 <tspan fill="#8b949e">→</tspan> RefundError</text>
+  <text x="92" y="390" class="mono num">3</text><text x="120" y="390" class="mono check">6000 + 6000 <tspan fill="#8b949e">→</tspan> 2nd rejected</text>
+  <text x="92" y="426" class="mono num">4</text><text x="120" y="426" class="mono check">USD refund <tspan fill="#8b949e">→</tspan> RefundError</text>
+  <text x="92" y="462" class="mono num">5</text><text x="120" y="462" class="mono check">same key twice <tspan fill="#8b949e">→</tspan> one refund</text>
+  <line x1="92" y1="482" x2="508" y2="482" stroke="#30363d" stroke-width="1"/>
+  <text x="92" y="512" class="sans note">Input → expected result. Each one passes or fails.</text>
+
+  <!-- Connectors -->
+  <path d="M536 370 C 590 370, 590 278, 638 278" fill="none" stroke="#f85149" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,270 654,278 638,286" fill="#f85149"/>
+  <path d="M536 370 C 590 370, 590 462, 638 462" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="638,454 654,462 638,470" fill="#3fb950"/>
+  <circle cx="536" cy="370" r="6" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+
+  <!-- Path A: prompt first -->
+  <rect x="660" y="196" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="196" width="6" height="164" fill="#f85149" clip-path="url(#cardA)"/>
+  <text x="692" y="234" class="sans label" fill="#ff7b72">ASK A</text>
+  <text x="760" y="234" class="sans ask">“Implement create_refund.”</text>
+  <text x="692" y="284" class="sans reply">“Done. 3 tests pass.”</text>
+  <rect x="692" y="308" width="410" height="32" rx="16" fill="#2d1214"/>
+  <path d="M709 317 l14 14 M723 317 l-14 14" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="734" y="330" class="sans verdict" fill="#ff7b72">FAILS 3 OF 5 · refunds twice on a retry</text>
+
+  <!-- Path B: spec first -->
+  <rect x="660" y="380" width="476" height="164" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="660" y="380" width="6" height="164" fill="#3fb950" clip-path="url(#cardB)"/>
+  <text x="692" y="418" class="sans label" fill="#56d364">ASK B</text>
+  <text x="760" y="418" class="sans ask">“Make these 5 pass. Don’t edit them.”</text>
+  <text x="692" y="468" class="mono reply" style="font-size:25px">5 passed · exit 0</text>
+  <rect x="692" y="492" width="360" height="32" rx="16" fill="#12261a"/>
+  <path d="M708 508 l5 6 l10 -12" fill="none" stroke="#56d364" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="734" y="514" class="sans verdict" fill="#56d364">DONE · on checks written first</text>
+
+  <!-- Footer -->
+  <line x1="64" y1="592" x2="1136" y2="592" stroke="#21262d" stroke-width="1.5"/>
+  <text x="64" y="630" class="sans foot">Write the pass/fail checks first. Done means they pass, not that it looks finished.</text>
+</svg>
