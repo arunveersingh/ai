@@ -90,9 +90,9 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 | | |
 |--|--|
-| **Failure** | A correct spec is implemented wrong with every test green ("REQ-3: total refunded must not exceed captured": the agent's own test refunds once over the limit; two partial refunds both pass, a USD request is paid in EUR, a retry pays 12000 on 10000) |
-| **Mechanism** | A spec line is prose with more than one reading; the agent picks one and writes code and tests from the same reading, so they agree. Fix: task 0 turns each REQ line into a failing test tagged with its ID, read side by side with the spec; implementation can't edit them; CI gates spec coverage (every REQ ID has a test) and spec lock (tests change only with the spec, under CODEOWNERS) |
-| **Exercise** | Let the agent implement and test its usual way; run task 0 and read tests against the spec; score the first code on them; make both CI gates fail on purpose |
+| **Failure** | The same agent writes code and tests, so the tests check its reading, not yours ("Refunds must not exceed the amount paid": it checks each refund, its test passes, and two 6000 refunds on 10000 both go through) |
+| **Mechanism** | Every written instruction has more than one reading; the agent picks one silently, and code and tests share it, so green means the agent agrees with itself. Fix: before code, the agent restates each requirement as concrete examples, flags lines with two readings, and waits for approval; approved examples are the definition of done |
+| **Exercise** | Take one of your own spec lines; write your examples, ask for the agent's, and log where the readings split |
 
 ### Day 9 — Explicit Refusal Criteria
 

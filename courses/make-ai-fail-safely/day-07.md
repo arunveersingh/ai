@@ -197,7 +197,7 @@ If step 1 already said it can't know the latest version, good. Log it. Your mode
 
 | Keep this | Day 8 builds on it |
 |-----------|-------------------|
-| Log one line: `stale \| <claim> \| model said: <value> \| as of today: <value + source>` | Day 7 closes the failures week: the model's memory beat today's data. Day 8 opens guardrails: a spec line is not a check until it's a test |
+| Log one line: `stale \| <claim> \| model said: <value> \| as of today: <value + source>` | Day 7 closes the failures week: the model's memory beat today's data. Day 8 opens guardrails: a spec line is not a check until you've seen the agent's reading of it |
 | Log one ask line: `ask \| as-of-or-stop template \| <FROM MEMORY or STOPPED / undated claim>` | A dated, sourced claim is the input a spec can check |
 | Log one verify line: `verify \| pip-audit or osv-scanner \| <clean / advisory found>` | The audit is already a pass/fail check you wrote before the model answered |
 | "The model says it's the latest" is a **memory to date**, not a fact | |

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d8title d8desc">
-  <title id="d8title">A spec line is not a check: the spec line REQ-3 says total refunded must not exceed the captured amount. The agent's own test checks one refund over the limit and passes, but two partial refunds both go through. A spec test written first checks two refunds that together exceed the limit, and the code written to it passes, exit 0.</title>
-  <desc id="d8desc">A card shows requirements.md with REQ-3: "Partial refunds are allowed; the total refunded must not exceed the captured amount." Two readings leave it. Path A, the agent implements then writes its own test: "refund 20000 once on 10000, raises", 5 passed, but the spec tests fail 3 of 5 and a retry pays 12000 on 10000. Path B, task 0 writes a failing test first, tagged REQ-3: "6000, then 6000 on 10000, second raises", read against the spec, then code written to it: 5 passed, exit 0. Footer: turn every spec line into a failing test before code, and let CI hold them together.</desc>
+  <title id="d8title">A spec line is not a check: "Refunds must not exceed the amount paid." The agent's reading checks each refund; its test passes but two 6000 refunds on 10000 both go through. Your examples, shown before code, say the second is rejected. Approve the reading before the code.</title>
+  <desc id="d8desc">Center-left card: the spec line "Refunds must not exceed the amount paid." with the question "each refund, or the total?". Red path, the agent's reading: checks each refund; its test "20000 on 10000: rejected" passes; but 6000 then 6000 on 10000 both go through, 12000 paid out; marked WRONG. Green path, your examples before code: "6000, then 6000 on 10000: second rejected", approved before it builds; marked SAFE. Footer: Approve the reading before the code.</desc>
   <defs>
     <clipPath id="cardA"><rect x="640" y="196" width="496" height="172" rx="18"/></clipPath>
     <clipPath id="cardB"><rect x="640" y="388" width="496" height="172" rx="18"/></clipPath>
@@ -11,67 +11,59 @@
     .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2px; fill: #8b949e; }
     .title { font-size: 48px; font-weight: 700; fill: #f0f6fc; }
     .sub { font-size: 21px; fill: #8b949e; }
-    .spec { font-size: 21px; fill: #e6edf3; }
+    .spec { font-size: 26px; font-weight: 600; fill: #f0f6fc; }
     .rowlabel { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #6e7681; }
     .label { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
-    .ask { font-size: 17px; fill: #8b949e; }
+    .ask { font-size: 16px; fill: #8b949e; }
     .code { font-size: 17px; fill: #e6edf3; }
     .verdict { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
-    .note { font-size: 16px; fill: #8b949e; }
-    .foot { font-size: 20px; fill: #c9d1d9; }
+    .note { font-size: 18px; fill: #8b949e; }
+    .foot { font-size: 22px; font-weight: 600; fill: #c9d1d9; }
   </style>
 
   <rect width="1200" height="675" fill="#0d1117"/>
-
   <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 8</text>
   <text x="64" y="130" class="sans title">A spec line is not a check</text>
-  <text x="64" y="168" class="sans sub">Same spec. Same agent. Two readings of one line.</text>
+  <text x="64" y="168" class="sans sub">Same line. Two readings. Both fully tested.</text>
 
-  <!-- Spec card -->
   <rect x="64" y="210" width="472" height="330" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
   <path d="M64 246 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
   <line x1="64" y1="246" x2="536" y2="246" stroke="#30363d" stroke-width="1.5"/>
   <circle cx="92" cy="228" r="6" fill="#484f58"/><circle cx="114" cy="228" r="6" fill="#484f58"/><circle cx="136" cy="228" r="6" fill="#484f58"/>
-  <text x="300" y="233" text-anchor="middle" class="mono" style="font-size:15px" fill="#6e7681">specs/refunds/requirements.md</text>
-  <text x="92" y="284" class="sans rowlabel">ACCEPTANCE CRITERION · 10000 EUR CAPTURED</text>
-  <rect x="92" y="302" width="88" height="30" rx="8" fill="#1f2a3a"/>
-  <text x="136" y="323" text-anchor="middle" class="mono" style="font-size:16px;font-weight:700" fill="#79c0ff">REQ-3</text>
-  <text x="92" y="370" class="sans spec">Partial refunds are allowed;</text>
-  <text x="92" y="402" class="sans spec">the <tspan font-weight="700" fill="#f0f6fc">total refunded</tspan> must not exceed</text>
-  <text x="92" y="434" class="sans spec">the captured amount.</text>
-  <line x1="92" y1="470" x2="508" y2="470" stroke="#30363d" stroke-width="1"/>
-  <text x="92" y="500" class="sans note">Correct. Clear to whoever wrote it.</text>
-  <text x="92" y="524" class="sans note">Prose: "per refund" or "in total"?</text>
+  <text x="300" y="233" text-anchor="middle" class="mono" style="font-size:15px" fill="#6e7681">the spec line</text>
+  <text x="92" y="290" class="sans rowlabel">PAYMENT · 10000 PAID</text>
+  <text x="92" y="348" class="sans spec">“Refunds must not</text>
+  <text x="92" y="384" class="sans spec">exceed the amount paid.”</text>
+  <line x1="92" y1="436" x2="508" y2="436" stroke="#30363d" stroke-width="1"/>
+  <text x="92" y="474" class="sans note">Each refund, or the total?</text>
+  <text x="92" y="506" class="sans note">The agent picks one and doesn’t say.</text>
 
-  <!-- Connectors -->
   <path d="M536 375 C 580 375, 580 282, 620 282" fill="none" stroke="#f85149" stroke-width="3" stroke-linecap="round"/>
   <polygon points="620,274 636,282 620,290" fill="#f85149"/>
   <path d="M536 375 C 580 375, 580 474, 620 474" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round"/>
   <polygon points="620,466 636,474 620,482" fill="#3fb950"/>
   <circle cx="536" cy="375" r="6" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
 
-  <!-- Path A -->
   <rect x="640" y="196" width="496" height="172" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
   <rect x="640" y="196" width="6" height="172" fill="#f85149" clip-path="url(#cardA)"/>
-  <text x="672" y="232" class="sans label" fill="#ff7b72">AGENT'S READING</text>
-  <text x="850" y="232" class="sans ask">code, then its own tests</text>
-  <text x="672" y="268" class="mono code">20000 once on 10000 <tspan fill="#8b949e">→</tspan> raises</text>
-  <text x="672" y="298" class="mono code" fill="#8b949e">its tests: <tspan fill="#56d364">5 passed</tspan></text>
+  <text x="672" y="232" class="sans label" fill="#ff7b72">AGENT’S READING</text>
+  <text x="852" y="232" class="sans ask">checks each refund</text>
+  <text x="672" y="268" class="mono code">its test: 20000 <tspan fill="#8b949e">→</tspan> rejected <tspan fill="#56d364">✓</tspan></text>
+  <text x="672" y="298" class="mono code">6000, then 6000 <tspan fill="#8b949e">→</tspan> <tspan fill="#ff7b72">both paid</tspan></text>
   <rect x="672" y="318" width="438" height="32" rx="16" fill="#2d1214"/>
   <path d="M689 327 l14 14 M703 327 l-14 14" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="714" y="340" class="sans verdict" fill="#ff7b72">SPEC TESTS: 3 OF 5 FAIL · retry pays 12000</text>
+  <text x="714" y="340" class="sans verdict" fill="#ff7b72">WRONG · all green, 12000 out on 10000</text>
 
-  <!-- Path B -->
   <rect x="640" y="388" width="496" height="172" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
   <rect x="640" y="388" width="6" height="172" fill="#3fb950" clip-path="url(#cardB)"/>
-  <text x="672" y="424" class="sans label" fill="#56d364">TASK 0 TEST</text>
-  <text x="800" y="424" class="sans ask">written first, read vs. spec</text>
-  <text x="672" y="460" class="mono code"><tspan fill="#79c0ff">REQ-3</tspan> 6000, 6000 <tspan fill="#8b949e">→</tspan> 2nd raises</text>
-  <text x="672" y="490" class="mono code" fill="#8b949e">code written to it: <tspan fill="#56d364">5 passed</tspan></text>
+  <text x="672" y="424" class="sans label" fill="#56d364">YOUR EXAMPLES</text>
+  <text x="836" y="424" class="sans ask">shown before any code</text>
+  <text x="672" y="460" class="mono code">6000, then 6000 <tspan fill="#8b949e">→</tspan> <tspan fill="#56d364">2nd rejected</tspan></text>
+  <text x="672" y="490" class="mono code" fill="#8b949e">judged in seconds, then built</text>
   <rect x="672" y="510" width="438" height="32" rx="16" fill="#12261a"/>
   <path d="M688 526 l5 6 l10 -12" fill="none" stroke="#56d364" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="714" y="532" class="sans verdict" fill="#56d364">EXIT 0 · CI: every REQ has a test, tests locked</text>
+  <text x="714" y="532" class="sans verdict" fill="#56d364">SAFE · refunded stays 6000</text>
 
   <line x1="64" y1="600" x2="1136" y2="600" stroke="#21262d" stroke-width="1.5"/>
-  <text x="64" y="638" class="sans foot">Turn every spec line into a failing test before code. Let CI hold the two together.</text>
+  <text x="64" y="640" class="sans foot">Approve the reading before the code.</text>
 </svg>
