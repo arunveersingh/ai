@@ -1,13 +1,13 @@
 ---
-name: spec-line-tests
-description: Day 8 practice — a spec line is not a check. When the same agent writes the code and the tests, the tests check its reading, not yours. Before any code, have the agent restate each requirement as concrete examples (input -> expected result), flag lines with two readings, and stop for your approval. Approved examples become the definition of done.
+name: self-graded-green
+description: Day 8 practice — self-graded is not passed. When the same agent writes the code and the tests, it grades its own work: a wrong reading can't fail. Before any code, have the agent restate each requirement as concrete examples (input -> expected result), flag lines with two readings, and stop for your approval. Approved examples become the definition of done.
 ---
 
-# Spec line tests
+# Self-graded green
 
 The requirement: "Refunds must not exceed the amount paid." The agent reads "each refund," writes the check and a test (20000 on 10000: rejected), and everything passes. You meant the total. Two refunds of 6000 on a 10000 payment both go through.
 
-A spec line is not a check. Green means the agent agrees with itself. The fix: see its reading as examples before it builds, and approve that first.
+Self-graded is not passed. Green means the agent agrees with itself. The fix: see its reading as examples before it builds, and approve that first.
 
 ## Part A — Ask (paste and adapt)
 
@@ -34,4 +34,4 @@ tests, and don't change them. If one looks wrong, ask.
 
 **Done when:** every requirement has examples you read, at least one per line where the readings would differ, and no open TWO READINGS.
 
-Lesson: [Day 8 — A Spec Line Is Not a Check](../../day-08.md)
+Lesson: [Day 8 — Self-Graded Green](../../day-08.md)

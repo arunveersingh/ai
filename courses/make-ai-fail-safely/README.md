@@ -86,13 +86,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 8–14 · Guardrails
 
-### Day 8 — A Spec Line Is Not a Check → [lesson](./day-08.md)
+### Day 8 — Self-Graded Green → [lesson](./day-08.md)
 
 | | |
 |--|--|
-| **Failure** | The same agent writes code and tests, so the tests check its reading, not yours ("Refunds must not exceed the amount paid": it checks each refund, its test passes, and two 6000 refunds on 10000 both go through) |
-| **Mechanism** | Every written instruction has more than one reading; the agent picks one silently, and code and tests share it, so green means the agent agrees with itself. Fix: before code, the agent restates each requirement as concrete examples, flags lines with two readings, and waits for approval; approved examples are the definition of done |
-| **Exercise** | Take one of your own spec lines; write your examples, ask for the agent's, and log where the readings split |
+| **Failure** | The same agent writes code and tests, so it grades its own work ("Refunds must not exceed the amount paid": it checks each refund, its test passes, and two 6000 refunds on 10000 both go through) |
+| **Mechanism** | Code and tests come from one reading, so a wrong reading can't fail; green means the agent agrees with itself. Fix: before code, the agent restates each requirement as concrete examples, flags lines with two readings, and waits; approved examples are the definition of done |
+| **Exercise** | Take one of your own spec lines; write your examples, ask for the agent's, and log where the readings split and whether shipped tests would have noticed |
 
 ### Day 9 — Explicit Refusal Criteria
 

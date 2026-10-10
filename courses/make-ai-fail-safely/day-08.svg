@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d8title d8desc">
-  <title id="d8title">A spec line is not a check: "Refunds must not exceed the amount paid." The agent's reading checks each refund; its test passes but two 6000 refunds on 10000 both go through. Your examples, shown before code, say the second is rejected. Approve the reading before the code.</title>
+  <title id="d8title">Self-graded is not passed: "Refunds must not exceed the amount paid." The agent's reading checks each refund; its test passes but two 6000 refunds on 10000 both go through. Your examples, shown before code, say the second is rejected. Approve the reading before the code.</title>
   <desc id="d8desc">Center-left card: the spec line "Refunds must not exceed the amount paid." with the question "each refund, or the total?". Red path, the agent's reading: checks each refund; its test "20000 on 10000: rejected" passes; but 6000 then 6000 on 10000 both go through, 12000 paid out; marked WRONG. Green path, your examples before code: "6000, then 6000 on 10000: second rejected", approved before it builds; marked SAFE. Footer: Approve the reading before the code.</desc>
   <defs>
     <clipPath id="cardA"><rect x="640" y="196" width="496" height="172" rx="18"/></clipPath>
@@ -23,8 +23,8 @@
 
   <rect width="1200" height="675" fill="#0d1117"/>
   <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 8</text>
-  <text x="64" y="130" class="sans title">A spec line is not a check</text>
-  <text x="64" y="168" class="sans sub">Same line. Two readings. Both fully tested.</text>
+  <text x="64" y="130" class="sans title">Self-graded is not passed</text>
+  <text x="64" y="168" class="sans sub">The agent wrote the code and the tests. Green means it agrees with itself.</text>
 
   <rect x="64" y="210" width="472" height="330" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
   <path d="M64 246 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
