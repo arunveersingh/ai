@@ -1,237 +1,246 @@
-# Day 8 — Spec Before Prompt
+# Day 8 — A Spec Line Is Not a Check
 
 **Time:** ~15 min
 
 ## What you'll learn
 
-Days 1–7 were failures: ways a model's answer goes wrong while sounding right. Day 8 opens the guardrails week: mechanisms that block those paths. The first one goes in before you type the prompt.
+Days 1–7 were failures: ways a model's answer goes wrong while sounding right. Day 8 opens the guardrails week: mechanisms that block those paths.
 
-Ask for code with no written checks and the model decides what "done" means. **It fills every rule you didn't state with the most common version it has seen, and stops when the answer looks finished.** You find your real rules later, in review or in production.
+You probably already work from a spec: a `requirements.md`, a design, a `tasks.md`, the way Kiro and spec-kit lay it out. The agent reads it, plans tasks, implements, writes tests, and goes green. **But a spec line is prose. Something still has to decide what it means in code, and if nobody else does, the agent does, once, inside its own implementation and its own tests.**
 
-Today you watch one function get written that way. Then you write five pass/fail checks first, so "done" means those checks pass. Last, you make the checks prove they can fail, and lock them so the agent can't edit them to pass.
+Today you watch a correct spec get implemented wrong with every test green. Then you add one task to the top of `tasks.md` that turns each spec line into a failing test before any code is written, read those tests against the spec, and let CI hold both together.
 
 ## See it
 
-Same function. Same model. Only the order changes.
+Same spec. Same agent. Only what counts as "done" changes.
 
-![Five checks written before the prompt: a 4000 refund updates the total; amount 0 or less is rejected; 6000 then 6000 on a 10000 payment rejects the second; USD on a EUR payment is rejected; the same key twice refunds once. Ask "Implement create_refund" and the model's own 3 tests pass, but it fails 3 of the 5 checks and refunds twice on a retry. Ask "Make these 5 pass. Don't edit them." and pytest reports 5 passed, exit 0.](./day-08.svg)
+![A spec line, "REQ-3: Partial refunds allowed; total refunded must not exceed the captured amount", is read two ways. Path A: the agent implements and writes its own tests, which check one refund under the limit; 5 passed, but the spec tests fail 3 of 5 and a retry pays 12000 on a 10000 payment. Path B: the spec line becomes a failing test first, tagged REQ-3, checking two refunds that together exceed the limit; the code is written to it and passes, exit 0.](./day-08.svg)
 
 ```mermaid
 flowchart TB
-  S["Five pass/fail checks, written before any prompt"]
-  S --> A["Ask: 'Implement create_refund.' Checks not shown."]
-  S --> B["Ask: 'Done = these 5 tests pass. Don't edit them.'"]
-  A --> W["'Done. 3 tests pass.' Scored on the five: 3 fail. A retry refunds twice."]
-  B --> P["pytest: 5 passed, exit 0. Done means the checks you wrote."]
-```
-
-```text
-Written first: 5 checks (input -> expected result)
-
-"Implement create_refund."            "Make these 5 tests pass.
-                                       Don't edit them."
--> "Done. 3 tests pass."              -> "5 passed, exit 0."
-   Scored on the five: 3 failed.         Scored on the five: 5 passed.
+  S["requirements.md: REQ-3 'total refunded must not exceed captured'"]
+  S --> A["Agent implements, then writes its own tests"]
+  S --> B["Task 0: failing test per REQ line, read against the spec"]
+  A --> W["Its tests: 5 passed. Spec tests: 3 of 5 fail. A retry pays twice."]
+  B --> P["Implement to those tests, unedited: 5 passed, exit 0"]
 ```
 
 ## Story
 
-The refunds service has a stub: a placeholder with the real signature and no logic. The signature and one-line docstring are all the spec there is:
+The refunds service gets a feature. You do what you always do: paste the ticket into a spec, and the spec has five acceptance criteria, each with an ID:
 
-```python
-def create_refund(payment, amount, currency, idempotency_key, ledger):
-    """Refund part or all of a captured payment. Amounts in cents."""
-    raise NotImplementedError
+```text
+- REQ-1: A refund records its amount and adds it to the payment's refunded total.
+- REQ-2: The refund amount must be greater than zero.
+- REQ-3: Partial refunds are allowed; the total refunded must not exceed the captured amount.
+- REQ-4: Refunds are issued in the payment's currency.
+- REQ-5: A retry with the same idempotency key must not create a duplicate refund.
 ```
 
-An idempotency key is an ID the caller sends with a request so that sending it twice, after a timeout, has the effect of sending it once. You ask your agent: *"Implement create_refund in refunds/refund.py and add tests."*
+An idempotency key is an ID the caller sends with a request so that sending it twice, say after a timeout, has the effect of sending it once.
 
-The reply (illustrative; your model's code will differ):
+The agent reads the spec, plans tasks, implements `create_refund`, and writes tests. Its code (illustrative of what agents produce; this exact code is what we ran):
 
 ```python
 def create_refund(payment, amount, currency, idempotency_key, ledger):
-    """Refund part or all of a captured payment. Amounts in cents."""
-    if amount <= 0:
+    if amount <= 0:                                    # REQ-2
         raise RefundError("Refund amount must be positive")
-    if amount > payment["captured"]:
+    if amount > payment["captured"]:                   # REQ-3
         raise RefundError("Refund exceeds captured amount")
     refund = {"payment_id": payment["id"], "amount": amount,
-              "currency": currency, "key": idempotency_key}
-    ledger[idempotency_key] = refund
-    payment["refunded"] += amount
+              "currency": payment["currency"],         # REQ-4
+              "key": idempotency_key}
+    ledger[idempotency_key] = refund                   # REQ-5: one entry per key
+    payment["refunded"] += amount                      # REQ-1
     return refund
 ```
 
-Three tests come with it: refund 5000 of 10000, refund 0, refund 20000. `3 passed`. It reads clean. You merge.
+Every line cites a requirement. Its tests, one per REQ line, report `5 passed`. You merge.
 
-Now score it against what the business needed, written as checks. Payment: 10000 cents captured, EUR, nothing refunded yet.
-
-```text
-1. Refund 4000 EUR (key k1)         -> refund of 4000; refunded = 4000
-2. Amount 0, then -1                -> RefundError each time; refunded = 0
-3. 6000 (k1), then 6000 (k2)        -> second raises RefundError; refunded = 6000
-4. 1000 USD on the EUR payment      -> RefundError; refunded = 0
-5. 6000 EUR with key k1, twice      -> second returns the first refund; refunded = 6000
-```
-
-Those five, as a pytest file, run against the agent's code:
+Now test what the business meant. Payment: 10000 cents captured, EUR.
 
 ```text
 $ pytest -q tests/test_refund_spec.py
-FAILED test_total_cannot_exceed_captured - Failed: DID NOT RAISE
-FAILED test_currency_must_match - Failed: DID NOT RAISE
-FAILED test_same_key_refunds_once - AssertionError: ... 12000 == 6000
+FAILED test_two_partials_cannot_exceed_captured - Failed: DID NOT RAISE RefundError
+FAILED test_other_currency_rejected - Failed: DID NOT RAISE RefundError
+FAILED test_retry_refunds_once - AssertionError: ... 12000 == 6000
 3 failed, 2 passed in 0.02s
 ```
 
 (Output trimmed to the summary lines.)
 
-Exit code 1. Two partial refunds can pay out more than was captured. A dollar refund goes against a euro payment. And the client retry the idempotency key exists for refunds the customer twice: 12000 out on a 10000 payment.
+Each failure is a reading of a correct spec line:
 
-None of that is a bug the model introduced against a rule. There was no rule. It filled each gap with the common shape of refund code and stopped when it looked done.
+- **REQ-3:** "must not exceed" became "one refund can't exceed." Its test refunds 20000 once. Two refunds of 6000 both go through.
+- **REQ-4:** "issued in the payment's currency" became "stamp it EUR." A 1000 USD request is quietly paid as 1000 EUR. Its test checks the label, and the label is right.
+- **REQ-5:** "no duplicate refund" became "no duplicate ledger entry." The ledger has one entry; the customer got 12000 on a 10000 payment.
 
-**Same function, checks first.** New chat. This time you paste the five checks and the test file under the [Ask first template](#ask-first) before asking. The reply (illustrative):
+The spec was right. The tests were green. The check was the agent's reading of the spec, written by the same pass that wrote the code.
+
+**Same spec, one task added.** Task 0 in `tasks.md`: write failing tests per REQ line, each naming its ID; don't implement. You read those five tests next to the five spec lines before task 1 starts. REQ-3's test says "6000, then 6000"; REQ-5's checks the refunded total, not the ledger. Then the agent implements against tests it can't edit (illustrative reply):
 
 ```text
 $ pytest -q tests/test_refund_spec.py
 .....
-5 passed in 0.01s
+5 passed in 0.02s
 Exit code 0. tests/test_refund_spec.py unchanged.
 ```
 
-Same model. The only change: "done" was written down before the code was.
-
 ## Why it happens
 
-1. **A vague ask has many right-looking answers.** "Implement create_refund" fits hundreds of functions. The model picks a likely one: the refund code it has seen most, not your business's rules (Day 2's gap-filling).
+1. **Prose has more than one correct reading.** "Total refunded must not exceed captured" is clear to the person who wrote it. To a reader it fits "per refund" and "cumulative." The agent picks the reading that matches the code it has seen most (Day 2's gap-filling), and it doesn't flag that it picked.
 
-2. **"Looks finished" is the only finish line.** With no checks in the prompt, nothing says when the job is done. The model stops when the text looks like a complete answer, and a complete answer looks the same whether it handles retries or not.
+2. **The agent grades its own reading.** Implementation and tests come from the same interpretation in the same session. A test can't disagree with the code when both came from the same reading: `5 passed` meant "the code does what the agent understood."
 
-3. **Its tests check its own guesses.** Tests written from the code test what the code does. The same gaps sit on both sides, so they agree: `3 passed` here meant "the code does what the code does."
+3. **The tests look traceable.** Each test names a requirement, so the PR looks covered. Traceability shows *a* test exists per line, not that it tests what the line means.
 
-4. **You review after you've seen the answer.** Finished-looking code steers review toward what's on the screen. Missing behavior has no line to point at: there's no retry handling to read.
+4. **Review starts from the code.** Every branch carries a REQ comment that matches the spec in words. Missing behavior has no line to point at: there's no cumulative sum to review.
 
-5. **Rules found late cost the most.** Found in review, a missing rule is a rewrite. Found in production, it's money already sent.
+5. **Specs drift from tests.** Someone loosens a test to unblock a merge, or adds REQ-6 with no test. The spec says one thing; CI checks another.
 
-**Trap in one line:** with no checks written first, "done" means "looks done," and the model decides what that looks like.
+**Trap in one line:** a spec tells the agent what to build; only a test tells anyone what it built.
 
-**Not useful fixes:** "Handle all edge cases." It sounds like a spec but nothing can fail it; the model picks the edge cases. "Have the model write the spec." You get a likely spec with the same guesses. Let it propose cases; you decide which become checks. "Review harder." You can't review code that was never written.
+**Not useful fixes:** "Write a more detailed spec." Longer prose has more readings, not fewer. "Ask the agent to double-check against the spec." Same reader, same reading. "Make it write more tests." More tests of the same reading still pass.
 
 ## Rule
 
-**Write the pass/fail checks before you prompt. Done means they pass, not that the answer looks finished.**
+**Turn every spec line into a failing test before implementation, read them against the spec, and let CI hold the two together.**
 
-Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided by you. Day 3: agreed earlier is not still in force. Day 4: remembered is not obeyed. Day 5: agreed with is not confirmed. Day 6: reported is not observed. Day 7: known then is not true now. Day 8: **judged after is not specified before.**
+Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided by you. Day 3: agreed earlier is not still in force. Day 4: remembered is not obeyed. Day 5: agreed with is not confirmed. Day 6: reported is not observed. Day 7: known then is not true now. Day 8: **a spec line is not a check.**
 
 ## Ask first
 
-The first ask left "done" to the model. The second fixed it in advance, as checks the model could read but not change.
+Your spec stays as it is. You add one task at the top and change what "done" means for the rest.
 
-These moves make invented requirements rarer and easier to spot. They don't make them impossible, so you still check.
+These moves make a wrong reading show up before code, where it's cheap. They don't make wrong readings impossible, so you still check.
 
-**Practice workout:** [spec-first](./practice/day-08-spec-first/SKILL.md) — the same template plus the checks below. Customize it; it is a workout prompt, not a main repo skill.
+**Practice workout:** [spec-line-tests](./practice/day-08-spec-line-tests/SKILL.md) — the same template plus the checks below. Customize it; it is a workout prompt, not a main repo skill.
 
-1. **Write each check as input and expected result.** *"6000, then 6000 on a 10000 payment: the second raises RefundError; refunded stays 6000."*
-   **Why this helps:** A named input and an observable result is pass or fail for anyone, including a script. "Handles over-refunds" isn't.
+1. **Give every acceptance criterion an ID.** `REQ-1`, `REQ-2`, … in `requirements.md`.
+   **Why this helps:** An ID is something a test, a commit, and a script can all point at. Prose can't be grepped.
 
-2. **Write them before you prompt.** Five is enough to start. Include the case that costs money if wrong.
-   **Why this helps:** Checks written after the answer drift toward what the answer does. Before, they can only come from what you need.
+2. **Task 0 writes tests, not code.** Put it at the top of `tasks.md`: *"Write failing tests in tests/test_refund_spec.py, at least one per REQ line, each docstring starting with its REQ ID. Do not implement."*
+   **Why this helps:** The agent's reading of each line now exists on its own, before code can make it look right.
 
-3. **Make the checks the finish line.** *"Done means every test in tests/test_refund_spec.py passes. Nothing else counts as done."*
-   **Why this helps:** The model now has a stopping point outside its own text: an exit code.
+3. **Each test states input and expected result.** *"REQ-3: 6000, then 6000 on 10000 -> 2nd raises; refunded = 6000."*
+   **Why this helps:** You can read the test next to the spec line in seconds and see whether it tests "per refund" or "cumulative."
 
-4. **The checks are read-only.** *"Don't edit, skip, or delete those tests. If one looks wrong, write SPEC QUESTION and stop."*
-   **Why this helps:** Editing a test until it passes is a known agent failure. Making it a stop turns "the test is wrong" into a question for you.
+4. **Implementation can't touch the spec tests.** *"Done means tests/test_refund_spec.py passes, exit 0. Don't edit it. If a test looks wrong, write SPEC QUESTION and stop."*
+   **Why this helps:** Editing a test until it passes is a known agent failure. A stop turns "the test is wrong" into a spec question for you.
 
-5. **Gaps are questions, not choices.** *"If the code must handle a case no check covers, write UNSPECIFIED: <case>. Don't pick a behavior."*
-   **Why this helps:** That's how the next requirement shows up: as a line you answer before merging, not a bug report after.
+5. **Unclear lines become questions.** *"If a REQ line has more than one reading, write AMBIGUOUS: REQ-n, both readings. Don't pick."*
+   **Why this helps:** That's where the next spec fix comes from: a line you clarify, not a bug report.
 
-**Copy-paste template** (paste the checks and test file with it, before the task):
+**Copy-paste prompt** (use it for task 0; use lines 3–5 again for every implementation task):
 
 ```text
-Spec: [paste the pass/fail checks]
-Tests: [paste the test file, or give its path]
-1. Done means every test in [test file] passes (exit code 0).
-   Nothing else counts as done.
-2. Don't edit, skip, or delete those tests. If one looks wrong,
-   write SPEC QUESTION: <test> - <why> and stop.
-3. If the code must handle a case no check covers, write
-   UNSPECIFIED: <case>. Don't pick a behavior for it.
-4. Report the command you ran, its exit code, and its output
-   (Day 6). No summary in place of output.
+Spec: specs/refunds/requirements.md   Tasks: specs/refunds/tasks.md
+Task 0 only. Do not implement.
+1. Write tests/test_refund_spec.py: at least one test per REQ line.
+   Each docstring starts with the REQ ID, then input -> expected result.
+2. Test the edges the line implies (repeats, totals, other currencies,
+   retries), not just one happy case. Run them; all must fail on the stub.
+3. If a REQ line has more than one reading, write AMBIGUOUS: REQ-n,
+   both readings. Don't pick one.
+4. In later tasks, done means tests/test_refund_spec.py passes (exit 0).
+   Don't edit it. If a test looks wrong: SPEC QUESTION: <test> - <why>, stop.
+5. Report the command, its exit code, and its output (Day 6).
 ```
 
-**Limit:** Checks cover only what you thought of. The model can pass all five and still do something you never wrote down, such as logging card numbers. Same key, different amount? None of the five says; payment APIs commonly reject it (Stripe does). If it matters, it's check six. Code can also be bent to the exact test inputs. That is why you still read the diff.
+**Limit:** The tests are still a reading, now one you reviewed. They cover only the cases someone thought of; the code can pass all five and still log card numbers. Same key, different amount? None of the five says; payment APIs commonly reject it (Stripe does). If it matters, it's REQ-6 and a test.
 
 ## Then check
 
-Don't score the answer on how finished it looks. Score it on the checks you wrote first, and make sure those checks can fail.
+Don't score the PR on the agent's tests. Score it on tests that came from the spec, and make CI keep the spec and those tests in step.
 
-1. **Prove the checks bite, before any code.** Run them against the stub:
+1. **Read tests against the spec, side by side.** Five REQ lines, five docstrings. For each, ask: would the wrong reading also pass this? A REQ-3 test with one refund would. This is the step that catches a misreading.
 
-   ```bash
-   pytest -q tests/test_refund_spec.py    # against the stub
-   ```
+2. **Prove they bite.** Run them on the stub before task 1: `pytest -q tests/test_refund_spec.py` must give `5 failed`, exit 1. A test that passes against `raise NotImplementedError` checks nothing.
 
-   All five must fail (`5 failed`, exit 1). A check that passes against `raise NotImplementedError` checks nothing.
-
-2. **Score on the checks only.** Run the same command on the agent's code. Exit 0 is done; anything else is not done, however clean it reads. Pytest exits 4 if the file path is wrong and 5 if it collects no tests (Day 6), so a moved or emptied file fails too.
-
-3. **Lock the spec.** Before you score, confirm the agent didn't touch it:
+3. **Lock the tests to the spec.** In CI, fail any PR that changes the spec tests without changing the spec:
 
    ```bash
-   git diff --exit-code main -- tests/test_refund_spec.py
+   #!/usr/bin/env bash
+   # spec_lock.sh: the spec tests may change only in a PR that also changes the spec.
+   set -euo pipefail
+   base=${1:-origin/main}
+   changed=$(git diff --name-only "$base"...HEAD)
+   if grep -qx 'tests/test_refund_spec.py' <<<"$changed" &&
+      ! grep -qx 'specs/refunds/requirements.md' <<<"$changed"; then
+     echo "SPEC LOCK FAILED: spec tests changed, requirements.md did not"; exit 1
+   fi
+   echo "Spec lock OK."
    ```
 
-   Exit 1 means it changed. In the repo, list spec tests in `CODEOWNERS` (a file naming who must review changes to which paths) and turn on "Require review from Code Owners" in branch protection. Spec edits then need an owner's approval, and a PR that changes code and spec together shows it.
+   Add both paths to `CODEOWNERS` (a file naming who must review changes to which paths) and turn on "Require review from Code Owners", so a change to either needs an owner's approval.
 
-4. **Every miss becomes a check.** A rule you find in review or in production goes into the spec first. Run it, watch it fail, then fix the code. The suite grows from real misses, not guesses.
+4. **Every REQ line has a test.** Fail CI if an ID in the spec appears in no test:
 
-**In short:** write the checks, watch them fail, lock them, and let the exit code decide "done."
+   ```bash
+   #!/usr/bin/env bash
+   # spec_coverage.sh: fail if any REQ ID in the requirements has no spec test naming it.
+   set -euo pipefail
+   req=specs/refunds/requirements.md
+   tests=tests/test_refund_spec.py
+   missing=$(comm -23 <(grep -oE 'REQ-[0-9]+' "$req" | sort -u) \
+                      <({ grep -oE 'REQ-[0-9]+' "$tests" || true; } | sort -u))
+   if [ -n "$missing" ]; then
+     echo "SPEC COVERAGE FAILED: no test for" $missing; exit 1
+   fi
+   echo "Spec coverage OK: every REQ line has a test."
+   ```
+
+   It checks that a test exists, not that it's right. Step 1 does that.
+
+**In short:** spec line → failing test with its ID → read side by side → code to it → CI keeps them together.
 
 ## Fit it into your workflow
 
-**Where it lives.** The spec is a test file in the repo, next to the code: `tests/test_refund_spec.py`. The prompt you paste into your AI tool (Cursor, Claude Code, Copilot, any of them) points at it: "Make tests/test_refund_spec.py pass. Don't edit it." CI runs it on every PR, so "done" is decided there, not in the chat.
+You already have the spec, tasks, agent, and CI. This adds one task, one prompt, and two CI scripts:
 
-**On a big requirement.** Nobody writes every check up front. Do this instead:
+- **`tasks.md`:** task 0 at the top, *"Write failing tests per acceptance criterion, tagged with REQ IDs. Do not implement."* Implementation tasks start only after you've read them against the spec.
+- **Your AI tool** (Cursor, Claude Code, Copilot, Kiro, any of them): paste the copy-paste prompt for task 0; keep lines 4–5 in your project rules so every later task inherits them.
+- **CI, on every PR:** `pytest tests/test_refund_spec.py`, `scripts/spec_coverage.sh`, `scripts/spec_lock.sh`. "Done" is decided there, not in the chat.
 
-1. **Slice it.** Split the requirement into pieces you can test (create refund, then refund webhook, then refund report). Write each slice's checks just before you prompt that slice.
-2. **Every acceptance criterion becomes at least one check.** If one can't be tested, put it on an open-questions list for a human. Don't leave it for the model to guess.
-3. **Earlier checks keep running.** Every slice's checks run on every new slice, so new code can't quietly break what was agreed.
-4. **The spec changes only by reviewed commit.** Same `git diff` and `CODEOWNERS` gate as above.
+**On a big requirement**, the same loop runs per slice:
+
+1. **Slice it** into testable pieces (create refund, refund webhook, refund report). Each slice gets its own task 0 just before its implementation tasks.
+2. **Untestable criteria** ("refunds feel fast") go on an open-questions list for a human, not into a test the agent invents.
+3. **Earlier slices' spec tests keep running** on every new slice, so new code can't quietly break agreed behavior.
+4. **Spec and spec tests change together**, in one reviewed commit, or CI fails.
 
 ## 10-minute exercise
 
-**Setup:** Python 3 with pytest, and any chat model.
+**Setup:** Python 3 with pytest, git, and your usual AI coding tool.
 
-1. **Write five checks.** No chat open. Use the `create_refund` stub above, or a small function you need this week. Write five lines: input, expected result. One must be a case that costs money or data if wrong.
-2. **Make them tests and watch them fail.** Turn each into a pytest test against the stub. Run them. Log: all five failed, or which one passed against nothing (rewrite it).
-3. **Prompt first.** New chat, no checks: *"Implement create_refund and add tests."* Run your five against its code. Log: how many passed, and which rule it invented differently from yours.
-4. **Spec first.** New chat. Paste the **copy-paste template**, your checks, and the test file, then ask again. Run your five, then the `git diff` from **Then check**. Log: exit code, and any SPEC QUESTION or UNSPECIFIED lines.
-5. **Keep what bit.** Every check the prompt-first code failed stays in your suite. Any UNSPECIFIED line gets an answer and becomes a check.
+1. **Write three REQ lines** for a function you need this week, or use REQ-3 to REQ-5 above. One must cover a total, a repeat, or a retry.
+2. **Let the agent do it its usual way.** Paste the spec; ask it to implement and test. Log: its pass count.
+3. **Task 0, new session.** Paste the **copy-paste prompt**. Read each test next to its REQ line. Log any test the wrong reading would also pass, and any AMBIGUOUS line.
+4. **Score step 2's code on step 3's tests.** Log: how many failed, and which reading the agent picked.
+5. **Run both gates.** Delete one REQ ID from the tests and run `spec_coverage.sh`; commit a test edit without a spec edit on a branch and run `spec_lock.sh main`. Log: both exit 1.
 
-If step 3 already passed all five, good. Log it: your checks covered what the model guessed by default. Keep them anyway; the next function, model, or prompt may not guess the same.
+If step 4 passed everything, log it: the agent's reading matched yours this time. Keep the tests; the next model may read it differently.
 
-**Done when:** you have five checks that all failed against the stub, a logged prompt-first score, **and** a logged spec-first run with its exit code and an unchanged test file.
+**Done when:** you have spec tests that failed on the stub, a logged score of the agent's own-way code against them, **and** both gates logged failing on purpose.
 
 ## Carry to next day
 
 | Keep this | Day 9 builds on it |
 |-----------|-------------------|
-| Log one line: `spec \| <function> \| prompt-first: <n>/5 passed \| missed: <rule>` | Day 8: a check says what passing looks like. Day 9: a refusal criterion says when to stop instead of producing anything |
-| Log one ask line: `ask \| spec-first template \| <SPEC QUESTION / UNSPECIFIED / none>` | SPEC QUESTION and UNSPECIFIED are refusals already: named conditions where stopping is the right answer |
-| Log one verify line: `verify \| stub run + git diff \| <all failed first / spec unchanged>` | A check that can't fail is like a refusal that never trips; Day 9 tests both the same way |
-| "It looks done" is a **guess at your rules**, not a pass | |
+| Log one line: `spec \| <function> \| own tests: <n> passed \| spec tests: <n> failed \| misread: REQ-<n>` | Day 8: a test says what a spec line means. Day 9: a refusal criterion says when to stop instead of producing anything |
+| Log one ask line: `ask \| task 0 prompt \| <AMBIGUOUS / SPEC QUESTION / none>` | AMBIGUOUS and SPEC QUESTION are refusals already: named conditions where stopping is right |
+| Log one verify line: `verify \| side-by-side + coverage + lock \| <caught / clean>` | A gate that can't fail is like a refusal that never trips; Day 9 tests both the same way |
+| "Every test is tagged and green" is **the agent's reading**, not a check | |
 
 ## Check yourself
 
 Close the page. Answer without looking:
 
-1. Why does a model stop when code looks finished, not when it meets your rules?
-2. Why do tests the model wrote from its own code pass even when the code is wrong?
-3. Why must every check fail against the stub before you write any code?
+1. Why can a correct spec produce wrong code with every test green?
+2. Why don't tests the agent writes alongside its code catch its misreading?
+3. What does the spec-ID coverage gate prove, and what does it not prove?
 4. Name **one Ask first tip** and **one Then check tip** you could use today.
 
 Stuck on any → re-read **Why it happens**, **Ask first**, and **Then check** once → answer again. Being able to say it back is the bar — not "I get it."
 
-(The practice skill `spec-first` uses the same template. Its Part B covers the stub run, scoring on the checks only, locking the spec, and turning misses into checks.)
+(The practice skill `spec-line-tests` uses the same prompt. Its Part B covers the side-by-side read, the stub run, and both CI gates.)

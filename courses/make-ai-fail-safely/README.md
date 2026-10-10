@@ -86,13 +86,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 8–14 · Guardrails
 
-### Day 8 — Spec Before Prompt → [lesson](./day-08.md)
+### Day 8 — A Spec Line Is Not a Check → [lesson](./day-08.md)
 
 | | |
 |--|--|
-| **Failure** | Prompt first; requirements discovered after the model invents them ("implement create_refund": its own 3 tests pass, but scored on the business's checks it fails 3 of 5 and refunds twice on a retry) |
-| **Mechanism** | A vague ask has many right-looking answers; the model fills unstated rules with the common version and stops when it looks done; its own tests check its own guesses. Fix: pass/fail checks (input → expected) written before the prompt, done = tests exit 0, tests read-only, gaps flagged UNSPECIFIED |
-| **Exercise** | Write 5 checks; watch them fail on the stub; score a prompt-first answer, then a spec-first one; `git diff` the spec; keep every check that caught a miss |
+| **Failure** | A correct spec is implemented wrong with every test green ("REQ-3: total refunded must not exceed captured": the agent's own test refunds once over the limit; two partial refunds both pass, a USD request is paid in EUR, a retry pays 12000 on 10000) |
+| **Mechanism** | A spec line is prose with more than one reading; the agent picks one and writes code and tests from the same reading, so they agree. Fix: task 0 turns each REQ line into a failing test tagged with its ID, read side by side with the spec; implementation can't edit them; CI gates spec coverage (every REQ ID has a test) and spec lock (tests change only with the spec, under CODEOWNERS) |
+| **Exercise** | Let the agent implement and test its usual way; run task 0 and read tests against the spec; score the first code on them; make both CI gates fail on purpose |
 
 ### Day 9 — Explicit Refusal Criteria
 
