@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="d9title d9desc">
+  <title id="d9title">Worked around is not solved: a webhook signature task hits a blocker, no secret in the test environment. With no stop rule the agent skips verification when the secret is missing; tests pass and a forged webhook is accepted. With a stop rule named first it replies BLOCKED and changes nothing. Name the stop before the work.</title>
+  <desc id="d9desc">Left card: the task "verify refund webhook signatures" and the blocker "PROVIDER_WEBHOOK_SECRET unset in tests", with the question "stop, or keep going?". Red path, no stop rule: the agent adds "if not secret: return True"; tests pass; a forged webhook is accepted; marked WRONG. Green path, stop rule named before the work: "BLOCKED: secret missing", "need: a test secret"; marked SAFE. Footer: Name the stop before the work.</desc>
+  <defs>
+    <clipPath id="cardA"><rect x="640" y="196" width="496" height="172" rx="18"/></clipPath>
+    <clipPath id="cardB"><rect x="640" y="388" width="496" height="172" rx="18"/></clipPath>
+  </defs>
+  <style>
+    .sans { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .mono { font-family: "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; }
+    .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2px; fill: #8b949e; }
+    .title { font-size: 48px; font-weight: 700; fill: #f0f6fc; }
+    .sub { font-size: 21px; fill: #8b949e; }
+    .spec { font-size: 26px; font-weight: 600; fill: #f0f6fc; }
+    .rowlabel { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #6e7681; }
+    .label { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
+    .ask { font-size: 16px; fill: #8b949e; }
+    .code { font-size: 17px; fill: #e6edf3; }
+    .blk { font-size: 16px; fill: #e6edf3; }
+    .verdict { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
+    .note { font-size: 18px; fill: #8b949e; }
+    .foot { font-size: 22px; font-weight: 600; fill: #c9d1d9; }
+  </style>
+
+  <rect width="1200" height="675" fill="#0d1117"/>
+  <text x="64" y="74" class="sans eyebrow">MAKE AI FAIL SAFELY · DAY 9</text>
+  <text x="64" y="130" class="sans title">Worked around is not solved</text>
+  <text x="64" y="168" class="sans sub">A blocked agent keeps going unless you’ve named where it must stop.</text>
+
+  <rect x="64" y="210" width="472" height="330" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <path d="M64 246 v-18 a18 18 0 0 1 18 -18 h436 a18 18 0 0 1 18 18 v18 z" fill="#1c2128"/>
+  <line x1="64" y1="246" x2="536" y2="246" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="92" cy="228" r="6" fill="#484f58"/><circle cx="114" cy="228" r="6" fill="#484f58"/><circle cx="136" cy="228" r="6" fill="#484f58"/>
+  <text x="300" y="233" text-anchor="middle" class="mono" style="font-size:15px" fill="#6e7681">the task hits a blocker</text>
+  <text x="92" y="290" class="sans rowlabel">PAY-412 · REFUND WEBHOOKS</text>
+  <text x="92" y="340" class="sans spec">Verify the signature.</text>
+  <text x="92" y="376" class="sans spec">Reject a mismatch.</text>
+  <rect x="92" y="400" width="416" height="34" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="108" y="423" class="mono" style="font-size:15px" fill="#d29922">PROVIDER_WEBHOOK_SECRET  unset</text>
+  <line x1="92" y1="458" x2="508" y2="458" stroke="#30363d" stroke-width="1"/>
+  <text x="92" y="492" class="sans note">The existing test now fails with 401.</text>
+  <text x="92" y="522" class="sans note">Stop, or keep going?</text>
+
+  <path d="M536 375 C 580 375, 580 282, 620 282" fill="none" stroke="#f85149" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="620,274 636,282 620,290" fill="#f85149"/>
+  <path d="M536 375 C 580 375, 580 474, 620 474" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="620,466 636,474 620,482" fill="#3fb950"/>
+  <circle cx="536" cy="375" r="6" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+
+  <rect x="640" y="196" width="496" height="172" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="640" y="196" width="6" height="172" fill="#f85149" clip-path="url(#cardA)"/>
+  <text x="672" y="232" class="sans label" fill="#ff7b72">NO STOP RULE</text>
+  <text x="830" y="232" class="sans ask">it keeps going</text>
+  <text x="672" y="268" class="mono code">if not secret: <tspan fill="#ff7b72">return True</tspan></text>
+  <text x="672" y="298" class="mono code">tests <tspan fill="#56d364">✓</tspan>  forged <tspan fill="#8b949e">→</tspan> <tspan fill="#ff7b72">accepted</tspan></text>
+  <rect x="672" y="318" width="438" height="32" rx="16" fill="#2d1214"/>
+  <path d="M689 327 l14 14 M703 327 l-14 14" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="714" y="340" class="sans verdict" fill="#ff7b72">WRONG · green run, check turned off</text>
+
+  <rect x="640" y="388" width="496" height="172" rx="18" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="640" y="388" width="6" height="172" fill="#3fb950" clip-path="url(#cardB)"/>
+  <text x="672" y="424" class="sans label" fill="#56d364">STOP RULE NAMED</text>
+  <text x="864" y="424" class="sans ask">before the work</text>
+  <text x="672" y="460" class="mono blk"><tspan fill="#56d364">BLOCKED:</tspan> secret missing</text>
+  <text x="672" y="490" class="mono blk" fill="#8b949e">need: a test secret</text>
+  <rect x="672" y="510" width="438" height="32" rx="16" fill="#12261a"/>
+  <path d="M688 526 l5 6 l10 -12" fill="none" stroke="#56d364" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="714" y="532" class="sans verdict" fill="#56d364">SAFE · nothing changed, check stays on</text>
+
+  <line x1="64" y1="600" x2="1136" y2="600" stroke="#21262d" stroke-width="1.5"/>
+  <text x="64" y="640" class="sans foot">Name the stop before the work.</text>
+</svg>
