@@ -94,13 +94,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Code and tests come from one reading, so a wrong reading can't fail; green means the agent agrees with itself. Fix: before code, the agent restates each requirement as concrete examples, flags lines with two readings, and waits; approved examples are the definition of done |
 | **Exercise** | Take one of your own spec lines; write your examples, ask for the agent's, and log where the readings split and whether shipped tests would have noticed |
 
-### Day 9 — Explicit Refusal Criteria
+### Day 9 — Explicit Refusal Criteria → [lesson](./day-09.md)
 
 | | |
 |--|--|
-| **Failure** | System "helps anyway" when it should stop |
-| **Mechanism** | Default is to produce something; refusal needs a named predicate + alternate action |
-| **Exercise** | Three refusal predicates (e.g. no source → no claim); prompt that should trip each; tighten until it stops |
+| **Failure** | A blocked agent works around the blocker instead of stopping (no webhook secret in tests, so it adds "skip verification if no secret"; tests pass, a forged webhook is accepted) |
+| **Mechanism** | The task defines success as finishing, workarounds are common code, and an unnamed stop never fires. Fix: checkable stop conditions, the workaround shapes that trip them, a fixed `BLOCKED: rule \| found \| need` reply that counts as a correct finish |
+| **Exercise** | Create a blocker on a scratch branch; run a real task with no rules and log the workaround shape; replay with stop rules until you get BLOCKED naming the rule |
 
 ### Day 10 — Structured Output With Validators
 
