@@ -15,3 +15,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 7 | [as-of-or-stop](./day-07-as-of-or-stop/SKILL.md) |
 | 8 | [self-graded-green](./day-08-self-graded-green/SKILL.md) |
 | 9 | [stop-rules](./day-09-stop-rules/SKILL.md) |
+| 10 | [parse-or-reject](./day-10-parse-or-reject/SKILL.md) |

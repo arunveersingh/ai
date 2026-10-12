@@ -102,13 +102,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | The task defines success as finishing, workarounds are common code, and an unnamed stop never fires. Fix: checkable stop conditions, the workaround shapes that trip them, a fixed `BLOCKED: rule \| found \| need` reply that counts as a correct finish |
 | **Exercise** | Create a blocker on a scratch branch; run a real task with no rules and log the workaround shape; replay with stop rules until you get BLOCKED naming the rule |
 
-### Day 10 — Structured Output With Validators
+### Day 10 — Structured Output With Validators → [lesson](./day-10.md)
 
 | | |
 |--|--|
-| **Failure** | Free-form prose hides missing fields and invalid values |
-| **Mechanism** | Unstructured text can't be machine-checked; schema + validator = parse-or-reject |
-| **Exercise** | 5-field JSON schema; generate into it; run a tiny validator; fix until invalid output cannot pass |
+| **Failure** | Lenient code turns a model reply into a wrong value with no error ("1.250,00 EUR" copied as written, comma stripped, 1.25 refunded; no amount in the email becomes a 0.00 refund) |
+| **Mechanism** | The reply is written for a reader, format instructions hold most of the time, gaps get filled, and lenient parsing turns "can't tell" into a number. Fix: exact shape with a format per field, missing as null, values tied to source text, a validator that accepts or rejects; rejects retry once with the errors, then go to a person, never repaired |
+| **Exercise** | Five-field schema for one real output; run five real inputs; validate with `validate.py`; replay rejects with the error list; hand-break one reply to prove it can't pass |
 
 ### Day 11 — Assumption Registers
 
