@@ -1,4 +1,4 @@
-# Day 10 — Structured Output With Validators
+# Day 10 — Parse or Reject
 
 **Time:** ~15 min
 
@@ -6,7 +6,7 @@
 
 Day 9 gave stopping a fixed shape. Today every reply a program reads gets one.
 
-**When code reads model output, the code decides what the output means. Lenient code turns any reply into a value, so a wrong reply becomes a wrong value with no error.** A missing amount becomes zero. A decimal comma shrinks a refund 1,000 times. You'll see both in three lines of ordinary parsing, then replace the guessing with a schema and a validator that accepts or rejects, and never repairs.
+**Model output is untrusted input that looks like data.** You don't control the format the model writes in, so the code that reads it must treat it like any outside input. Lenient code turns any reply into a value, so a wrong reply becomes a wrong value with no error. A missing amount becomes zero. A decimal comma shrinks a refund 1,000 times. You'll see both in three lines of ordinary parsing, then replace the guessing with a schema and a validator that accepts or rejects, and never repairs.
 
 ## See it
 
@@ -49,7 +49,9 @@ Order A-1077: *"never arrived, please refund it."* No amount in the email, so th
 
 We ran both replies through that code: `('A-1063', 1.25, 'EUR')` and `('A-1077', 0.0, 'EUR')`. No error, two wrong refunds.
 
-The model didn't misbehave. It wrote for a reader; the code guessed. **Nothing between the reply and the payment was allowed to say no.**
+The model didn't misbehave. It wrote for a reader; the code guessed. "That's just bad code"? The parser was fine for data. The input was prose written for a person, and it looked like data. **Model output is untrusted input, and nothing between the reply and the payment was allowed to say no.**
+
+Your own pipeline has the same gap. An orchestrator script runs a headless agent and proceeds if the final reply contains "done" or "success". The agent replies: *"Not done — tests fail, but the rest is successful."* We ran the check: `True`. The next step starts on failing code.
 
 **What breaks the loop.** Write down the exact shape the reply must have, and let a small program accept or reject it. Five fields, each with a format, and missing as a legal value:
 
@@ -77,7 +79,7 @@ A rejected reply goes back to the model once, with the error list. If it fails a
 
 1. **The reply is written for a reader.** "1.250,00" is what the customer wrote. Nothing told the model your code's format.
 
-2. **Format instructions hold most of the time.** Not every time. On real traffic you also get a code fence, a renamed key, a sentence of prose.
+2. **A format instruction is a request, not a guarantee.** The model usually follows it, but nothing enforces it: a code fence, a renamed key or a sentence of prose is still a possible reply.
 
 3. **A gap gets filled.** With no field for "not stated", the model or the code supplies a likely value (the Day 2 pattern, now inside your parser).
 
@@ -132,7 +134,7 @@ Never estimate. A program checks this reply and rejects anything else.
 
 Your flow is spec → plan → tasks → implement, in Kiro, Claude Code, Cursor, or similar. When the spec includes a model step whose output a program reads, the schema and reject path are requirements: each field's format, what null means, where rejects go. In tasks, put the validator and its reject cases before the prompt task, so the agent writing the prompt can run its output through them.
 
-The same holds for your orchestrator's own handoffs. If a script or another agent acts on an agent's final reply (a headless run, a subagent report), give that reply a schema and validate it before acting. Day 9's BLOCKED line becomes a status field.
+For orchestrator handoffs, the agent's final reply gets a schema too: a `status` field (`done` or `blocked`, Day 9's line) that the script validates before the next task starts.
 
 On a big requirement: one schema per place a program reads model output, not one per prompt.
 

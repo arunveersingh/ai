@@ -42,4 +42,4 @@ python3 validate.py reply.json email.txt   # exit 0 accepted, 1 rejected
 
 **Done when:** the validator rejects at least one real or hand-broken reply, and no rejected reply can reach the next step.
 
-Lesson: [Day 10 — Structured Output With Validators](../../day-10.md)
+Lesson: [Day 10 — Parse or Reject](../../day-10.md)

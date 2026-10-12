@@ -102,7 +102,7 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | The task defines success as finishing, workarounds are common code, and an unnamed stop never fires. Fix: checkable stop conditions, the workaround shapes that trip them, a fixed `BLOCKED: rule \| found \| need` reply that counts as a correct finish |
 | **Exercise** | Create a blocker on a scratch branch; run a real task with no rules and log the workaround shape; replay with stop rules until you get BLOCKED naming the rule |
 
-### Day 10 — Structured Output With Validators → [lesson](./day-10.md)
+### Day 10 — Parse or Reject → [lesson](./day-10.md)
 
 | | |
 |--|--|
