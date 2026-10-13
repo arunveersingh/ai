@@ -17,3 +17,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 9 | [stop-rules](./day-09-stop-rules/SKILL.md) |
 | 10 | [parse-or-reject](./day-10-parse-or-reject/SKILL.md) |
 | 11 | [premise-gate](./day-11-premise-gate/SKILL.md) |
+| 12 | [same-source-twice](./day-12-same-source-twice/SKILL.md) |
