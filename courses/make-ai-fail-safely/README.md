@@ -122,9 +122,9 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 | | |
 |--|--|
-| **Failure** | A critical premise is "double-checked" and three sources agree, but all three copy one page ("amount in minor units, divide by 100"; a 5,000 yen payout arrives as 5000 and is booked as 50 yen) |
-| **Mechanism** | Agreement feels like confirmation, copies are everywhere, "double-check" means search again, and a wrong reading of a correct sentence survives every copy. Fix: trace each source to its origin, count origins not links; a critical premise needs two origins, one an observation of the real system on the case most likely to differ |
-| **Exercise** | Pick one money-moving premise; trace its sources to origins; observe the case most likely to differ; compare with the premise as written |
+| **Failure** | A critical premise has three agreeing sources, but all three copy one page ("minor units, e.g. 1000 = 10.00 EUR", read as divide by 100); when JPY is enabled later, every JPY payout is booked at 1/100 of its value |
+| **Mechanism** | Agreement feels like confirmation, copies are everywhere, search ranks the most-copied page first, and a wrong reading survives every copy. Fix: trace each source to its origin, count origins not links; a critical premise needs two origins, one of them output from the real system on the case most likely to differ, or a named person accepting the risk |
+| **Exercise** | Pick one money-moving premise; trace its sources to origins; check the case most likely to differ in the system; compare with the premise as written |
 
 ### Day 13 — Human Gates That Aren't Theater
 
