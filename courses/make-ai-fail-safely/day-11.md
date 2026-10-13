@@ -8,6 +8,13 @@ Day 10 let a null field stop one record. Today an unknown premise stops a step o
 
 **An assumption that doesn't block anything is decoration.** A premise is a fact a step depends on: "timestamps are UTC", "the IDs are unique". Agents are good at listing them now. A plan with an "Assumptions" section feels careful. But if every task still runs while a premise is unconfirmed, the list changes nothing: each later step builds on the guess and makes it more expensive to undo. You'll see a reconciliation plan that wrote its key premise down, marked it as an assumption, and built three tasks on it anyway. Then you'll turn that list into a gate: each premise is KNOWN with a source or UNKNOWN, and a step whose premise is UNKNOWN does not start.
 
+## Day 11 in 6 slides
+
+<table>
+<tr><td><a href="./assets/day-11/slide-1.png"><img src="./assets/day-11/slide-1.png" width="240" alt="1/6: The plan listed its assumption, settlement timestamps are UTC. Nothing waited for it; three tasks were built on it, and it was wrong."></a></td><td><a href="./assets/day-11/slide-2.png"><img src="./assets/day-11/slide-2.png" width="240" alt="2/6: The RECON-212 plan. T1 parse the CSV needs no premise. T2 bucket, T3 match and T4 tickets all hang off the unsourced assumption that timestamps are UTC."></a></td><td><a href="./assets/day-11/slide-3.png"><img src="./assets/day-11/slide-3.png" width="240" alt="3/6: The file is Amsterdam time; 00:20 on the 15th is 23:20 UTC on the 14th. 99.00 + 31.00 = 130.00 EUR lands on the wrong day, false tickets every night; tests had only daytime rows."></a></td></tr>
+<tr><td><a href="./assets/day-11/slide-4.png"><img src="./assets/day-11/slide-4.png" width="240" alt="4/6: The fix. Each premise is KNOWN with a source or UNKNOWN. BLOCKED: T2-T4 | P1 UNKNOWN, then a spec check says local time, then P1 KNOWN and T2-T4 run. T1 runs from the start."></a></td><td><a href="./assets/day-11/slide-5.png"><img src="./assets/day-11/slide-5.png" width="240" alt="5/6: Where it fits: spec, plan, premise gate (every premise KNOWN, or the task waits), tasks, implement. On big requirements resolve shared premises first."></a></td><td><a href="./assets/day-11/slide-6.png"><img src="./assets/day-11/slide-6.png" width="240" alt="6/6: The rule. Listed is not resolved. An unknown premise blocks the next step."></a></td></tr>
+</table>
+
 ## See it
 
 One plan. Two ways to hold a premise.
