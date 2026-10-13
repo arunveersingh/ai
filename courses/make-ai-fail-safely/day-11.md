@@ -1,49 +1,42 @@
-# Day 11 — Listed, Not Gated
+# Day 11 — Started on a Guess
 
 **Time:** ~15 min
 
 ## What you'll learn
 
-Day 10 let a null field stop one record. Today an unknown premise stops a step of the plan.
+Day 10 let a null field stop one record. Today an unsourced premise stops one task of a running plan.
 
-**An assumption that doesn't block anything is decoration.** A premise is a fact a step depends on: "timestamps are UTC", "the IDs are unique". Agents are good at listing them now. A plan with an "Assumptions" section feels careful. But if every task still runs while a premise is unconfirmed, the list changes nothing: each later step builds on the guess and makes it more expensive to undo. You'll see a reconciliation plan that wrote its key premise down, marked it as an assumption, and built three tasks on it anyway. Then you'll turn that list into a gate: each premise is KNOWN with a source or UNKNOWN, and a step whose premise is UNKNOWN does not start.
-
-## Day 11 in 6 slides
-
-<table>
-<tr><td><a href="./assets/day-11/slide-1.png"><img src="./assets/day-11/slide-1.png" width="240" alt="1/6: The plan listed its assumption, settlement timestamps are UTC. Nothing waited for it; three tasks were built on it, and it was wrong."></a></td><td><a href="./assets/day-11/slide-2.png"><img src="./assets/day-11/slide-2.png" width="240" alt="2/6: The RECON-212 plan. T1 parse the CSV needs no premise. T2 bucket, T3 match and T4 tickets all hang off the unsourced assumption that timestamps are UTC."></a></td><td><a href="./assets/day-11/slide-3.png"><img src="./assets/day-11/slide-3.png" width="240" alt="3/6: The file is Amsterdam time; 00:20 on the 15th is 23:20 UTC on the 14th. 99.00 + 31.00 = 130.00 EUR lands on the wrong day, false tickets every night; tests had only daytime rows."></a></td></tr>
-<tr><td><a href="./assets/day-11/slide-4.png"><img src="./assets/day-11/slide-4.png" width="240" alt="4/6: The fix. Each premise is KNOWN with a source or UNKNOWN. BLOCKED: T2-T4 | P1 UNKNOWN, then a spec check says local time, then P1 KNOWN and T2-T4 run. T1 runs from the start."></a></td><td><a href="./assets/day-11/slide-5.png"><img src="./assets/day-11/slide-5.png" width="240" alt="5/6: Where it fits: spec, plan, premise gate (every premise KNOWN, or the task waits), tasks, implement. On big requirements resolve shared premises first."></a></td><td><a href="./assets/day-11/slide-6.png"><img src="./assets/day-11/slide-6.png" width="240" alt="6/6: The rule. Listed is not resolved. An unknown premise blocks the next step."></a></td></tr>
-</table>
+**A task should start only when every premise it needs has a source you can open.** A premise is a fact a task depends on: "timestamps are UTC", "IDs are unique". In a multi-task plan, an agent picks up task after task, often across sessions. Flagging a premise in the plan doesn't stop any of them: each task starts on whatever the plan says, and later tasks inherit the guess as if it were settled. Day 2 got gaps surfaced in a single answer; today they control when each task of a plan may begin. You'll see a reconciliation plan that flagged its key premise and still ran three tasks on it, then build the gate: each premise is KNOWN with an openable source or UNKNOWN, each task names the premises it needs, the check happens when a task starts, and the answer is written back into the plan.
 
 ## See it
 
-One plan. Two ways to hold a premise.
+One plan. Two ways a task can start.
 
-![A reconciliation plan lists "Assumption: settlement file timestamps are UTC". Red path, listed only: tasks 2 to 4 run on it; the file is Amsterdam local time; two late-evening payments, 130.00 EUR, land on the wrong day; discrepancy tickets go out. Marked WRONG. Green path, gated: P1 is UNKNOWN, so tasks 2 to 4 are blocked; the acquirer spec says local time; P1 becomes KNOWN with a source, then the tasks run. Marked SAFE. Footer: An unknown premise blocks the next step.](./day-11.svg)
+![The plan flags "settlement file timestamps are UTC" with no source. Red path, flagged only: T2 to T4 start on it; the file is Amsterdam time; 130.00 EUR lands on the wrong day; false tickets nightly. Green path, gated at task start: T2 to T4 return BLOCKED; the provider spec says local time; written into the plan as KNOWN with source; then they run.](./day-11.svg)
 
 ```mermaid
 flowchart TB
-  P["Plan: 'Assumption: settlement files are UTC'"] --> L["Listed only: T2-T4 run on it"]
-  P --> G["Gated: P1 UNKNOWN, T2-T4 blocked"]
-  L --> W["File is Amsterdam time. 130.00 EUR on the wrong day. Tickets sent."]
-  G --> S["Spec checked: local time. P1 KNOWN, with source. Then T2-T4 run."]
+  P["Plan flags: 'timestamps are UTC' (no source)"] --> L["Flagged only: T2-T4 start on it"]
+  P --> G["Gated: T2-T4 check P1 at start, BLOCKED"]
+  L --> W["File is Amsterdam time. 130.00 EUR on the wrong day. False tickets."]
+  G --> S["Spec says local time. Written into the plan with source. T2-T4 run."]
 ```
 
 ```text
-P1  settlement file timestamps are UTC        UNKNOWN  (no source)
-P2  ledger books by UTC date                  KNOWN    ledger/schema.sql
+P1  settlement file timestamps are UTC   UNKNOWN  source: -
+P2  ledger books by UTC date             KNOWN    source: ledger/schema.sql
 
-T1  parse settlement CSV          needs: -       -> may start
-T2  bucket rows by date           needs: P1      -> BLOCKED
-T3  match buckets to ledger       needs: P1, P2  -> BLOCKED
-T4  open discrepancy tickets      needs: P1, P2  -> BLOCKED
+T1  parse the CSV              needs: -       -> may start
+T2  bucket rows by date        needs: P1      -> BLOCKED
+T3  match buckets to ledger    needs: P1, P2  -> BLOCKED
+T4  open discrepancy tickets   needs: P1, P2  -> BLOCKED
 ```
 
 ## Story
 
 You pick up a ticket and paste it into your agent in full:
 
-> **RECON-212: Daily settlement reconciliation.** Each morning our acquirer drops a settlement CSV (one row per captured payment: `payment_id, captured_at, amount, currency`). Match it against our ledger by settlement day. Any ledger payment missing from that day's file, or any file row with no ledger entry, opens a discrepancy ticket for finance ops. Acceptance: runs at 06:00 UTC, zero false tickets on last month's data.
+> **RECON-212: Daily settlement reconciliation.** Each morning our payment provider drops a settlement CSV (one row per captured payment: `payment_id, captured_at, amount, currency`). Match it against our ledger by settlement day. Any ledger payment missing from that day's file, or any file row with no ledger entry, opens a discrepancy ticket for finance ops. Acceptance: runs at 06:00 UTC; tests pass on `fixtures/settlement_sample.csv`.
 
 The agent reads the repo and writes a plan (illustrative):
 
@@ -58,109 +51,121 @@ Tasks:
   T4 Open discrepancy tickets for mismatches
 ```
 
-That's a good plan. It even flagged the weak point: "format has no offset". You approve it. The tasks run, tests pass on the sample file, which only has daytime payments.
+That's a good plan. It even flagged the weak point: "format has no offset". You approve it, and the agent works through the tasks over the afternoon. The sample fixture has only daytime payments, and the tests pass.
 
-The acquirer writes `captured_at` in Amsterdam local time, UTC+1 in winter. A payment captured at 00:20 on 15 January in Amsterdam is 23:20 on 14 January in UTC, and that's the day your ledger booked it. We ran five real-shaped rows through the agent's bucketing: with the UTC premise, two payments (99.00 and 31.00 EUR, captured at 00:20 and 00:45) land on the 15th. Reading the file as Amsterdam time, all five match. So every night, the late-evening payments show up as "missing" on one day and "unexpected" on the next. T4 opens tickets for both. Finance ops chases 130.00 EUR that was never lost, every day.
+The payment provider writes `captured_at` in Amsterdam local time, UTC+1 in winter. A payment made at 00:20 on 15 January in Amsterdam is 23:20 on 14 January in UTC, and that's the day your ledger booked it. We ran five real-shaped rows through the agent's bucketing: with the UTC premise, two payments made just after midnight Amsterdam time (99.00 and 31.00 EUR, at 00:20 and 00:45) land on the 15th. Reading the file as Amsterdam time, all five match. So every night, those payments show up as "missing" on one day and "unexpected" on the next. T4 opens tickets for both. Finance ops chases 130.00 EUR that was never lost, every day.
 
-Nobody hid the premise. It was written down on line one. **It was listed, and nothing waited for it.** T2 used it, T3 trusted T2, T4 acted on T3. By the time anyone looked, three tasks and a ticket queue stood on one unchecked line.
+Nobody hid the premise. **It was flagged, and no task had to wait for it.** The flag sat at the top of the plan; T2 started from the plan, T3 from T2's output, T4 from T3's. When a new session picked up T4 the next morning, it read "Assumptions: UTC" as part of an approved plan, which made the guess look more settled, not less.
 
-**What breaks the loop.** Give each premise a status and each task a list of what it needs:
+**What breaks the loop.** Three changes to the plan, and one check:
 
-- **KNOWN** has a source you could hand to someone else: a file and line, a spec page, a query result.
-- **UNKNOWN** is everything else, including "probably" and "the format suggests".
-- A task can start only when every premise it needs is KNOWN.
+- **Each premise gets a status.** KNOWN means it has a source you could hand to someone else and they could open it: a file and line, a spec page, a query result. Everything else is UNKNOWN, including "the format suggests".
+- **Each task names the premises it needs.** T1 needs nothing; T2 needs P1.
+- **The check happens when a task starts**, not when the plan is approved. A task with an UNKNOWN premise doesn't start; it replies in Day 9's BLOCKED shape:
 
-With that gate, T1 runs (parsing depends on neither premise). T2 to T4 stop with `BLOCKED | P1 UNKNOWN: settlement file timestamps are UTC`. Resolving it takes one look at the acquirer's file spec, which says local time. P1 is rewritten with that source, and only then does the bucketing get built, correctly. We ran this check on the plan above, before and after the fix (the script is in the practice folder).
+```text
+BLOCKED: premise P1 unknown | found: T2 needs "settlement file timestamps are UTC", no source | need: payment provider's file spec
+```
+
+- **The answer goes back into the plan.** One look at the provider's file spec: local time. P1 becomes "timestamps are Europe/Amsterdam local time, KNOWN, source: provider spec v3.2 p.14". Every later task and every later session reads the fact, not the guess.
+
+We ran this check on the plan above, before and after P1 was resolved (the script is in the practice folder).
 
 ## Why it happens
 
-1. **Listing feels like handling.** Writing "Assumption: UTC" looks diligent, to the agent and to you reviewing the plan. The risk has a name, so it feels managed.
+1. **Approval happens once; tasks start many times.** You review the plan at the beginning. Each task starts later, often in a fresh session, and nothing re-asks the question at that moment.
 
-2. **The plan has no place for "wait".** Tasks are ordered by build sequence, not by what they rely on. Nothing connects line one of the assumptions to task 2.
+2. **Plans say what to build, not what each step relies on.** The flag is at the top; the tasks are below. Nothing links P1 to T2, so nothing can hold T2 back.
 
-3. **Each step trusts the one before.** T3 checks T2's output, not T2's premise. A guess used once becomes a fact every later step inherits (the Day 2 pattern, now spread across a task chain).
+3. **Each task trusts its input.** T3 checks T2's output, not T2's premise. By T4, the guess is two steps away and looks like data.
 
-4. **Samples rarely touch the premise.** Daytime test data is the same in UTC and Amsterdam time. Green tests say nothing about the premise.
+4. **An approved plan reads as settled.** A later session sees the flag inside a plan you approved and treats it as decided.
 
-5. **Cost grows with every step.** Checking a premise before T2 is one lookup. After T4, it's a code change, a data fix, and an apology to finance ops.
+5. **Samples rarely touch the premise.** Daytime test rows are identical in UTC and Amsterdam time. Green tests say nothing about it.
 
-**Trap in one line:** if a step can start while its premise is unknown, your assumption list is a record of what went wrong, written in advance.
+**Trap in one line:** approving a plan with a flagged premise feels like handling it, but the tasks start long after you looked.
 
-**Not useful fixes:** "Ask the agent to list its assumptions." It already did. "Review the assumptions carefully." You did, and approved, because UTC was a reasonable guess. "Tell it not to assume." It must assume something to plan at all; the question is what it may *build* on. "Add a test for timezones." Only once you know which timezone, which is the premise.
+**Not useful fixes:** "Review the plan's assumptions harder." You did, and UTC was a reasonable guess; review happens once, tasks start later. "Tell it not to assume." It must assume something to plan; the question is which tasks may start. "Add a timezone test." Only once you know which timezone, and that's the premise. "Re-plan when something breaks." By then T4 has sent tickets.
 
 ## Rule
 
-**Every premise a step depends on is KNOWN, with a source, or UNKNOWN. A step whose premise is UNKNOWN does not start until someone resolves it.**
+**Each task names the premises it needs. A premise is KNOWN only with a source you can open. A task whose premise is UNKNOWN doesn't start, and the answer is written back into the plan.**
 
-Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided by you. Day 3: agreed earlier is not still in force. Day 4: remembered is not obeyed. Day 5: agreed with is not confirmed. Day 6: reported is not observed. Day 7: known then is not true now. Day 8: self-graded is not passed. Day 9: worked around is not solved. Day 10: parsed is not valid. Day 11: **listed is not resolved.**
+Day 1: finished-sounding is not verified. Day 2: complete-looking is not decided by you. Day 3: agreed earlier is not still in force. Day 4: remembered is not obeyed. Day 5: agreed with is not confirmed. Day 6: reported is not observed. Day 7: known then is not true now. Day 8: self-graded is not passed. Day 9: worked around is not solved. Day 10: parsed is not valid. Day 11: **flagged is not gated.**
 
-**In short:** a premise without a source is UNKNOWN, and nothing built on it starts.
+**In short:** no source, no start, and the answer lives in the plan.
 
 ## Ask first
 
-**Practice workout:** [listed-not-gated](./practice/day-11-listed-not-gated/SKILL.md), with the prompt and a no-dependency `gate.py` that checks a plan.
+**Practice workout:** [premise-gate](./practice/day-11-premise-gate/SKILL.md), with the prompt and a no-dependency `gate.py` that checks a plan.
 
-1. **Ask for premises per task, not one list.** *"For each task, name the facts it depends on."*
-   **Why this helps:** A premise tied to a task can block that task. A list at the top blocks nothing.
+1. **Put "needs" on every task.** *"For each task, list the premises it depends on."*
+   **Why this helps:** A premise attached to a task can hold that task back. One at the top of the plan holds nothing.
 
-2. **Make "KNOWN" cost a source.** *"KNOWN only with a file and line, doc page, or command output. Otherwise UNKNOWN."*
-   **Why this helps:** "The format has no offset, so UTC" is reasoning, not a source. Requiring one splits guesses from facts.
+2. **Make KNOWN cost an openable source.** *"KNOWN only with a file and line, doc page, or command output."*
+   **Why this helps:** "No offset, so UTC" is reasoning. A source is something you or the next session can open and check.
 
-3. **Run what doesn't depend on unknowns.** Tasks with no UNKNOWN premise go ahead.
-   **Why this helps:** The gate stops only the work at risk, so it doesn't stall the whole plan.
+3. **Check at start, not at approval.** *"Before starting each task, re-check its premises."*
+   **Why this helps:** Each task starts later than your review, and possibly in a session that never saw it.
 
-4. **Ask how to resolve each UNKNOWN.** One line: who or what can settle it.
-   **Why this helps:** A blocked step with a named lookup gets unblocked in minutes. One without becomes the thing everyone skips.
+4. **Write the answer into the plan.** *"When a premise is resolved, update its line with the source."*
+   **Why this helps:** The plan is what the next session reads. A fix that lives only in chat is lost.
 
 **Copy-paste prompt** (add after your ticket):
 
 ```text
-Before writing code, plan the tasks. For each premise the tasks depend on, give:
-P<n> | claim | KNOWN or UNKNOWN | source | how to resolve
-KNOWN needs a source I can open: file and line, doc page, or command output.
-Reasoning, defaults and "the format suggests" are UNKNOWN.
-For each task: T<n> | title | needs: P<n>, ...
-Start only tasks whose premises are all KNOWN. For each blocked task, reply:
-BLOCKED: T<n> | P<n> UNKNOWN: <claim> | need: <what settles it>
+Plan the tasks before writing code. List premises as:
+P<n> | claim | KNOWN or UNKNOWN | source I can open | how to resolve
+Reasoning and defaults are UNKNOWN. Each task: T<n> | title | needs: P<n>, ...
+Before starting any task, re-check its premises in the plan. If one is UNKNOWN, don't start it. Reply:
+BLOCKED: premise P<n> unknown | found: T<n> needs "<claim>", no source | need: <what settles it>
+Start tasks that need nothing unknown. When I resolve a premise, update its line with the source.
 ```
 
-**Limit:** The gate checks status, not truth. A KNOWN premise with a wrong or stale source passes. Read the source for any premise that moves money or data, and the gate only covers premises someone wrote down: a plan with an empty "needs" on a risky task deserves a question.
+**Limit:** The gate checks status, not truth. A KNOWN premise with a wrong or stale source passes, so open the source for anything that moves money or data. It also covers only premises that were written down: a risky task with an empty "needs" deserves a question.
 
 ## Fit it into your workflow
 
-Your flow is spec → plan → tasks → implement, in Kiro, Claude Code, Cursor, or similar. The gate sits between plan and tasks. The plan gets a premise table (claim, status, source), and every task names the premises it needs. Implementation starts on a task only when all its premises are KNOWN. An UNKNOWN comes back to you as a BLOCKED reply in Day 9's shape; you resolve it with a lookup or a decision, and the source is written into the plan, so later tasks and later sessions inherit the fact, not the guess.
+Your flow is spec → plan → tasks → implement, in Kiro, Claude Code, Cursor, or similar. The premise table lives in the plan file, next to the tasks, and each task lists its `needs`. Add one line to your project rules: before starting a task, check its premises; if any is UNKNOWN, reply BLOCKED instead. You resolve it with a lookup or a decision, and the source goes into the plan, so the next session inherits it.
 
-On a big requirement: gate the premises that several tasks share first. One resolved premise unblocks a whole branch of the plan.
+On a big requirement: resolve the premises several tasks share first. One answer unblocks a whole branch.
 
 ## 10-minute exercise
 
-**Setup:** a real ticket you're about to start or just finished, with at least three tasks.
+**Setup:** a real ticket with at least three tasks, one you're starting or just finished.
 
-1. **Run the copy-paste prompt** on the ticket. Save the premise table and task list.
-2. **Check every KNOWN.** Open its source. If it doesn't say what the claim says, mark it UNKNOWN.
-3. **Gate the plan.** Put it in `plan.json` and run the practice `gate.py`. Note which tasks are blocked.
-4. **Resolve one UNKNOWN** with a lookup: a doc, a query, a question to the owner. Record the source.
-5. **Compare.** If you'd built the blocked tasks on the original guess, what would have changed?
+1. **Run the copy-paste prompt** on it. Save the premise table and tasks.
+2. **Open every KNOWN source.** If it doesn't say what the claim says, mark it UNKNOWN.
+3. **Gate it.** Put the plan in `plan.json` and run the practice `gate.py`. Note what's blocked.
+4. **Resolve one UNKNOWN** with a lookup: a doc, a query, a question to the owner. Write the source into the plan.
+5. **Compare.** If the blocked tasks had run on the guess, what would have changed?
 
-**Done when:** you have a premise table with a source on every KNOWN, at least one task that was blocked, and the source that unblocked it.
+**Done when:** every KNOWN has a source you opened, at least one task was blocked, and the source that unblocked it is in the plan file.
 
 ## Carry to next day
 
 | Keep this | Day 12 builds on it |
 |-----------|-------------------|
-| Log one line: `premise \| <claim> \| was: UNKNOWN \| source: <where> \| guess was <right/wrong>` | Today a premise becomes KNOWN on one source. Day 12 asks when one source isn't enough: checking a critical claim by a second, independent path |
-| Keep the premise table in the plan file, next to the tasks | |
-| An assumption in a plan is **a question**: what does it block until it's answered? | |
+| Log one line: `premise \| <claim> \| was UNKNOWN \| source: <where> \| guess was <right/wrong>` | Today a premise becomes KNOWN on one source. Day 12 asks when one source isn't enough: checking a critical claim by a second, independent path |
+| Keep the premise table in the plan file, and the "check before start" line in your rules | |
+| A flagged premise is **a question**: which task does it hold back? | |
 
 ## Check yourself
 
 Close the page. Answer without looking:
 
-1. The plan listed "timestamps are UTC". Why didn't that prevent the false tickets?
-2. What makes a premise KNOWN, and why isn't "the format has no offset" enough?
-3. Which tasks may start while a premise is UNKNOWN?
-4. Name **one Ask first tip** you'd use on your next plan.
+1. The plan flagged "timestamps are UTC" and you approved it. Why did T2–T4 still run on it?
+2. What makes a premise KNOWN?
+3. Why check at the start of each task instead of at plan approval?
+4. Where does the answer go once a premise is resolved, and why there?
 
 Stuck on any → re-read **What you'll learn**, **Story**, and **Ask first** once → answer again. Being able to say it back is the bar — not "I get it."
 
-(The practice skill `listed-not-gated` uses the same prompt, plus the gate script.)
+(The practice skill `premise-gate` uses the same prompt, plus the gate script.)
+
+## Day 11 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-11/slide-1.png"><img src="./assets/day-11/slide-1.png" width="240" alt="1/6: The plan flagged its premise. No task had to wait for it."></a></td><td><a href="./assets/day-11/slide-2.png"><img src="./assets/day-11/slide-2.png" width="240" alt="2/6: RECON-212 plan: T2 to T4 depend on the unsourced UTC premise; T1 doesn't."></a></td><td><a href="./assets/day-11/slide-3.png"><img src="./assets/day-11/slide-3.png" width="240" alt="3/6: File is Amsterdam time; 130.00 EUR lands on the wrong day; false tickets nightly."></a></td></tr>
+<tr><td><a href="./assets/day-11/slide-4.png"><img src="./assets/day-11/slide-4.png" width="240" alt="4/6: Checked at task start: BLOCKED, provider spec looked up, source written into the plan."></a></td><td><a href="./assets/day-11/slide-5.png"><img src="./assets/day-11/slide-5.png" width="240" alt="5/6: Premise table in the plan; check before each task starts; resolve shared premises first."></a></td><td><a href="./assets/day-11/slide-6.png"><img src="./assets/day-11/slide-6.png" width="240" alt="6/6: Rule: flagged is not gated. No source, no start."></a></td></tr>
+</table>

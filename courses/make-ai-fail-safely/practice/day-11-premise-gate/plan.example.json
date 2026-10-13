@@ -1,8 +1,8 @@
 {"premises": {
-  "P1": {"claim": "settlement file timestamps are UTC", "status": "UNKNOWN", "source": ""},
+  "P1": {"claim": "settlement file timestamps are UTC", "status": "UNKNOWN", "source": "", "resolve": "payment provider's file spec"},
   "P2": {"claim": "ledger books by UTC date", "status": "KNOWN", "source": "ledger/schema.sql: booked_at timestamptz, daily close at 00:00 UTC"}},
  "tasks": [
-  {"id": "T1", "title": "parse settlement CSV", "needs": []},
+  {"id": "T1", "title": "parse the CSV", "needs": []},
   {"id": "T2", "title": "bucket rows by settlement date", "needs": ["P1"]},
-  {"id": "T3", "title": "match buckets to ledger days", "needs": ["P1", "P2"]},
+  {"id": "T3", "title": "match buckets to ledger", "needs": ["P1", "P2"]},
   {"id": "T4", "title": "open discrepancy tickets", "needs": ["P1", "P2"]}]}

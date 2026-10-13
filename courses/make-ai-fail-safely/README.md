@@ -110,13 +110,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | The reply is written for a reader, format instructions hold most of the time, gaps get filled, and lenient parsing turns "can't tell" into a number. Fix: exact shape with a format per field, missing as null, values tied to source text, a validator that accepts or rejects; rejects retry once with the errors, then go to a person, never repaired |
 | **Exercise** | Five-field schema for one real output; run five real inputs; validate with `validate.py`; replay rejects with the error list; hand-break one reply to prove it can't pass |
 
-### Day 11 — Listed, Not Gated → [lesson](./day-11.md)
+### Day 11 — Started on a Guess → [lesson](./day-11.md)
 
 | | |
 |--|--|
-| **Failure** | A plan lists its key premise as an assumption and every later task builds on it anyway ("settlement timestamps are UTC"; the file is Amsterdam time; late-evening payments land on the wrong day and false tickets go out) |
-| **Mechanism** | Listing feels like handling, plans order tasks by build sequence not dependency, and each step trusts the one before. Fix: each premise KNOWN with a source or UNKNOWN, each task names the premises it needs, and a task with an UNKNOWN premise doesn't start; it returns BLOCKED with what would settle it |
-| **Exercise** | Run the premise prompt on a real ticket; open every KNOWN source; gate the plan with `gate.py`; resolve one UNKNOWN with a lookup and record the source |
+| **Failure** | A multi-task plan flags a premise ("settlement timestamps are UTC", no source), you approve it, and later tasks start on it anyway (the file is Amsterdam time; payments just after midnight land on the wrong day; false tickets every night) |
+| **Mechanism** | Approval happens once but tasks start many times, often in new sessions; nothing links a premise to the tasks that need it. Fix: each task names its premises; KNOWN only with a source you can open; the check runs at task start; an UNKNOWN replies BLOCKED (Day 9's shape); the answer is written back into the plan |
+| **Exercise** | Run the premise prompt on a real ticket; open every KNOWN source; gate the plan with `gate.py`; resolve one UNKNOWN and write its source into the plan |
 
 ### Day 12 — Dual-Path Verification
 
