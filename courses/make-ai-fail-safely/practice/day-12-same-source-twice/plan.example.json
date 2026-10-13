@@ -1,0 +1,7 @@
+{"premises": {
+  "P1": {"claim": "payout amount is in minor units, divide by 100", "critical": true, "sources": [
+    {"ref": "API reference, /payouts: 'amount in minor units (e.g. cents)'", "origin": "provider API reference", "kind": "doc"},
+    {"ref": "SDK docstring Payout.amount", "origin": "provider API reference", "kind": "doc"},
+    {"ref": "integration guide, step 4", "origin": "provider API reference", "kind": "doc"}]},
+  "P2": {"claim": "payouts arrive one per currency per day", "critical": false, "sources": [
+    {"ref": "API reference, /payouts schedule", "origin": "provider API reference", "kind": "doc"}]}}}

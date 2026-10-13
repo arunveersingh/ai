@@ -118,13 +118,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Approval happens once but tasks start many times, often in new sessions; nothing links a premise to the tasks that need it. Fix: each task names its premises; KNOWN only with a source you can open; the check runs at task start; an UNKNOWN replies BLOCKED (Day 9's shape); the answer is written back into the plan |
 | **Exercise** | Run the premise prompt on a real ticket; open every KNOWN source; gate the plan with `gate.py`; resolve one UNKNOWN and write its source into the plan |
 
-### Day 12 — Dual-Path Verification
+### Day 12 — Same Source Twice → [lesson](./day-12.md)
 
 | | |
 |--|--|
-| **Failure** | One model pass treated as ground truth |
-| **Mechanism** | Independent path (docs, test, second model) catches correlated fluency errors; independence > IQ of path #2 |
-| **Exercise** | Verify one critical claim outside the same chat; record pass/fail; require dual-path for that claim class |
+| **Failure** | A critical premise is "double-checked" and three sources agree, but all three copy one page ("amount in minor units, divide by 100"; a 5,000 yen payout arrives as 5000 and is booked as 50 yen) |
+| **Mechanism** | Agreement feels like confirmation, copies are everywhere, "double-check" means search again, and a wrong reading of a correct sentence survives every copy. Fix: trace each source to its origin, count origins not links; a critical premise needs two origins, one an observation of the real system on the case most likely to differ |
+| **Exercise** | Pick one money-moving premise; trace its sources to origins; observe the case most likely to differ; compare with the premise as written |
 
 ### Day 13 — Human Gates That Aren't Theater
 
