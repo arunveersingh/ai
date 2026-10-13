@@ -110,13 +110,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | The reply is written for a reader, format instructions hold most of the time, gaps get filled, and lenient parsing turns "can't tell" into a number. Fix: exact shape with a format per field, missing as null, values tied to source text, a validator that accepts or rejects; rejects retry once with the errors, then go to a person, never repaired |
 | **Exercise** | Five-field schema for one real output; run five real inputs; validate with `validate.py`; replay rejects with the error list; hand-break one reply to prove it can't pass |
 
-### Day 11 — Assumption Registers
+### Day 11 — Listed, Not Gated → [lesson](./day-11.md)
 
 | | |
 |--|--|
-| **Failure** | Unspoken premises drive the plan; surface only at failure time |
-| **Mechanism** | Register forces premises into known / unknown / contested; unknowns block proceed |
-| **Exercise** | List every assumption on a live decision; mark status; block next step until unknowns have owner or measurement |
+| **Failure** | A plan lists its key premise as an assumption and every later task builds on it anyway ("settlement timestamps are UTC"; the file is Amsterdam time; late-evening payments land on the wrong day and false tickets go out) |
+| **Mechanism** | Listing feels like handling, plans order tasks by build sequence not dependency, and each step trusts the one before. Fix: each premise KNOWN with a source or UNKNOWN, each task names the premises it needs, and a task with an UNKNOWN premise doesn't start; it returns BLOCKED with what would settle it |
+| **Exercise** | Run the premise prompt on a real ticket; open every KNOWN source; gate the plan with `gate.py`; resolve one UNKNOWN with a lookup and record the source |
 
 ### Day 12 — Dual-Path Verification
 
