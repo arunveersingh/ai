@@ -1,0 +1,28 @@
+{
+ "action": "python3 scripts/retry_collections.py --env prod --batch outage-2026-10-12 (973 SEPA direct debits, the 211 booked on Tuesday removed)",
+ "undo": "none from our side: each customer must claim it back from their bank",
+ "if_wrong": "customers debited twice, up to 973 people",
+ "stop_if": [
+  {
+   "condition": "a collection in the batch was booked after Monday's report",
+   "check": "match batch end_to_end_id against bank statements Mon to today",
+   "result": "0 booked",
+   "met": false
+  },
+  {
+   "condition": "a mandate was cancelled since the first attempt",
+   "check": "mandates.cancelled_at > first_attempt_at for batch mandates",
+   "result": "0 rows",
+   "met": false
+  },
+  {
+   "condition": "batch differs from Monday rejects minus the 211 booked",
+   "check": "sum(batch.amount) vs Monday report rejected total",
+   "result": "equal",
+   "met": false
+  }
+ ],
+ "not_checked": [
+  "bank statements after today 07:00"
+ ]
+}
