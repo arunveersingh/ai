@@ -126,13 +126,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Agreement feels like confirmation, copies are everywhere, search ranks the most-copied page first, and a wrong reading survives every copy. Fix: trace each source to its origin, count origins not links; a critical premise needs two origins, one of them output from the real system on the case most likely to differ, or a named person accepting the risk |
 | **Exercise** | Pick one money-moving premise; trace its sources to origins; check the case most likely to differ in the system; compare with the premise as written |
 
-### Day 13 — Human Gates That Aren't Theater
+### Day 13 — Approved in Four Seconds → [lesson](./day-13.md)
 
 | | |
 |--|--|
-| **Failure** | Human "approves" without seeing failure criteria |
-| **Mechanism** | Real gates show evidence + a refuse option as easy as accept; rubber-stamp UIs train click-through |
-| **Exercise** | Redesign one approval: top 3 risks + check results; if review < 30s, add evidence |
+| **Failure** | The 38th approval of the day reads "Dry run OK, schema valid, retry 1,184 failed SEPA debits in prod?" and is approved in four seconds; the bank had already booked 211 of them, so 211 customers are debited twice |
+| **Mechanism** | Most asks are harmless so yes becomes a reflex; the request is written to be approved and shows the easy checks, not the one about the harm; saying no costs more than saying yes. Fix: ask only for actions that can't be undone or move money, data or messages; ask with a card (action, undo, worst result in numbers, stop conditions written before the work with a check result each, not checked); a met or unchecked stop condition means refuse |
+| **Exercise** | Time your next risky approval; write its IF WRONG and two or three STOP IF lines; run the checks on the last time you approved it; move one harmless ask to auto-run |
 
 ### Day 14 — Blast-Radius Limits
 

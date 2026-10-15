@@ -1,0 +1,5 @@
+{"action": "python3 scripts/retry_collections.py --env prod --batch outage-2026-10-12",
+ "undo": "none from our side: each customer must claim it back from their bank",
+ "if_wrong": "",
+ "evidence_shown": ["dry run: OK", "schema: 1,184/1,184 valid pain.008"],
+ "stop_if": []}
