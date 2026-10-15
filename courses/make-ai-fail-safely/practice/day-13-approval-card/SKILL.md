@@ -5,7 +5,7 @@ description: Day 13 practice — approved is not reviewed. An agent's approval r
 
 # Approval card
 
-An agent re-presents 1,184 SEPA direct debits that failed in a bank outage. Its request reads "Dry run: OK. Schema: 1,184/1,184 valid pain.008. [Approve]", the 38th ask of the day, and it's approved in four seconds. The bank had already booked 211 of them the next day, so 211 customers are debited twice. Every line on the request was true; none could have failed on the harm.
+An agent re-presents 1,184 SEPA direct debits that failed in a bank outage. Its request reads "Dry run: OK. Schema: 1,184/1,184 valid pain.008. [Approve]", the 38th ask of the day, and it's approved in four seconds. The bank had booked 211 of them on Tuesday while clearing its backlog, so 211 customers are debited twice. Every line on the request was true; none could have failed on the harm.
 
 Approved is not reviewed. Show the reasons to say no, or the yes means nothing.
 
@@ -33,8 +33,8 @@ Leave out checks that can't fail on the IF WRONG result.
 
 ```bash
 python3 approval_card.py card.before.json          # the request as shown: REFUSE, nothing could make you say no
-python3 approval_card.py card.example.json         # the card: REFUSE, STOP IF 1 met (211 booked on Tuesday)
-python3 approval_card.py card.rebuilt.example.json # 973 debits, 0 booked: MAY APPROVE
+python3 approval_card.py card.example.json         # the card: REFUSE, STOP IF 1 met (211 booked Tue)
+python3 approval_card.py card.rebuilt.example.json # 973 debits, 75,940.95 EUR, 0 booked: MAY APPROVE
 ```
 
 Exit 0 means every stop condition was checked and none is met; 1 means refuse. A stop condition with no check or no result counts as met. Checks listed outside any stop condition print as `SHOWN ... (not tied to any stop condition)`.

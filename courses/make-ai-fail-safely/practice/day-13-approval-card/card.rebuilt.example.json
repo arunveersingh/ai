@@ -1,11 +1,11 @@
 {
- "action": "python3 scripts/retry_collections.py --env prod --batch outage-2026-10-12 (973 SEPA direct debits, the 211 booked on Tuesday removed)",
+ "action": "python3 scripts/retry_collections.py --env prod --batch outage-2026-10-12 (973 SEPA direct debits, 75,940.95 EUR; the 211 booked Tue removed)",
  "undo": "none from our side: each customer must claim it back from their bank",
- "if_wrong": "customers debited twice, up to 973 people",
+ "if_wrong": "customers debited twice: up to 973 people and 75,940.95 EUR",
  "stop_if": [
   {
-   "condition": "a collection in the batch was booked after Monday's report",
-   "check": "match batch end_to_end_id against bank statements Mon to today",
+   "condition": "a collection in the batch was already booked by the bank",
+   "check": "match batch end_to_end_id against bank statements Mon 00:00 to Wed 16:30",
    "result": "0 booked",
    "met": false
   },
@@ -16,13 +16,13 @@
    "met": false
   },
   {
-   "condition": "batch differs from Monday rejects minus the 211 booked",
-   "check": "sum(batch.amount) vs Monday report rejected total",
-   "result": "equal",
+   "condition": "batch total differs from Monday's rejects minus the 211 booked",
+   "check": "sum(batch.amount) vs Monday rejected total (92,410.50) - sum(211 booked Tue) (16,469.55)",
+   "result": "75,940.95 = 75,940.95",
    "met": false
   }
  ],
  "not_checked": [
-  "bank statements after today 07:00"
+  "retry pre-notification emails to customers"
  ]
 }
