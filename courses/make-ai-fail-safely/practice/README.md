@@ -18,3 +18,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 10 | [parse-or-reject](./day-10-parse-or-reject/SKILL.md) |
 | 11 | [premise-gate](./day-11-premise-gate/SKILL.md) |
 | 12 | [same-source-twice](./day-12-same-source-twice/SKILL.md) |
+| 13 | [approval-card](./day-13-approval-card/SKILL.md) |
