@@ -134,13 +134,13 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Most asks are harmless so yes becomes a reflex; the request is written to be approved and shows the easy checks, not the one about the harm; saying no costs more than saying yes. Fix: ask only for actions that can't be undone or move money, data or messages; ask with a card (action, undo, worst result in numbers, stop conditions written before the work with a check result each, not checked); a met or unchecked stop condition means refuse |
 | **Exercise** | Time your next risky approval; write its IF WRONG and two or three STOP IF lines; run the checks on the last time you approved it; move one harmless ask to auto-run |
 
-### Day 14 — Blast-Radius Limits
+### Day 14 — 48,212 Apologies → [lesson](./day-14.md)
 
 | | |
 |--|--|
-| **Failure** | One bad generation can touch everything |
-| **Mechanism** | Dry-run / allowlist / rate limit / staging bounds damage when the model is wrong |
-| **Exercise** | Map one AI action → worst reachable effect; add one hard limit; prove it by trying to exceed it |
+| **Failure** | An approved apology to 340 merchants crashes after 200; the agent resumes with a rebuilt list ("merchants with a Tuesday payout" is every merchant) and the main key in `.env`, so 48,212 apologies go out in 11 minutes |
+| **Mechanism** | Access is sized for you, not the job; agents repair and resume with code nobody approved; checks cover only predicted failures; loops don't pause. Fix: hard limit sized to the job (targets frozen at approval, job total, once per target), enforced where the agent can't edit or route around it; hitting it stops the run, only a person raises it |
+| **Exercise** | Write INTENDED and REACHABLE for one real action; add one hard limit outside the agent's reach; prove it by trying an off-list target, one over the total and a repeat |
 
 ---
 

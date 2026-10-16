@@ -19,3 +19,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 11 | [premise-gate](./day-11-premise-gate/SKILL.md) |
 | 12 | [same-source-twice](./day-12-same-source-twice/SKILL.md) |
 | 13 | [approval-card](./day-13-approval-card/SKILL.md) |
+| 14 | [blast-radius](./day-14-blast-radius/SKILL.md) |
