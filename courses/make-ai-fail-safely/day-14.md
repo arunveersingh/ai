@@ -8,7 +8,11 @@ Day 13 gave you a real reason to say no. Today is for the day your yes is still 
 
 **The worst an agent can do is set by what it can reach, not by what the task asks for.**
 
-A ticket says "email 340 merchants." The key in your `.env` can email every merchant you have, as often as a loop runs. Days 8 to 13 decide what the agent should do and when it may. None of them changes what it *can* do when something nobody predicted goes wrong. You'll watch an approved, well-checked send become 48,212 emails after one crash, then put a limit under it that holds even when every check misses.
+A ticket says "email 340 merchants." But the key in your `.env` can email every merchant you have, as often as a loop runs.
+
+Checks and approvals shape what the agent *should* do. They don't change what it *can* do when something nobody predicted goes wrong.
+
+You'll watch an approved, well-checked send turn into 48,212 emails after one crash. Then you'll put a limit under it that holds even when every check misses.
 
 ## See it
 
@@ -51,15 +55,23 @@ Your agent builds the list from the incident's delayed-payouts table into a temp
 
 The script sends in batches of 100. Two batches go out. On the third, the email provider times out and the script exits.
 
-The agent does what agents do: it tries to finish the job you approved. The temporary table went with the old session, so it rebuilds the list from the ticket's words: merchants with a payout on Tuesday. But payouts run every weekday. Every active merchant had one.
+The agent does what agents do: it tries to finish the job you approved. The temporary table went with the old session, so it rebuilds the list from the ticket's words: merchants with a payout on Tuesday.
+
+But payouts run every weekday. Every one of your 48,212 merchants had one.
 
 The new list has 48,212 addresses. It doesn't skip the 200 already sent. The key in `.env` is the company's main sending key, so nothing pushes back. In 11 minutes, 48,212 apologies go out.
 
-200 merchants get it twice. 47,872 get an apology for a delay they never had, and many write to support asking what's wrong with their money. Emails can't be unsent.
+200 merchants get it twice. 140 get it once, as planned. The other 47,872 get an apology for a delay they never had, and many write to support asking what's wrong with their money.
+
+Emails can't be unsent.
+
+Don't worry if your stomach just dropped. Most teams find out their agent holds the main key exactly this way: the day it uses it.
 
 ### Why the review didn't save you
 
-You reviewed the action you were shown, and it was right. The action that ran was written after your yes, by an agent repairing a crash. Nobody reviewed it, and no review could have: it didn't exist yet.
+You reviewed the action you were shown, and it was right. The action that ran was written after your yes, by an agent repairing a crash.
+
+Nobody reviewed it, and no review could have: it didn't exist yet.
 
 A check predicts one way things go wrong. A limit predicts nothing. It just sets the most that can happen.
 
@@ -79,7 +91,9 @@ When you can't list targets in advance, add how fast: say 100 a minute, so a sur
 
 The send step holds the only sending key. It reads the 340 approved addresses and a record of what's already gone out.
 
-The agent sends its rebuilt list of 48,212 through that step. The first address isn't on the approved list, so the step answers `LIMIT HIT` and stops. Zero emails go out, and the agent reports back in Day 9's stop shape. You fix the query. The rerun sends 140, skips the 200 already sent, and reads 340/340. (The story is made up; the practice script reproduces these counts on made-up lists.)
+The agent sends its rebuilt list of 48,212 through that step. The first address isn't on the approved list, so the step answers `LIMIT HIT` and stops. Zero emails go out, and the agent reports back in Day 9's stop shape.
+
+You fix the query. The rerun sends 140, skips the 200 already sent, and reads 340/340. (The story is made up; the practice script reproduces these counts on made-up lists.)
 
 ## Why this happens
 
@@ -162,7 +176,7 @@ Already working spec → plan → tasks → implement (Kiro, Claude Code, Cursor
 
 | Keep this | Day 15 builds on it |
 |-----------|-------------------|
-| Log one line: `reach \| <action> \| intended: <n> \| reachable: <n> \| limit: <what, where> \| proved: yes/no` | Days 8 to 14 built guardrails, and today put a ceiling on what a miss can cost. Day 15 opens the next part: how often do misses happen, and do your tests measure the harm you fear? |
+| Log one line: `reach \| <action> \| intended: <n> \| reachable: <n> \| limit: <what, where> \| proved: yes/no` | Today put a ceiling on what a miss can cost. Day 15 opens the next part: how often do misses happen, and do your tests measure the harm you fear? |
 | Freeze targets at approval; make repeats skips | |
 | A key that can do more than the job is **a question**: what's the most it could touch tonight? | |
 
@@ -178,3 +192,10 @@ Close the page and answer without looking:
 Stuck on one? Re-read **What you'll learn**, **The story** and **Ask first** once, then try again. The bar is being able to say it back, not "I get it."
 
 (The practice skill `blast-radius` uses the same prompt, plus the capped-run script.)
+
+## Day 14 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-14/slide-1.png"><img src="./assets/day-14/slide-1.png" width="240" alt="1/6: Approved for 340, it sent 48,212. The review was fine; the harmful code was written after the yes."></a></td><td><a href="./assets/day-14/slide-2.png"><img src="./assets/day-14/slide-2.png" width="240" alt="2/6: Two batches of 100 sent, then a provider timeout; the agent rebuilds the list as every merchant with a Tuesday payout, all 48,212."></a></td><td><a href="./assets/day-14/slide-3.png"><img src="./assets/day-14/slide-3.png" width="240" alt="3/6: The main key in .env allows anything: 48,212 apologies in 11 minutes, 200 twice, 47,872 never delayed."></a></td></tr>
+<tr><td><a href="./assets/day-14/slide-4.png"><img src="./assets/day-14/slide-4.png" width="240" alt="4/6: Hard limit: only the 340 frozen at approval, once each; the rebuilt list hits the limit, 0 sent; fixed query 340/340."></a></td><td><a href="./assets/day-14/slide-5.png"><img src="./assets/day-14/slide-5.png" width="240" alt="5/6: Spec states intended reach in numbers; plan adds a capped step and proves the limit; only a person raises it."></a></td><td><a href="./assets/day-14/slide-6.png"><img src="./assets/day-14/slide-6.png" width="240" alt="6/6: Rule: intended is not capped. Cap what it can reach, not just what it's asked to do."></a></td></tr>
+</table>

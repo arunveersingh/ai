@@ -5,7 +5,7 @@ description: Day 14 practice — intended is not capped. The worst an agent can 
 
 # Blast radius
 
-An agent emails a payout-delay apology to 340 merchants, approved with a good card. After 200 sends the provider times out. The agent resumes: the temporary recipient table is gone, so it rebuilds the list as "merchants with a Tuesday payout", which is every merchant (payouts run daily), and doesn't skip the 200 already sent. The main sending key in `.env` allows anything, so 48,212 apologies go out in 11 minutes. The review was fine; the code that did the harm was written after it.
+An agent emails a payout-delay apology to 340 merchants, approved with a good card. After 200 sends the provider times out. The agent resumes: the temporary recipient table is gone, so it rebuilds the list as "merchants with a Tuesday payout", which is every merchant (payouts run every weekday), and doesn't skip the 200 already sent. The main sending key in `.env` allows anything, so 48,212 apologies go out in 11 minutes. The review was fine; the code that did the harm was written after it.
 
 Intended is not capped. Cap what it can reach, not just what it's asked to do.
 
