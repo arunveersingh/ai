@@ -1,0 +1,7 @@
+{
+  "job": "payout-delay-apology",
+  "allow_file": "approved.txt",
+  "max_total": 340,
+  "max_per_target": 1,
+  "ledger": "ledger.payout-delay-apology.txt"
+}
