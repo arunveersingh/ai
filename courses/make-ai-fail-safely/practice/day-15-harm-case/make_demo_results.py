@@ -9,25 +9,34 @@ No dependencies. The data is invented; only the counts matter."""
 import csv
 
 LABELS = ["GENERAL"] * 420 + ["REFUND"] * 300 + ["DISPUTE"] * 150 + ["ACCOUNT"] * 100 + ["UNAUTHORISED"] * 30
-WRONG = {"GENERAL": "REFUND", "REFUND": "GENERAL", "DISPUTE": "REFUND", "ACCOUNT": "GENERAL"}
+# The ordinary mistakes, by (expected, predicted). v3 mostly files refunds as general;
+# v4's "money back -> REFUND" line fixes most of those and nudges a few general into refund.
+OTHER = {
+    "v3": {("REFUND", "GENERAL"): 50, ("GENERAL", "REFUND"): 20, ("DISPUTE", "REFUND"): 10, ("ACCOUNT", "GENERAL"): 7},
+    "v4": {("REFUND", "GENERAL"): 5, ("GENERAL", "REFUND"): 25, ("DISPUTE", "REFUND"): 8, ("ACCOUNT", "GENERAL"): 4},
+    "v5": {("REFUND", "GENERAL"): 5, ("GENERAL", "REFUND"): 27, ("DISPUTE", "REFUND"): 8, ("ACCOUNT", "GENERAL"): 4},
+}
 
-def build(other_errors, unauth_misses):
-    rows, budget, misses = [], other_errors, list(unauth_misses)
+def build(other, unauth_misses):
+    rows, left, misses = [], dict(other), list(unauth_misses)
     for i, exp in enumerate(LABELS, 1):
         pred = exp
         if exp == "UNAUTHORISED":
             if misses:
                 pred = misses.pop(0)
-        elif budget and i % 9 == 0:   # spread the ordinary mistakes across the suite
-            pred, budget = WRONG[exp], budget - 1
+        else:
+            for (e, p), n in left.items():
+                if e == exp and n and i % 3 == 0:   # spread the ordinary mistakes across the suite
+                    pred, left[(e, p)] = p, n - 1
+                    break
         rows.append((f"msg-{i:04d}", exp, pred))
-    assert budget == 0
+    assert not any(left.values()), left
     return rows
 
 VERSIONS = {
-    "v3": build(87, ["REFUND"] * 2 + ["GENERAL"]),
-    "v4": build(42, ["REFUND"] * 16 + ["GENERAL"] * 2),
-    "v5": build(44, []),
+    "v3": build(OTHER["v3"], ["REFUND"] * 2 + ["GENERAL"]),
+    "v4": build(OTHER["v4"], ["REFUND"] * 16 + ["GENERAL"] * 2),
+    "v5": build(OTHER["v5"], []),
 }
 for name, rows in VERSIONS.items():
     with open(f"results_{name}.csv", "w", newline="") as f:

@@ -4,7 +4,9 @@
 
 ## What you'll learn
 
-Days 8–14 blocked bad paths. Part 3 asks a different question: how do you know the system is still doing its job? Most teams answer with a score. Today is about what that score actually measures.
+Day 14 capped what a miss can cost. Today opens a new part of the course: how do you know an AI feature is still doing its job?
+
+Most teams answer with a score. Today is about what that score actually measures.
 
 **An eval measures what you coded into it, not the harm you fear. If no check fails when that harm happens, a green suite tells you nothing about it.**
 
@@ -14,7 +16,7 @@ You'll watch a prompt change raise accuracy by 3 points while the one mistake th
 
 Same suite, same 1,000 labelled messages. Only the question asked of the results is different.
 
-![Red path: triage prompt v4 scores 94% on 1,000 labelled support messages against a 92% bar and ships; 18 of 30 unauthorised-payment reports go to the refund or general queue, past the next-business-day refund deadline. Green path: the same results scored with a harm line, unauthorised caught 12 of 30, FAIL, the suite is lying; v5 catches 30 of 30 at 95.6%.](./day-15.svg)
+![Red path: triage prompt v4 scores 94% on 1,000 labelled support messages against a 92% bar and ships; 18 of 30 unauthorised-payment reports go to the refund or general queue; over three weeks, 216 refunds are late. Green path: the same results scored with a harm line, unauthorised caught 12 of 30, FAIL, the suite is lying; v5 catches 30 of 30 at 95.6%.](./day-15.svg)
 
 ```mermaid
 flowchart TB
@@ -39,11 +41,15 @@ SUITE       1,000 messages labelled by the ops team, 30 of them UNAUTHORISED
 
 ### A good suite
 
-Your team runs support for a payments app. An AI step reads each incoming message and routes it to one of five queues: general, refund, dispute, account, unauthorised.
+This time no agent writes code. You've shipped an AI feature, and the question is whether a change to it made things better.
 
-Unauthorised is the one with a clock. When a customer says "I didn't make this payment," PSD2 gives the bank until the end of the next business day to refund it, unless it has reasonable grounds to suspect the customer and tells the regulator why. That queue goes straight to the fraud team. The refund queue has a five-day service level.
+The feature is support triage. An AI step reads each incoming message and routes it to one of five queues: general, refund, dispute, account, unauthorised.
 
-The eval is honest work. The ops team labelled 1,000 real messages from last quarter by hand. A new version ships if it scores 92% accuracy or better. Nobody graded their own homework here (that was Day 8): the labels are right.
+Unauthorised is the one with a clock. Your company is a payment provider in the EU, so when a customer says "I didn't make this payment," PSD2 gives you until the end of the next business day to refund it. The exception is reasonable grounds to suspect fraud, reported to the regulator.
+
+That queue goes straight to the fraud team. The refund queue works to a five-day service level.
+
+The eval is honest work. The ops team labelled 1,000 real messages from last quarter by hand, and a new version ships if it scores 92% accuracy or better. The labels are right, and no model graded itself.
 
 ### The change
 
@@ -51,17 +57,23 @@ Prompt v3 is live and scores 91%. Most of its mistakes are refunds landing in ge
 
 v4 scores 94.0%. Up 3 points, over the bar. It ships on Monday.
 
+Don't worry if you'd have shipped it too. Beating the bar by two points is exactly what a good change looks like.
+
 ### The harm
 
 People reporting fraud often write exactly that: *"I never made this payment, I want my money back."*
 
 In the suite, v4 sent 18 of the 30 unauthorised reports to the wrong queue: 16 to refund, 2 to general. v3 had missed 3. The mistake that matters got six times more common, and the score went up anyway.
 
-Unauthorised reports are 3% of traffic. At 4,000 messages a week, that's about 72 a week in the slow queues. In three weeks, 216 customers wait past their legal refund date before a complaint brings someone to look. (The story is made up; the practice script reproduces these counts on made-up results.)
+Unauthorised reports are 3% of traffic. At 4,000 messages a week, that's about 72 a week in the slow queues. In three weeks, 216 customers wait past their legal refund date before a complaint brings someone to look. (The story is made up; the practice script reproduces the suite counts on made-up results.)
 
 ### Why the score didn't see it
 
-Here's the uncomfortable part. Every one of those 18 misses was in the eval results. The suite saw them. Accuracy counts a fraud report filed as a refund the same as a refund filed as general: one wrong label each. v4 fixed 45 cheap mistakes and made 15 expensive ones, and the average called that progress.
+Every one of those 18 misses was in the eval results. The suite saw them.
+
+Accuracy counts a fraud report filed as a refund the same as a refund filed as general: one wrong label each. v4 fixed 45 cheap mistakes and made 15 expensive ones, and the average called that progress.
+
+Think of a restaurant inspection scored out of 100 by ticking boxes. Tidy tables, clean menus, labelled shelves. A warm fridge is one box. You can score 94 and still make half the room ill.
 
 The suite answered the question it was built to ask: how many labels match? Nobody had asked it the question that mattered: does a fraud report ever miss the fraud team?
 
@@ -114,7 +126,7 @@ Day 14: intended is not capped. Day 15: **passing is not measuring.**
 4. **Show the harm line before and after.** *"For every change, report OVERALL and HARM for the old and new version."*
    **Why this helps:** v3 to v4 is where the harm jumped. A before-and-after shows it on the day it happens, not three weeks later.
 
-A common mistake: letting the agent label the harm cases. It will label them the way it reads them, which is Day 8's loop. The labels come from the people who handle that harm.
+A common mistake: letting the agent label the harm cases. It labels them the way it reads them, so the cases can only agree with it. The labels come from the people who handle that harm.
 
 **Copy-paste prompt** (add it to your project rules or after your ticket):
 
@@ -173,3 +185,10 @@ Close the page and answer without looking:
 Stuck on one? Re-read **What you'll learn**, **The story** and **Ask first** once, then try again. The bar is being able to say it back, not "I get it."
 
 (The practice skill `harm-case` uses the same prompt, plus the harm-check script.)
+
+## Day 15 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-15/slide-1.png"><img src="./assets/day-15/slide-1.png" width="240" alt="1/6: Accuracy up 3 points, the harm 6× worse. Prompt v4 scores 94% against a 92% bar and ships; fraud reports missed go from 3 to 18 of 30."></a></td><td><a href="./assets/day-15/slide-2.png"><img src="./assets/day-15/slide-2.png" width="240" alt="2/6: Five triage queues; unauthorised goes to the fraud team with a PSD2 deadline; v3 scores 91%, one prompt line takes v4 to 94%."></a></td><td><a href="./assets/day-15/slide-3.png"><img src="./assets/day-15/slide-3.png" width="240" alt="3/6: Fraud reports ask for money back; v4 sends 18 of 30 to slow queues; 216 late refunds in 3 weeks; accuracy counts every miss the same."></a></td></tr>
+<tr><td><a href="./assets/day-15/slide-4.png"><img src="./assets/day-15/slide-4.png" width="240" alt="4/6: Name the harm, score it on its own line with zero misses; v4 HARM 12/30 FAIL; v5 95.6% and 30/30."></a></td><td><a href="./assets/day-15/slide-5.png"><img src="./assets/day-15/slide-5.png" width="240" alt="5/6: Spec names the feared harm; the plan builds harm cases and the gate first; both lines before and after every change."></a></td><td><a href="./assets/day-15/slide-6.png"><img src="./assets/day-15/slide-6.png" width="240" alt="6/6: Rule: passing is not measuring. Score the harm you fear, not the average."></a></td></tr>
+</table>
