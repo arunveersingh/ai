@@ -146,13 +146,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 15–21 · Evals
 
-### Day 15 — What Evals Actually Measure
+### Day 15 — Up 3 Points, 6× Worse → [lesson](./day-15.md)
+
+*What Evals Actually Measure*
 
 | | |
 |--|--|
-| **Failure** | High score on a test that doesn't match production harm |
-| **Mechanism** | Evals measure what you coded; proxy metrics drift from user harm |
-| **Exercise** | Name #1 feared failure; write one eval case that fails if it happens; if current suite still passes, the suite is lying |
+| **Failure** | A triage prompt change lifts accuracy from 91% to 94% on 1,000 labelled support messages and ships past the 92% bar, while unauthorised-payment reports sent to the wrong queue rise from 3 to 18 of 30; under PSD2 they need a refund by the end of the next business day |
+| **Mechanism** | An eval answers the question coded into it, not the harm you fear; accuracy counts every wrong label the same, so rare, expensive misses hide in the average; the bar was set for launch fears and never moved. Fix: name the feared harm, keep cases for it labelled by the people who handle it, score them on their own line with zero misses, and let that line fail the suite whatever the overall score; report both lines before and after every change |
+| **Exercise** | Name the #1 feared failure; find the current check that fails if it happens (or write "none"); write one harm case that fails exactly when it happens; run it on the current version — if the suite passes and the harm case fails, the suite is lying |
 
 ### Day 16 — Golden Sets That Bite
 
