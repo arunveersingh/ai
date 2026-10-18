@@ -156,13 +156,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | An eval answers the question coded into it, not the harm you fear; accuracy counts every wrong label the same, so rare, expensive misses hide in the average; the bar was set for launch fears and never moved. Fix: name the feared harm, keep cases for it labelled by the people who handle it, score them on their own line with zero misses, and let that line fail the suite whatever the overall score; report both lines before and after every change |
 | **Exercise** | Name the #1 feared failure; find the current check that fails if it happens (or write "none"); write one harm case that fails exactly when it happens; run it on the current version — if the suite passes and the harm case fails, the suite is lying |
 
-### Day 16 — Golden Sets That Bite
+### Day 16 — A Perfect Score for the Broken Version → [lesson](./day-16.md)
+
+*Golden Sets That Bite*
 
 | | |
 |--|--|
-| **Failure** | Easy / lookalike cases; regressions slip through |
-| **Mechanism** | Goldens work only if hard, labeled, stable — include past incidents and near-misses |
-| **Exercise** | Add 3 cases from real mistakes; run pipeline; ≥1 should fail today or cases aren't biting |
+| **Failure** | A prompt change ("if the remittance contains an open invoice number, match it") scores 240/240 on the golden set and ships; 37 payments are booked to another customer's invoice ("PO 10452" was the payer's own PO), and replayed on that version the set still scores 240/240 |
+| **Mechanism** | Cases written by someone who knows the answer come out clean (number, payer and amount all agree), so any version passes them; agent rewordings multiply easy cases; labels drift toward the model. Fix: cases from real mistakes and near-misses where the signals disagree, labelled by the outcome's owner, labels never edited by the agent; every new case must fail on the version that made the mistake |
+| **Exercise** | Add 3 cases from real mistakes, labelled by the owner; run them on today's version (≥1 should fail, or check each against the version that made it); count how many old cases fail on that bad version |
 
 ### Day 17 — Adversarial Cases First
 
