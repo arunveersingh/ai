@@ -173,3 +173,10 @@ Close the page and answer without looking:
 Stuck on one? Re-read **What you'll learn**, **The story** and **Ask first** once, then try again. The bar is being able to say it back, not "I get it."
 
 (The practice skill `golden-bite` uses the same prompt, plus the bite-check script.)
+
+## Day 16 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-16/slide-1.png"><img src="./assets/day-16/slide-1.png" width="240" alt="1/6: 240 out of 240 for the broken version. Prompt v7 matches any open invoice number; 37 payments booked to the wrong customer."></a></td><td><a href="./assets/day-16/slide-2.png"><img src="./assets/day-16/slide-2.png" width="240" alt="2/6: The step matches bank transfers to invoices, with a harm line; v7 drops UNMATCHED from 14% to 6% and ships at 240/240."></a></td><td><a href="./assets/day-16/slide-3.png"><img src="./assets/day-16/slide-3.png" width="240" alt="3/6: Brandt's PO 10452 matched to Kessler Bau's INV-10452; the set scores v7 240/240 because no case had the signals disagree."></a></td></tr>
+<tr><td><a href="./assets/day-16/slide-4.png"><img src="./assets/day-16/slide-4.png" width="240" alt="4/6: 6 incident cases and 4 near-misses labelled by AR; v7 fails 10/10; fix v8 passes all 10; old set's teeth 0 of 240."></a></td><td><a href="./assets/day-16/slide-5.png"><img src="./assets/day-16/slide-5.png" width="240" alt="5/6: Spec names who labels; a bug fix starts by adding the mistake as a case and showing it fail; the agent never edits labels."></a></td><td><a href="./assets/day-16/slide-6.png"><img src="./assets/day-16/slide-6.png" width="240" alt="6/6: Rule: covered is not caught. Prove a case can fail before you trust it to pass."></a></td></tr>
+</table>
