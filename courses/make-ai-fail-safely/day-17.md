@@ -188,3 +188,10 @@ Close the page and answer without looking:
 Stuck on one? Re-read **What you'll learn**, **The story** and **Ask first** once, then try again. The bar is being able to say it back, not "I get it."
 
 (The practice skill `attack-first` uses the same prompt, plus the attack-check script.)
+
+## Day 17 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-17/slide-1.png"><img src="./assets/day-17/slide-1.png" width="240" alt="1/6: It passed 600 of 600, then let a stranger in. A text from an unknown number says the host already approved entry from 9 AM; the AI believes it and the door opens."></a></td><td><a href="./assets/day-17/slide-2.png"><img src="./assets/day-17/slide-2.png" width="240" alt="2/6: A guest texts and the AI picks the lock action. One rule: a code only for the booked flat, dates and phone. It passes 600/600 real messages and 31/31 out-of-booking requests."></a></td><td><a href="./assets/day-17/slide-3.png"><img src="./assets/day-17/slide-3.png" width="240" alt="3/6: The team writes 15 attacks in three kinds (orders in the message, two readings, nothing to check). 5 of 15 get a door code, because the AI treats the guest's note like instructions."></a></td></tr>
+<tr><td><a href="./assets/day-17/slide-4.png"><img src="./assets/day-17/slide-4.png" width="240" alt="4/6: One prompt line stops only 2 of 5. A code check that takes door, dates and phone from the booking holds 15/15 and still passes 600/600. In week 5 a real 'lost my phone, this is my sister's' message goes to the host."></a></td><td><a href="./assets/day-17/slide-5.png"><img src="./assets/day-17/slide-5.png" width="240" alt="5/6: Where it fits: spec names who gains and what they can send; attack first, 5 of each kind; every attack that gets in is a bug kept as a test; then ship."></a></td><td><a href="./assets/day-17/slide-6.png"><img src="./assets/day-17/slide-6.png" width="240" alt="6/6: Rule: unattacked is not safe. Before you ship, try to make it do the harm yourself."></a></td></tr>
+</table>
