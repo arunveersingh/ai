@@ -5,7 +5,7 @@ description: Day 18 practice — untouched is not unchanged. An AI step is its p
 
 # Regression harness
 
-A food delivery app's AI tags each dish's allergens, and the allergy filter hides tagged dishes. The eval has 1,307 cases on four lines: 1,200 everyday dishes (bar 95%), 80 harm dishes with peanuts, tree nuts or sesame, 12 past mistakes where the allergen hid in a component (satay, praline, hummus), and 15 restaurant texts claiming a dish is safe. All green, but run only after prompt edits. In nine days: prompt v12 ("tag an allergen only if the ingredient list names it") fixes one case and breaks three incident cases; the provider's "latest" alias moves to a new snapshot and two attacks get through; the menu-import team cuts dish text at 300 characters and 9 harm dishes lose their allergen. Nothing ran. A shawarma wrap loses "tahini (sesame)" off the end of its list and a customer with a sesame allergy ends up in A&E. With a harness that runs every case on every change, each change is blocked on its first run.
+A food delivery app's AI tags each dish's allergens, and the allergy filter hides tagged dishes. The eval has 1,307 cases on four lines: 1,200 everyday dishes (bar 95%), 80 harm dishes with peanuts, tree nuts or sesame, 12 past mistakes where the allergen hid in a component (satay, praline, hummus), and 15 restaurant texts claiming a dish is safe. All green, but run only after prompt edits. In nine days: prompt v12 ("tag an allergen only if the ingredient list names it") fixes one case and breaks three incident cases; the provider's "latest" alias moves to a new snapshot and two attacks get through; the menu-import team cuts dish text at 300 characters and 9 harm dishes lose their allergen. Only the prompt change was tested, on the one case it meant to fix; the other two weren't tested at all. A shawarma wrap loses "tahini (sesame)" off the end of its list and a customer with a sesame allergy ends up in the emergency room. With a harness that runs every case on every change, each change is blocked on its first run.
 
 Untouched is not unchanged. If anything the step reads changed, every case runs again.
 
@@ -59,4 +59,4 @@ The results files are written by hand to match the story; no model is called. In
 
 **Done when:** one command runs every case and fails the build, and you've watched it catch a change you made on purpose.
 
-Lesson: [Day 18 — Nobody Changed the Prompt](../../day-18.md)
+Lesson: [Day 18 — Three Changes, One Test](../../day-18.md)

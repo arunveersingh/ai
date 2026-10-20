@@ -1,4 +1,4 @@
-# Day 18 — Nobody Changed the Prompt
+# Day 18 — Three Changes, One Test
 
 *Regression Harnesses*
 
@@ -16,7 +16,7 @@ You'll watch three small changes in nine days, only one to the prompt, each brea
 
 Same eval, same 1,307 cases. Only when they run is different.
 
-![Food delivery app where an AI tags each dish's allergens. Top row: a prompt line, the model's "latest" alias moving and the menu import cutting text at 300 characters all ship with no tests run; "tahini (sesame)" falls off a wrap's ingredient list and a customer with a sesame allergy ends up in A&E. Bottom row: the same changes go through a harness that runs all 1,307 cases; it names the broken cases, the change is blocked and the wrap stays tagged sesame.](./day-18.svg)
+![Food delivery app where an AI tags each dish's allergens. Top row: a prompt line, the model's "latest" alias moving and the menu import cutting text at 300 characters ship with one case rerun and two changes untested; "tahini (sesame)" falls off a wrap's ingredient list and a customer with a sesame allergy ends up in the emergency room. Only one change touched the prompt, and only that one got tested, on one case. Bottom row: the same changes go through a harness that runs all 1,307 cases; it names the broken cases, the change is blocked and the wrap stays tagged sesame.](./day-18.svg)
 
 ```text
 STEP        dish text in, allergen tags out; the allergy filter hides tagged dishes
@@ -33,7 +33,7 @@ fixed       v13, pinned, full list  96.7%      80/80   12/12     15/15    every 
 
 ### A tagger with good tests
 
-Picture ordering dinner on a food delivery app with a sesame allergy. You tick "sesame" in the allergy filter, and every dish with sesame disappears from the menu. Nobody reads 40,000 menus by hand: an AI reads each dish's text and tags its allergens.
+Picture this: you're allergic to sesame, and you're ordering dinner on a food delivery app. You tick "sesame" in the app's allergy filter, and every dish with sesame disappears from the menu, so whatever is left should be safe to order. Behind that filter, nobody reads 40,000 restaurant menus by hand: an AI reads each dish's text and tags its allergens. If it misses one, a dish with sesame stays on your menu, looking safe.
 
 You own that step. The feared harm: a dish with your allergen shown as safe for you.
 
@@ -45,7 +45,7 @@ The gap: the cases live in a notebook that someone runs after editing the prompt
 
 **Monday, the prompt.** A green curry is tagged "tree nuts" because of coconut, which isn't on the EU nut list. A developer adds: *"Tag an allergen only if the ingredient list names it."* They rerun the coconut curry case. Fixed. Ships.
 
-**Thursday, the model.** The step calls the provider's "latest" alias. Overnight it moves to a newer snapshot. Nobody does anything; there's no diff to review.
+**Thursday, the model.** The step asks the AI provider for its "latest" model. Overnight, "latest" starts pointing at a newer snapshot. Nobody on the team does anything; there's no diff to review.
 
 **Next Tuesday, a tool.** The menu-import team, who turn menus into the text the AI reads, cut each dish's text at 300 characters to save tokens. Their service, their deploy. "It's the import, not the AI."
 
@@ -53,9 +53,9 @@ The gap: the cases live in a notebook that someone runs after editing the prompt
 
 On Friday, a customer filtering out sesame orders a chicken shawarma wrap. Its ingredient list ends *"... garlic sauce, tahini (sesame)"*, past character 300. The AI never saw it, so the wrap was on her menu.
 
-She noticed the taste after two bites, took her antihistamines and spent the evening in A&E. (The story is made up; the practice script replays its counts on made-up files.)
+She noticed the taste after two bites, took her antihistamines and spent the evening in the emergency room. (The story is made up; the practice script replays its counts on made-up files.)
 
-First reply in the incident channel: *"Nobody changed the prompt this week."* True, and beside the point.
+First reply in the incident channel: *"The only prompt change was last Monday, and we tested it."* True, and beside the point: it was tested on one case, and the model and the import changed too, with no test at all.
 
 ### The cases already knew
 
@@ -183,3 +183,10 @@ Close the page and answer without looking:
 Stuck on one? Re-read **What you'll learn**, **The story** and **Ask first** once, then try again. The bar is being able to say it back, not "I get it."
 
 (The practice skill `regression-harness` uses the same prompt, plus the harness script.)
+
+## Day 18 in 6 slides (optional)
+
+<table>
+<tr><td><a href="./assets/day-18/slide-1.png"><img src="./assets/day-18/slide-1.png" width="240" alt="1/6: Three changes, one test. You're allergic to sesame and tick it in a food delivery app's allergy filter; an AI tags every dish. A shawarma wrap's ingredient list is cut off before &quot;tahini (sesame)&quot;, the AI tags no sesame, and a customer allergic to sesame ends up in the emergency room."></a></td><td><a href="./assets/day-18/slide-2.png"><img src="./assets/day-18/slide-2.png" width="240" alt="2/6: A tagger with good tests: dish text in, allergen tags out. 1,307 cases: everyday dishes 96.1% (bar 95%), harm 80/80, past mistakes 12/12, &quot;100% nut-free kitchen&quot; claims 15/15. But the cases ran only when someone edited the prompt."></a></td><td><a href="./assets/day-18/slide-3.png"><img src="./assets/day-18/slide-3.png" width="240" alt="3/6: Three changes in nine days, only one to the prompt. Monday's prompt line was tested on 1 case and broke satay, praline and hummus (past mistakes 9/12). Thursday's &quot;latest&quot; model move wasn't tested (attacks 13/15). Tuesday's 300-character import cut wasn't tested (harm 71/80). Everyday stays at 95.9%, above its bar."></a></td></tr>
+<tr><td><a href="./assets/day-18/slide-4.png"><img src="./assets/day-18/slide-4.png" width="240" alt="4/6: The harness: one command runs all 1,307 cases on every change and fails the build; a fingerprinted list of everything the step reads; a pinned model; a diff by case. Each change is blocked on its first run; after the fix: 96.7%, 80/80, 12/12, 15/15."></a></td><td><a href="./assets/day-18/slide-5.png"><img src="./assets/day-18/slide-5.png" width="240" alt="5/6: Where it fits: the spec lists what each AI step reads; the plan's first task is the one-command harness; CI runs every case on any change to that list, even in another team's repo; deploy only a fingerprint that passed."></a></td><td><a href="./assets/day-18/slide-6.png"><img src="./assets/day-18/slide-6.png" width="240" alt="6/6: Rule: untouched is not unchanged. If anything the step reads changed, every case runs again. A bakery bakes a test batch when the flour supplier changes, though nobody touched the recipe."></a></td></tr>
+</table>
