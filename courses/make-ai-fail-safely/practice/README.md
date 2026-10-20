@@ -22,3 +22,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 14 | [blast-radius](./day-14-blast-radius/SKILL.md) |
 | 15 | [harm-case](./day-15-harm-case/SKILL.md) |
 | 16 | [golden-bite](./day-16-golden-bite/SKILL.md) |
+| 17 | [attack-first](./day-17-attack-first/SKILL.md) |
