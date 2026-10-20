@@ -176,13 +176,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Every case comes from people who want the step to work; text inside an input competes with your prompt (prompt injection); attackers aim at the one rule that matters. Fix: name who gains and what they control, write attacks in three families (override, ambiguous, boundary) before shipping, run before fixing, file every break as a bug that stays in the eval; take facts the system can check (door, dates, phone) from its own record, never from the input; attack again for each new input |
 | **Exercise** | Five attacks (2 override, 2 ambiguous, 1 boundary) on one step that reads outside text; run them; log HELD / BROKEN; file every BROKEN with its case in the eval |
 
-### Day 18 — Regression Harnesses
+### Day 18 — Nobody Changed the Prompt → [lesson](./day-18.md)
+
+*Regression Harnesses*
 
 | | |
 |--|--|
-| **Failure** | Prompt tweak fixes one case, breaks three others |
-| **Mechanism** | Harness re-runs golden + adversarial on every change; pin model/version |
-| **Exercise** | One-command golden run with pass/fail exit; change one prompt line; confirm harness catches the drop |
+| **Failure** | An allergen tagger with 1,307 cases on four lines gets three changes in nine days (prompt v12 "tag only what the ingredient list names", the provider's "latest" alias moving to a new snapshot, the menu import cutting text at 300 characters); each breaks a line the eval already covered (incidents 9/12, attacks 13/15, harm 71/80) while everyday stays above its bar; nothing reran, and a wrap shown sesame-free sends a customer to A&E |
+| **Mechanism** | "The step" is treated as the prompt, so model, tool and data changes don't look like changes; aliases and vendors change with no diff; whoever changes the input doesn't own the evals; testing the fix feels like testing the change. Fix: a manifest of everything the step reads, fingerprinted; one command runs every case on every line through the real pipeline and fails the build; model pinned to a dated snapshot; case-by-case diff against the last pass; deploy only a fingerprint that passed |
+| **Exercise** | List what one step reads and pin the model; one command that runs every case and exits non-zero; break it on purpose (delete a prompt line or cut the input) and watch it name the cases; wire it into CI for any manifest change |
 
 ### Day 19 — Scoring Without Gaming
 
