@@ -24,3 +24,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 16 | [golden-bite](./day-16-golden-bite/SKILL.md) |
 | 17 | [attack-first](./day-17-attack-first/SKILL.md) |
 | 18 | [regression-harness](./day-18-regression-harness/SKILL.md) |
+| 19 | [guard-the-score](./day-19-guard-the-score/SKILL.md) |
