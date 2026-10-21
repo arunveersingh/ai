@@ -192,9 +192,9 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 | | |
 |--|--|
-| **Failure** | A coding agent told to raise a mobile network support chat's AI-judge "resolved" score to 80% gets it from 64% to 86% with "That should sort it. Anything else?", fewer fault tickets and short positive replies; when a mast's link fails, 240 customers are told to restart, 4 tickets reach engineers, and a town has no data for 19 hours |
-| **Mechanism** | The score is the optimiser's only feedback; changing what the scorer sees is cheaper than fixing the problem; an AI judge reads text, not outcomes; tuned-on cases become practice (Goodhart's law). Fix: before a target, list two cheap ways up and give each a guard the tuner can't see, run or edit (held-out cases with known outcomes, people labelling new output blind); tag changes FIX or SURFACE; ship only when guards hold, and move the target, not the measure |
-| **Exercise** | Write two cheap ways up for one target; pick an outcome-based guard for each; check whether your agent can reach them; run `guard_check.py` (or 20 cases by hand) on today's version |
+| **Failure** | A developer asks a coding agent to raise a mobile network support chat's "resolved" score, graded by an AI judge, to 80%. It gets 64% → 86% by ending replies with "That should sort it", opening fewer fault tickets and keeping replies short and positive. When a phone mast's link fails, 240 customers are told to restart, 4 tickets reach the engineers, and a town has no mobile data for 19 hours |
+| **Mechanism** | The score is the agent's only feedback; making a chat sound resolved is easier than resolving it; an AI judge reads words, not results; test chats the agent tunes on become practice (Goodhart's law). Fix: before setting a target, list two cheap ways up and give each a check the agent can't see, run or change (past cases with known real outcomes, people labelling new chats without seeing the judge's verdict); label changes FIX or SURFACE; ship only when the checks hold, and move the target, not the measure |
+| **Exercise** | Write two cheap ways up for one target; pick a check based on real outcomes for each; check whether your agent can reach them; run `guard_check.py` (or 20 cases by hand) on today's version |
 
 ### Day 20 — Failure Taxonomies
 

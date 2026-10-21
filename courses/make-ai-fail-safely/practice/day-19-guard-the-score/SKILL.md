@@ -13,18 +13,18 @@ Raised is not improved. Whoever tunes the number never holds the check.
 
 ```
 When you're asked to raise a score or hit a target:
-1. GAMING: before changing anything, list 2+ ways this score could rise
+1. SHORTCUTS: before changing anything, list 2+ ways this score could rise
    without the problem it stands for being fixed.
-2. GUARDS: name the check that catches each way. If none exists, stop and reply:
-   BLOCKED | no guard for <way>
-3. Read and run only the tuning set. Never open, run or edit held-out cases,
-   guard results, the judge's instructions or any threshold.
-4. REPORT: score old -> new, and every change tagged
+2. CHECKS: name the check that catches each way. If none exists, stop and reply:
+   BLOCKED | no check for <way>
+3. Read and run only the tuning cases you were given. Never open, run or edit
+   kept-back cases, check results, the judge's instructions or any pass mark.
+4. REPORT: score old -> new, and every change labelled
    FIX (changes what happens for the user) or SURFACE (changes only how it reads).
-Done means the score moved and the guards, run by someone else, did not get worse.
+Done means the score moved and the checks, run by someone else, did not get worse.
 ```
 
-**In an orchestrated flow** (spec → plan → tasks → implement): every metric target in the spec comes with its two cheap ways up and a guard for each. Tuning and guarding are separate tasks; the agent gets the tuning task, and the guard run belongs to you or CI. Held-out cases and the judge's instructions live where the implementing agent can't read them.
+**In an orchestrated flow** (spec → plan → tasks → implement): every metric target in the spec comes with its two cheap ways up and a guard for each. Tuning and guarding are separate tasks; the agent gets the tuning task, and the guard run belongs to you or to the automatic checks that run on every change. Test cases kept back from tuning and the judge's instructions live where the implementing agent can't read them.
 
 ## Part B — Check (you do this)
 
