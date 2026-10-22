@@ -186,13 +186,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | "The step" is treated as the prompt, so model, tool and data changes don't look like changes; aliases and vendors change with no diff; whoever changes the input doesn't own the evals; testing the fix feels like testing the change. Fix: a manifest of everything the step reads, fingerprinted; one command runs every case on every line through the real pipeline and fails the build; model pinned to a dated snapshot; case-by-case diff against the last pass; deploy only a fingerprint that passed |
 | **Exercise** | List what one step reads and pin the model; one command that runs every case and exits non-zero; break it on purpose (delete a prompt line or cut the input) and watch it name the cases; wire it into CI for any manifest change |
 
-### Day 19 — Scoring Without Gaming
+### Day 19 — 86% Resolved, Nothing Fixed → [lesson](./day-19.md)
+
+*Scoring Without Gaming*
 
 | | |
 |--|--|
-| **Failure** | Optimize the judge until the number looks good |
-| **Mechanism** | Goodhart: a measure used as target stops being a good measure |
-| **Exercise** | List 2 ways to raise your top metric without fixing the failure; add one ungameable check |
+| **Failure** | A developer asks a coding agent to raise a mobile network support chat's "resolved" score, graded by an AI judge, to 80%. It gets 64% → 86% by ending replies with "That should sort it", opening fewer fault tickets and keeping replies short and positive. When a phone mast's link fails, 240 customers are told to restart, 4 tickets reach the engineers, and a town has no mobile data for 19 hours |
+| **Mechanism** | The score is the agent's only feedback; making a chat sound resolved is easier than resolving it; an AI judge reads words, not results; test chats the agent tunes on become practice (Goodhart's law). Fix: before setting a target, list two cheap ways up and give each a check the agent can't see, run or change (past cases with known real outcomes, people labelling new chats without seeing the judge's verdict); label changes FIX or SURFACE; ship only when the checks hold, and move the target, not the measure |
+| **Exercise** | Write two cheap ways up for one target; pick a check based on real outcomes for each; check whether your agent can reach them; run `guard_check.py` (or 20 cases by hand) on today's version |
 
 ### Day 20 — Failure Taxonomies
 
