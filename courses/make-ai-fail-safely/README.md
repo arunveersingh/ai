@@ -196,13 +196,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | The score is the agent's only feedback; making a chat sound resolved is easier than resolving it; an AI judge reads words, not results; test chats the agent tunes on become practice (Goodhart's law). Fix: before setting a target, list two cheap ways up and give each a check the agent can't see, run or change (past cases with known real outcomes, people labelling new chats without seeing the judge's verdict); label changes FIX or SURFACE; ship only when the checks hold, and move the target, not the measure |
 | **Exercise** | Write two cheap ways up for one target; pick a check based on real outcomes for each; check whether your agent can reach them; run `guard_check.py` (or 20 cases by hand) on today's version |
 
-### Day 20 — Failure Taxonomies
+### Day 20 — Nine Fixes, Still 40 a Week → [lesson](./day-20.md)
+
+*Failure Taxonomies*
 
 | | |
 |--|--|
-| **Failure** | Every incident feels unique; patterns stay invisible |
-| **Mechanism** | Short taxonomy turns anecdotes into frequencies; fix at category level |
-| **Exercise** | Tag last 10 AI mistakes into ≤6 categories; rank count × severity; top category = next week's design target |
+| **Failure** | A parcel app's AI changes deliveries from customers' messages. Each loud complaint gets its own fix (nine in six weeks, instructions grow from 14 to 31 lines) and mistakes stay at about 40 a week. Sorted by cause, the biggest kind, "changed the wrong parcel" (41 of 120, 59 of 182 harm points), had no fixes; the kind with four fixes had 7 mistakes |
+| **Mechanism** | Mistakes arrive one at a time and look unique; the loudest gets fixed, not the most common; a fix for one mistake's words misses the next; sorting by what the user saw mixes causes. Fix: six kinds or fewer named by why the AI went wrong, weighed by harm (minor 1, serious 3); fix the top kind where it starts and check its count drops; every new mistake gets a kind or adds one |
+| **Exercise** | Write why for 10 to 20 recent mistakes; group into ≤6 kinds plus Other; mark minor/serious; run `tally.py` (or count by hand); name the top kind, its share of harm and one fix where it starts |
 
 ### Day 21 — Continuous Eval Loops
 
