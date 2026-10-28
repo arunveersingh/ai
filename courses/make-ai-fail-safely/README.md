@@ -206,13 +206,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 | **Mechanism** | Mistakes arrive one at a time and look unique; the loudest gets fixed, not the most common; a fix for one mistake's words misses the next; sorting by what the user saw mixes causes. Fix: six kinds or fewer named by why the AI went wrong, weighed by harm (minor 1, serious 3); fix the top kind where it starts and check its count drops; every new mistake gets a kind or adds one |
 | **Exercise** | Write why for 10 to 20 recent mistakes; group into ≤6 kinds plus Other; mark minor/serious; run `tally.py` (or count by hand); name the top kind, its share of harm and one fix where it starts |
 
-### Day 21 — Continuous Eval Loops
+### Day 21 — Fewer Complaints, More Mistakes → [lesson](./day-21.md)
+
+*Continuous Eval Loops*
 
 | | |
 |--|--|
-| **Failure** | Evals at launch; production drifts |
-| **Mechanism** | Sample live/shadow traffic, score vs taxonomy, alert on rate changes |
-| **Exercise** | Define weekly loop: sample N, tag, compare; put next review on a calendar (v0 needs no fancy tooling) |
+| **Failure** | A maths homework app's AI marks about 60,000 children's answers a week. A line added to stop "right answer marked wrong" complaints ("if it means the same, like 0.5 and 1/2, mark it right") cuts complaints from 85 a week to 52, while a random sample of 200, re-marked by a teacher, shows wrong answers marked right rising from 2 to 10 (about 3,000 a week, 1 complaint) and total mistakes from 7 to 13 |
+| **Mechanism** | People report what hurts them, not good news; complaints measure noticing, not mistakes; a fix can swap a loud kind for a quiet one; tests only cover cases you wrote. Fix: every week a person checks a random sample with the AI's output hidden, tags mistakes with your kinds, compares with the last four weeks and with complaints, and acts on a kind that doubles or is big in the sample but rare in complaints |
+| **Exercise** | Pick 20 records at random (`weekly.py pick` or a die), check each before looking at the AI's output, tag disagreements with your Day 20 kinds, line up each kind against complaints; name one kind more common in the sample than in complaints, or show there isn't one |
 
 ---
 

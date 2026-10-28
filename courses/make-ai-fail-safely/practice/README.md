@@ -26,3 +26,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 18 | [regression-harness](./day-18-regression-harness/SKILL.md) |
 | 19 | [guard-the-score](./day-19-guard-the-score/SKILL.md) |
 | 20 | [sort-the-mistakes](./day-20-sort-the-mistakes/SKILL.md) |
+| 21 | [weekly-sample](./day-21-weekly-sample/SKILL.md) |
