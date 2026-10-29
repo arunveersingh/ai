@@ -220,13 +220,15 @@ Each day = **title · failure · mechanism · 10-min exercise**. Skip anything t
 
 ## Days 22–28 · Production
 
-### Day 22 — Canary and Rollback
+### Day 22 — 6,000 Wrong Bills, Every Test Passed → [lesson](./day-22.md)
+
+*Canary and Rollback*
 
 | | |
 |--|--|
-| **Failure** | New prompt/model ships to 100%; harm discovered after blast |
-| **Mechanism** | Canary = small slice; rollback = last known-good prompt/model/config pin |
-| **Exercise** | Version today's prompt; write rollback checklist; pretend canary: 5% flag + success/abort criteria |
+| **Failure** | An energy app's AI reads customers' meter photos for their bills. A newer model passes all 1,200 test photos and goes to every customer at once; none of the photos showed an older meter with a red last digit (about 1 in 10 homes), so it reads 4,512.7 as 45,127. Nothing crashes, and by Thursday 60,000 readings have made about 6,000 wildly high bills, 1,900 already paid by direct debit. Switching back takes 20 minutes |
+| **Mechanism** | Tests hold only the cases you thought of; harm is how many got the change times how long until someone noticed; nobody wrote down what "bad" looks like; the charts watched crashes, not answers. Fix: 5% of photos picked at random first, two bad signs counted hourly against the old group at the same hours, a stop rule written before (after 200 photos, more than twice the old rate) and a tried one-step switch back. Replayed: 24 of 250 against 19 of 4,750 at noon, switched back, 0 wrong bills |
+| **Exercise** | For one planned change, write the share steps, two bad signs with stop numbers and the switch back; switch back once on a test setup and time it; run `canary.py` on the demo or your own hourly counts |
 
 ### Day 23 — Observability for AI Failures
 
