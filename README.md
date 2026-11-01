@@ -1,157 +1,182 @@
 # AI Skills That Won't Let You Be Wrong In Peace
 
-Most AI tools help you. These hold you accountable.
+Most AI tools help you produce more. These protect what producing more uses up.
 
-They block motivated reasoning. They refuse to proceed on unverified assumptions. They require you to *prove* you understand, not just nod along. They track your commitments and surface them when you don't follow through.
+AI made producing work nearly free. Checking it, understanding it, knowing what you wanted, paying attention, owning what can't be undone, keeping your own skills, thinking differently, and staying connected to people all cost what they always did. Those are now the scarce resources. Each skill in this repo protects one of them, using a mechanism you can't satisfy by nodding along.
 
-These are not assistants. They're **peer reviewers, calibration enforcers, and accountability mechanisms** — packaged as [Agent Skills](https://github.com/agentskills/agentskills), the open standard supported by 30+ tools including Claude Code, GitHub Copilot, Cursor, Gemini CLI, Windsurf, and others.
-
----
-
-## Why These Exist
-
-Every AI prompt collection gives you a smarter assistant. The problem isn't intelligence — it's that smart assistants make it *easier* to be wrong confidently. They help you build on bad premises. They let you ignore their warnings. They say "here are the risks" and then help you anyway.
-
-These skills don't do that.
-
-**They are designed around a single principle:** AI's job is not to make you happy. It's to force you not to make mistakes.
-
-### What that looks like in practice:
-
-- The **Adversarial Collaborator** doesn't stop after 3 rounds. It stops when your position is actually sound — or makes you acknowledge it isn't.
-- The **Bayesian Belief Tracker** doesn't just flag motivated reasoning. It *halts processing* until you correct the asymmetry in your evidence evaluation.
-- The **Learning Partner** doesn't let you say "I get it." You have to prove it — retrieval, application, boundary testing — or you don't advance.
-- The **Pre-mortem Oracle** will tell you "do not proceed" when the failure landscape warrants it. Not every plan has a survivor's version.
-- The **Editor** will tell you a piece is not ready for publication. Claims need evidence regardless of venue — "it's just a blog post" doesn't lower the bar.
-- The **First Principles Decomposer** demands "prove it" for every constraint. An elegant derivation from unverified premises is just confident wrongness.
-- The **Recontextualizer** won't let you close AI-assisted work until you can explain what you just shipped. Unpredictable probes into specific code sections catch the gap between "I directed it" and "I own it."
+They're packaged as [Agent Skills](https://github.com/agentskills/agentskills), the open standard supported by Claude Code, GitHub Copilot, Cursor, Gemini CLI, Windsurf, and 30+ other tools. They also work pasted as a system prompt in any chat.
 
 ---
 
-## The Skills
+## Start here
 
-### Thinking — Analysis
+**Not sure what's going wrong?** Load [**symptom-triage**](./skills/symptom-triage/). Bring one specific recent incident. It will read the signs, test its leading hypothesis once, and send you to the one skill built for that failure.
 
-| Skill | What it does differently |
-|-------|--------------------------|
-| [adversarial-collaborator](./skills/adversarial-collaborator/) | Falsification engine. No round limits. Requires *demonstrated* updates, not just "good point." Tracks what you acknowledged but didn't address. |
-| [assumption-surfacer](./skills/assumption-surfacer/) | Surfaces AND evaluates assumptions. Classifies as supported/unsupported/contradicted. Contradicted assumptions must be resolved before proceeding. |
-| [decision-pressure-tester](./skills/decision-pressure-tester/) | Finds where decisions break, classifies severity, then *refuses to let you proceed* without addressing critical failures. Tracks your commitments. |
-| [first-principles-decomposer](./skills/first-principles-decomposer/) | Verifies every constraint before deriving from it. Blocks "it depends" without a measurement commitment. Won't build on guesses. |
-| [pre-mortem-oracle](./skills/pre-mortem-oracle/) | Issues a go/no-go verdict. Will say "do not proceed." Names the rationalization you'll use to dismiss warning signs — before you use it. Follow-up protocol built in. |
-| [recontextualizer](./skills/recontextualizer/) | Forces you to *prove* you own AI-generated code — not just that you watched it happen. Gates completion on demonstrated context retention. Unpredictable code-level probes, counterfactual questions, and confidence calibration catch the gap between "can describe it" and "actually understands why." |
-
-### Thinking — Synthesis
-
-| Skill | What it does differently |
-|-------|--------------------------|
-| [concept-synthesizer](./skills/concept-synthesizer/) | Every synthesis must produce falsifiable predictions and connect to action — or gets downgraded to "aesthetic resonance." Won't let you mistake intellectual pleasure for understanding. |
-
-### Research
-
-| Skill | What it does differently |
-|-------|--------------------------|
-| [bayesian-belief-tracker](./skills/bayesian-belief-tracker/) | Rejects unjustified priors. Blocks motivated reasoning by halting evidence processing until asymmetric updates are explained. You don't get to feel Bayesian while reasoning like a lawyer. |
-
-### Coding
-
-| Skill | What it does differently |
-|-------|--------------------------|
-| [bug-hypothesis-generator](./skills/bug-hypothesis-generator/) | Scientific debugging + process accountability. Finds the bug, then demands: what systemic gap allowed it? "Be more careful" is not prevention. Structural mechanisms or it's not addressed. |
-
-### Writing
-
-| Skill | What it does differently |
-|-------|--------------------------|
-| [editor-not-writer](./skills/editor-not-writer/) | Will tell you "not ready." Claims need evidence regardless of venue. Cherry-picking, straw-manning, and overclaiming are named as errors, not style choices. Never writes for you — but won't let you publish unsound work. |
-
-### Learning
-
-| Skill | What it does differently |
-|-------|--------------------------|
-| [learning-partner](./skills/learning-partner/) | Requires you to *prove* understanding through retrieval, application, and boundary testing. "I get it" is not verification. Discomfort at the edge of understanding is signal — leans in, not away. |
+What people complain about is rarely what's actually failing. "AI is unreliable" could be a truth problem (the model is wrong), a capability problem (you can't tell when it's wrong), or an intent problem (nothing defined right). Those need opposite fixes.
 
 ---
 
-## Design Principles
+## The eight scarce resources
 
-These skills share a common architecture:
+```
+            generation ≈ free
+                    │
+   ┌────────────────┼────────────────┐
+   ▼                ▼                ▼
+ TRUTH          OWNERSHIP          INTENT
+ is it so?      do I understand    did I know what
+                what I have?       good was first?
+   ▼                ▼                ▼
+ ATTENTION      AUTHORITY          CAPABILITY
+ can I review   what is allowed    can I still do it
+ all of this?   to be irreversible? when AI can't?
+   ▼                                 ▼
+ ORIGINALITY                       SELF
+ is it different from the mode?    who am I with, and what am I for?
+```
 
-1. **Standards before service.** Minimum bars exist. Below them, the skill says "not yet" — not "here's my best help anyway."
+The full research, with evidence grades and sources, is in the [**Symptom Atlas**](./docs/symptom-atlas.md). The reasoning behind the whole design is in [**First Principles**](./docs/first-principles.md).
 
-2. **Verification over assertion.** "I understand" / "good point" / "I'll fix that later" are not accepted without demonstration or commitment.
+---
 
-3. **Closed loops.** Every insight connects to action. Every commitment gets tracked. Every warning sign gets a follow-up date.
+## The skills
 
-4. **No comfort bias.** Discomfort is information, not damage. When you flinch from a question, these skills lean in — because the thing you least want to examine is most likely to be wrong.
+### Truth: knowing what is actually so
 
-5. **The right to refuse.** These skills will say "no," "not ready," "do not proceed," and "you haven't addressed this." That's not cruelty. It's standards.
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [mirror-test](./skills/mirror-test/) 🆕 | The AI agrees with whatever framing you bring, and long chats spiral into confirmation | Re-asks the question with your belief removed, then reversed, in fresh contexts. A verdict that changes with the framing can't be cited as support |
+| [commit-then-consult](./skills/commit-then-consult/) 🆕 | You had it right, the AI said otherwise, and you switched | You record your judgment, confidence, and reason *before* you see the AI's. Every switch must name evidence you didn't already have. A record tracks your real override accuracy |
+| [perception-gap-auditor](./skills/perception-gap-auditor/) 🆕 | "AI makes me 2x faster," but measured gains are smaller or negative | You predict before the task, then log actual time including review, rework, and later defects. It won't back a productivity claim bigger than your own records show |
+| [adversarial-collaborator](./skills/adversarial-collaborator/) | Positions survive because the arguer stopped, not because they were sound | No round limit. Saying "good point" isn't enough: you have to show the position actually changed |
+| [assumption-surfacer](./skills/assumption-surfacer/) | Work proceeds on premises nobody stated | Each assumption is labelled supported, unsupported, or contradicted, and contradicted ones must be resolved |
+| [bayesian-belief-tracker](./skills/bayesian-belief-tracker/) | Evidence weighed asymmetrically | Stops updating the belief until a lopsided update is explained |
+
+### Ownership: understanding what you have
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [recontextualizer](./skills/recontextualizer/) | You ship an AI-generated change you can't explain | Lists every change and every code path. High-risk items count only when you explain them in your own words |
+| [bus-factor-zero](./skills/bus-factor-zero/) 🆕 | Whole regions of the codebase nobody can explain | Maps the repo by criticality × how well anyone can explain it. A region counts as owned only when a named person answers a cold question about it correctly |
+| [bug-hypothesis-generator](./skills/bug-hypothesis-generator/) | Bugs get patched while the process gap that caused them stays open | Ranked hypotheses with falsification experiments, then the root cause behind the root cause |
+| [editor-not-writer](./skills/editor-not-writer/) | Unsupported claims, and an author's voice erased by AI rewriting | Checks every claim against its evidence. Never writes for you |
+
+### Intent: knowing what good is before you see anything
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [define-good-first](./skills/define-good-first/) 🆕 | The first plausible output becomes the standard, so "almost right" passes | You write a sealed spec *before* any output appears, including your prediction of how it will be almost right. Changing the spec afterwards is logged as "learned" or "lowered the bar" |
+| [first-principles-decomposer](./skills/first-principles-decomposer/) | Elegant reasoning on unverified constraints | Every constraint gets "prove it" before anything is derived from it |
+| [pre-mortem-oracle](./skills/pre-mortem-oracle/) | Plans proceed because no one may say "don't" | A go/no-go verdict that names your rationalization before you reach for it |
+| [decision-pressure-tester](./skills/decision-pressure-tester/) | "Here are the risks," then nothing changes | Pressure from five angles, then: what are you doing about each one? |
+
+### Attention: the human's finite bandwidth
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [attention-treasurer](./skills/attention-treasurer/) 🆕 | Too many agents running, review becomes the bottleneck, and you're skimming | A limit on open work set by your own measured review rate. Unreviewed output is tracked as a liability, not counted as progress |
+| [workslop-interceptor](./skills/workslop-interceptor/) 🆕 | Polished AI work that moves the cost onto whoever receives it | A recipient-cost check, a ledger of which claims you verified and which the AI only asserted, and a signed line saying what you stand behind. It cuts instead of polishing |
+
+### Authority: what is allowed to be irreversible
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [delegation-contract](./skills/delegation-contract/) 🆕 | An agent with broad credentials improvises its way past a guardrail and does something that can't be undone | Every action is scored for reversibility × blast radius. Any boundary that exists only as prompt text is labelled a request, not a boundary. Obstacles are named in advance, along with the required stop |
+
+### Capability: the human as the fallback
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [capability-reserve](./skills/capability-reserve/) 🆕 | Losing skills, or never learning them: you can direct the work but can't do it | You name the skills your work depends on. Short scheduled practice without AI, with a record of how much each skill has slipped, and a per-task decision: delegate it, do it yourself, or do it first and then compare |
+| [learning-partner](./skills/learning-partner/) | "I get it" in place of actually understanding | Recall, application, and testing the edges. Explanations the AI gave you don't count as your own |
+
+### Originality: getting away from the default
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [modal-escape](./skills/modal-escape/) 🆕 | AI output is better for each person but more alike across everyone | Your ideas are sealed before the AI offers any. The AI names the obvious answers first, and those are banned. Each candidate faces the test "would 1,000 other people asking this get the same thing?" |
+| [concept-synthesizer](./skills/concept-synthesizer/) | Ideas that feel connected get mistaken for insight | A synthesis has to produce a falsifiable prediction or it's downgraded |
+
+### Self: who you're with, and what you're for
+
+| Skill | Symptom | Forcing function |
+|-------|---------|------------------|
+| [human-bridge](./skills/human-bridge/) 🆕 | AI becomes the only confidant | Gives full support and always identifies the real person the conversation is about, then ends with one small step toward them. It never withholds support to force a behavior |
+| [value-relocator](./skills/value-relocator/) 🆕 | "Is this still my work? What am I for?" | Breaks down a real week of your work into producing vs. judgment, accountability, relationships, and problem-finding. Maps where your value lives now and sets up a 30-day experiment. No false comfort, no doom |
+
+### Meta
+
+| Skill | What it does |
+|-------|--------------|
+| [symptom-triage](./skills/symptom-triage/) 🆕 | Diagnoses from one specific incident, asks one disconfirming question, and routes to one skill |
+
+---
+
+## Design contract
+
+A skill ships here only if it meets all eight rules in [First Principles](./docs/first-principles.md#3-the-design-contract). In short:
+
+1. **Targets one documented symptom**, with honestly graded evidence
+2. **Explains the mechanism**, not only the symptom
+3. **Has at least one forcing function**: something nodding along can't satisfy
+4. **Your words, not the AI's, count as yours**: explanations the AI gave and you confirmed never count as your understanding
+5. **Is honest about its authority**: it says what it controls and what it doesn't, and never pretends to block the owner. *A rule that exists only in a prompt is a request, not a boundary.*
+6. **Is proportionate**: it knows when to stand down
+7. **Ships with evals**: happy path, pressure, over-trigger, and edge cases
+8. **Keeps its scaffolding out of sight**: plain labels, one question at a time
+
+### Recurring mechanisms
+
+| Pattern | Principle |
+|---|---|
+| **Human-first ordering** | Write yours down before you see the AI's, because whatever you see first becomes the anchor |
+| **Framing inversion** | A conclusion that changes when your belief changes is evidence about you, not the world |
+| **Counted ledgers** | Coverage is a counting problem, so claim only what was counted |
+| **Predict, then measure** | Your sense of how it went is a hypothesis, and the log settles it |
+| **Capability, not instruction** | Constrain what an agent *can* do. What you tell it not to do is only a request |
+
+---
+
+## Evals
+
+Every skill has behavioral test cases in [`evals/skills/`](./evals/skills/). Each case gives a setup, what the user says, what the skill **must** do, and what it **must not** do. The cases cover the happy path, a user trying to make the skill cave, a situation where it should stand down, and edge cases. See [`evals/README.md`](./evals/README.md) for how to run them against any model or harness.
+
+Lint every skill against the contract (no dependencies):
+
+```bash
+python3 tools/lint_skills.py           # errors fail
+python3 tools/lint_skills.py --strict  # warnings fail too
+```
 
 ---
 
 ## Usage
 
-### With any Agent Skills-compatible tool
+**With an Agent Skills-compatible tool:** point it at this repo's `skills/` directory.
 
-Point your tool at this repo's `skills/` directory. Compatible with Claude Code, Cursor, GitHub Copilot, Gemini CLI, Windsurf, and [30+ other tools](https://github.com/agentskills/agentskills).
-
-### Manual (any chat interface)
-
-1. Open any `SKILL.md`
-2. Copy everything below the frontmatter (`---` block)
-3. Paste as a system prompt
-4. Start interacting — and be prepared to be held accountable
-
----
-
-## Format
-
-Follows the [Agent Skills specification](https://github.com/agentskills/agentskills):
-
-```
-skills/
-├── adversarial-collaborator/SKILL.md
-├── assumption-surfacer/SKILL.md
-├── bayesian-belief-tracker/SKILL.md
-├── bug-hypothesis-generator/SKILL.md
-├── concept-synthesizer/SKILL.md
-├── decision-pressure-tester/SKILL.md
-├── editor-not-writer/SKILL.md
-├── first-principles-decomposer/SKILL.md
-├── learning-partner/SKILL.md
-├── pre-mortem-oracle/SKILL.md
-└── recontextualizer/SKILL.md
-```
-
-Each `SKILL.md`: YAML frontmatter (machine-readable) + markdown body (human-readable, portable, works anywhere).
+**In any chat interface:** open a `SKILL.md`, copy everything below the frontmatter, paste it as the system prompt, and expect to be held to it.
 
 ---
 
 ## Courses
 
-Hands-on curricula that teach the *mechanisms* behind the skills — how AI fails, how to catch it, how to ship without trusting fluency.
-
-```
-failures → guardrails → evals → production → capstone
-```
+Hands-on curricula that teach the *mechanisms* behind the skills.
 
 | Course | Length | What you learn |
 |--------|--------|----------------|
-| [Make AI Fail Safely](./courses/make-ai-fail-safely/) | 30 days | Spot failure modes, wire guardrails, eval honesty, run production with blast limits |
-
-See [courses/](./courses/) for the catalog and design bar.
+| [Make AI Fail Safely](./courses/make-ai-fail-safely/) | 30 days | Spot failure modes, wire guardrails, keep evals honest, run production with limits on how much can go wrong |
 
 ---
 
 ## Contributing
 
-A skill belongs here if it meets three criteria:
+A skill belongs here if it:
 
-1. **Enforces a standard the user can't self-enforce** — because humans rationalize, defer, and avoid discomfort
-2. **Has accountability mechanisms** — blocks, gates, tracking, or follow-up that close the loop
-3. **Makes the user do the work** — prevents cognitive offloading while demanding intellectual honesty
+1. **Protects a scarce resource** that the person can't protect on their own, because people rationalize, defer, and avoid discomfort
+2. **Has a mechanism**: an ordering, a sealed commitment, a ledger, a measurement, or a gate
+3. **Makes the human do the part that only the human can do**
 
-"Interesting prompt that makes the AI more helpful" doesn't meet the bar. "Mechanism that forces the human to be rigorous" does.
+Run `python3 tools/lint_skills.py --strict` before opening a PR. A prompt that just makes the AI more helpful doesn't meet the bar. A mechanism that keeps the human's judgment, understanding, and agency intact does.
 
 ---
 

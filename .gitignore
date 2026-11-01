@@ -1,3 +1,5 @@
 .claude/*
 .kiro/*
-.grok/*
+.grok/*tmp-analysis/
+results*.jsonl
+__pycache__/
