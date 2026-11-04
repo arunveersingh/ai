@@ -1,0 +1,25 @@
+# Copy to .github/workflows/reasonfrom.yml in a source repo that has a reasonfrom.yml.
+#
+# Pull requests: the bundle must validate, or the PR check fails with the reason.
+# Merge to main: validate again, then tell reasonfrom.com to sync this commit.
+name: reasonfrom
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: arunveersingh/reasonfrom-kit@v0.5.0
+        with:
+          mode: ${{ github.event_name == 'push' && 'notify' || 'check' }}
+          # Optional. Without it, the site's scheduled sync picks the change up.
+          token: ${{ secrets.REASONFROM_DISPATCH_TOKEN }}

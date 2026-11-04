@@ -1,0 +1,10 @@
+# Opt in to publishing on reasonfrom.com (see github.com/arunveersingh/reasonfrom-kit).
+# Remove this file, or set publish: false, and nothing from this repo is published.
+publish: true
+courses:
+  - layout: readme-outline
+    path: courses/make-ai-fail-safely
+skills:
+  - layout: agent-skills
+    path: skills
+    evals: evals/skills
