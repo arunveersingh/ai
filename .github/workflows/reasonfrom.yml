@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arunveersingh/reasonfrom-kit@v0
+      - uses: arunveersingh/reasonfrom-kit@v0.5.0
         with:
           mode: ${{ github.event_name == 'push' && 'notify' || 'check' }}
           # Optional. Without it, the site's scheduled sync picks the change up.
