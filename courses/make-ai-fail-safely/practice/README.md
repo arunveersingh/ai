@@ -27,3 +27,4 @@ They are **not** the main repo skills under [`../../skills/`](../../skills/). Th
 | 19 | [guard-the-score](./day-19-guard-the-score/SKILL.md) |
 | 20 | [sort-the-mistakes](./day-20-sort-the-mistakes/SKILL.md) |
 | 21 | [weekly-sample](./day-21-weekly-sample/SKILL.md) |
+| 22 | [small-share-first](./day-22-small-share-first/SKILL.md) |
